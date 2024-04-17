@@ -7,8 +7,6 @@ public class Kunde {
     private String plz;
     private String wohnort;
 
-    public
-
     public Kunde(String name, int nr) {
         this.name = name;
         kundenNr = nr;
@@ -29,6 +27,7 @@ public class Kunde {
     public String getPlz() {
         return plz;
     }
+
    public String getWohnort() {
         return wohnort;
    }
