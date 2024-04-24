@@ -3,7 +3,7 @@ package src.valueobjects;
 public class Kunde {
     private String name;
     private int kundenNr;
-    private String straße;
+    private String strasse;
     private String plz;
     private String wohnort;
 
@@ -20,15 +20,15 @@ public class Kunde {
         return kundenNr;
     }
 
-    public String getStraße() {
-        return straße;
+    public String getStrasse() {
+        return strasse;
     }
 
     public String getPlz() {
         return plz;
     }
 
-   public String getWohnort() {
+    public String getWohnort() {
         return wohnort;
-   }
+    }
 }
