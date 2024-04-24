@@ -5,14 +5,13 @@ import src.valueobjects.Artikel;
 
 import java.util.List;
 
-public class main {
+public class BenutzerOberfläche {
 
     private static ShopVerwaltungen SV = new ShopVerwaltungen();
 
 
     public static void main (String[]args){
 
-    }
     }
 
     private static void einloggen(){
