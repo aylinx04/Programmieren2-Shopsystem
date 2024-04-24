@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ShopVerwaltungen {
     List<Artikel> ArtikelListe = new ArrayList<>();
-    List<Kunde> KundeListe = new ArrayList<>();
+    List<Kunde> KundenListe = new ArrayList<>();
     List<Mitarbeiter> MitarbeiterListe = new ArrayList<>();
 
      public ShopVerwaltungen (){
@@ -18,6 +18,7 @@ public class ShopVerwaltungen {
          ArtikelListe.add(new Artikel("Reis", 3));
          ArtikelListe.add(new Artikel("Salat", 4));
          ArtikelListe.add(new Artikel("Fanta", 5));
+         KundenListe.add(new Kunde("Peter", 1, "geheim"));
      }
 
      public List<Artikel> getArtikelListe(){
@@ -25,7 +26,7 @@ public class ShopVerwaltungen {
      }
 
      public boolean checkLogin(String name, String passwort){
-         for(Kunde u : KundeListe){
+         for(Kunde u : KundenListe){
              if(u.getName().equals(name) && u.getPasswort().equals(passwort)){
                  return true;
              }
