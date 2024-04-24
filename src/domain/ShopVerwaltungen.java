@@ -24,8 +24,13 @@ public class ShopVerwaltungen {
          return ArtikelListe;
      }
 
-     public void checkLogin(String name, String passwort){
+     public boolean checkLogin(String name, String passwort){
+         for(Kunde u : KundeListe){
+             if(u.getName().equals(name) && u.getPasswort().equals(passwort)){
+                 return true;
+             }
 
          }
+         return false;
      }
 }

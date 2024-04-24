@@ -6,10 +6,12 @@ public class Kunde {
     private String strasse;
     private String plz;
     private String wohnort;
+    private String passwort;
 
-    public Kunde(String name, int nr) {
+    public Kunde(String name, int nr,  String passwort) {
         this.name = name;
         kundenNr = nr;
+        this.passwort = passwort;
     }
 
     public String getName() {
@@ -30,5 +32,8 @@ public class Kunde {
 
     public String getWohnort() {
         return wohnort;
+    }
+
+    public String getPasswort() {return passwort;
     }
 }
