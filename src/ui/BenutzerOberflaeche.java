@@ -14,7 +14,7 @@ public class BenutzerOberflaeche {
     private static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
 
-    public static void main (String[]args){
+    public static void main(String[] args) {
         run();
     }
 
@@ -73,31 +73,89 @@ public class BenutzerOberflaeche {
         }
     }
 
-    private static void einloggenKunde(String name, String passwort){
+    private static void einloggenKunde(String name, String passwort) throws IOException {
         boolean erfolg = SV.checkLoginKunde(name, passwort);
         if (erfolg) {
             System.out.println("Erfolgreich angemeldet!");
-        }else{
+
+            System.out.println("Kunden Optionen:                          ");
+            System.out.println("Warenkorb ansehen:                     '1'");
+            System.out.println("Ausloggen:                             '2'");
+            System.out.println("------------------------------------------");
+            System.out.println("Beenden:                               'q'");
+            System.out.print("> ");
+            System.out.flush();
+            String optionK = liesEingabe();
+            switch (optionK) {
+                case "1":
+                    warenkorbAnzeigen();
+                    break;
+                case "2":
+                    System.out.println("Ausgeloggt");
+            }
+        } else {
             System.out.println("Falsche Eingabe!");
         }
+
     }
 
-    private static void einloggenMitarbeiter(String name, String passwort){
+    private static void einloggenMitarbeiter(String name, String passwort) throws IOException {
         boolean erfolg = SV.checkLoginMitarbeiter(name, passwort);
         if (erfolg) {
             System.out.println("Erfolgreich angemeldet!");
-        }else{
+            System.out.println(" ");
+            System.out.println(" ");
+            System.out.println("Mitarbeiter Optionen:                     ");
+            System.out.println("Artikel hinzufügen:                    '1'");
+            System.out.println("Bestand erhöhen:                       '2'");
+            System.out.println("Mitarbeiter hinzufügen:                '3'");
+            System.out.println("Bestand erhöhen:                       '4'");
+            System.out.println("------------------------------------------");
+            System.out.println("Beenden:                               'q'");
+            System.out.print("> ");
+            System.out.flush();
+            String optionM = liesEingabe();
+            switch (optionM) {
+                case "1":
+                    System.out.println("Neuer Artikel Name: ");
+                case "2":
+                    System.out.println("Entfernt");
+            }
+        } else {
             System.out.println("Falsche Eingabe!");
         }
     }
 
-    private static void artikelListeAnzeigen(){
+    private static void artikelListeAnzeigen (){
         List<Artikel> artikelListe = SV.getArtikelListe();
 
-        for(int i = 0; i < artikelListe.size(); i++) {
+        for (int i = 0; i < artikelListe.size(); i++) {
             Artikel a = artikelListe.get(i);
             System.out.println("Aktueller Artikel: " + a.getName());
         }
     }
 
+    private static void warenkorbAnzeigen() throws IOException {
+        List<Artikel> WK = SV.getWK();
+
+        for (int i = 0; i < WK.size(); i++) {
+            Artikel b = WK.get(i);
+            System.out.println("Dein Warenkorb: " + b.getName());
+        }
+        System.out.println("Optionen in deinem Warenkorb:             ");
+        System.out.println("Artikel hinzufügen:                    '1'");
+        System.out.println("Artikel entfernen:                     '2'");
+        System.out.println("------------------------------------------");
+        System.out.println("Beenden:                               'q'");
+        System.out.print("> ");
+        System.out.flush();
+        String option = liesEingabe();
+        switch (option) {
+            case "1":
+                System.out.println("Hinzugefügt");
+            case "2":
+                System.out.println("Entfernt");
+        }
+
+    }
 }

@@ -9,15 +9,16 @@ import java.util.List;
 
 public class ShopVerwaltungen {
     List<Artikel> ArtikelListe = new ArrayList<>();
+    List<Artikel> WK = new ArrayList<>();
     List<Kunde> KundenListe = new ArrayList<>();
     List<Mitarbeiter> MitarbeiterListe = new ArrayList<>();
 
      public ShopVerwaltungen (){
-         ArtikelListe.add(new Artikel("Tomate", 1));
-         ArtikelListe.add(new Artikel("Gurke", 2));
-         ArtikelListe.add(new Artikel("Reis", 3));
-         ArtikelListe.add(new Artikel("Salat", 4));
-         ArtikelListe.add(new Artikel("Fanta", 5));
+         ArtikelListe.add(new Artikel("Tomate", 1, "4,99€"));
+         ArtikelListe.add(new Artikel("Gurke", 2,"3,59€"));
+         ArtikelListe.add(new Artikel("Reis", 3, "2€"));
+         ArtikelListe.add(new Artikel("Salat", 4,"0,99€"));
+         ArtikelListe.add(new Artikel("Fanta", 5, "4€"));
          KundenListe.add(new Kunde("Peter", 1, "geheim"));
          MitarbeiterListe.add(new Mitarbeiter("Helga","6","auchgeheim"));
      }
@@ -25,6 +26,7 @@ public class ShopVerwaltungen {
      public List<Artikel> getArtikelListe(){
          return ArtikelListe;
      }
+    public List<Artikel> getWK() {return WK;}
 
      public boolean checkLoginKunde(String name, String passwort){
          for(Kunde u : KundenListe){
