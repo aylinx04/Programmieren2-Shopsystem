@@ -34,11 +34,12 @@ public class BenutzerOberflaeche {
     }
 
     private static void gibMenueAus() {
-        System.out.println("\nBefehle:                ");
-        System.out.println("Einloggen:             '1'");
-        System.out.println("Artikelliste anzeigen: '2'");
-        System.out.println("--------------------------");
-        System.out.println("Beenden:               'q'");
+        System.out.println("\nBefehle:                      ");
+        System.out.println("Einloggen als Kunde:         '1'");
+        System.out.println("Einloggen als Mitarbeiter:   '2'");
+        System.out.println("Artikelliste anzeigen:       '3'");
+        System.out.println("--------------------------------");
+        System.out.println("Beenden:                     'q'");
         System.out.print("> ");
         System.out.flush();
     }
@@ -57,16 +58,32 @@ public class BenutzerOberflaeche {
                 name = liesEingabe();
                 System.out.print("Passwort  > ");
                 passwort = liesEingabe();
-                einloggen(name, passwort);
+                einloggenKunde(name, passwort);
                 break;
             case "2":
+                System.out.println("Name: ");
+                name = liesEingabe();
+                System.out.println("Passwort: ");
+                passwort = liesEingabe();
+                einloggenMitarbeiter(name, passwort);
+                break;
+            case "3":
                 artikelListeAnzeigen();
                 break;
         }
     }
 
-    private static void einloggen(String name, String passwort){
-        boolean erfolg = SV.checkLogin(name, passwort);
+    private static void einloggenKunde(String name, String passwort){
+        boolean erfolg = SV.checkLoginKunde(name, passwort);
+        if (erfolg) {
+            System.out.println("Erfolgreich angemeldet!");
+        }else{
+            System.out.println("Falsche Eingabe!");
+        }
+    }
+
+    private static void einloggenMitarbeiter(String name, String passwort){
+        boolean erfolg = SV.checkLoginMitarbeiter(name, passwort);
         if (erfolg) {
             System.out.println("Erfolgreich angemeldet!");
         }else{

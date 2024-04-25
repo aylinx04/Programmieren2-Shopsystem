@@ -2,10 +2,10 @@ package src.valueobjects;
 
 public class Mitarbeiter {
     private String name;
-    private int nummer;
+    private String nummer;
     private String passwort;
 
-    public Mitarbeiter(String name, int nummer, String passwort){
+    public Mitarbeiter(String name, String nummer, String passwort){
         this.name = name;
         this.nummer = nummer;
         this.passwort = passwort;
@@ -16,7 +16,7 @@ public class Mitarbeiter {
         return name;
     }
 
-    public int getNummer() {
+    public String getNummer() {
         return nummer;
     }
 

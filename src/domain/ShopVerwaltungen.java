@@ -19,13 +19,14 @@ public class ShopVerwaltungen {
          ArtikelListe.add(new Artikel("Salat", 4));
          ArtikelListe.add(new Artikel("Fanta", 5));
          KundenListe.add(new Kunde("Peter", 1, "geheim"));
+         MitarbeiterListe.add(new Mitarbeiter("Helga","6","auchgeheim"));
      }
 
      public List<Artikel> getArtikelListe(){
          return ArtikelListe;
      }
 
-     public boolean checkLogin(String name, String passwort){
+     public boolean checkLoginKunde(String name, String passwort){
          for(Kunde u : KundenListe){
              if(u.getName().equals(name) && u.getPasswort().equals(passwort)){
                  return true;
@@ -34,4 +35,14 @@ public class ShopVerwaltungen {
          }
          return false;
      }
+
+    public boolean checkLoginMitarbeiter(String name, String passwort){
+        for(Mitarbeiter m : MitarbeiterListe){
+            if(m.getName().equals(name) && m.getPasswort().equals(passwort)){
+                return true;
+            }
+
+        }
+        return false;
+    }
 }
