@@ -6,7 +6,7 @@ import src.valueobjects.Artikel;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
+import java.util.*;
 
 public class BenutzerOberflaeche {
 
@@ -115,9 +115,13 @@ public class BenutzerOberflaeche {
             System.out.print("> ");
             System.out.flush();
             String optionM = liesEingabe();
+            Scanner scanner = new Scanner(System.in);
+            int auswahl;
             switch (optionM) {
                 case "1":
+                    Artikel neuerArtikel = new Artikel();
                     System.out.println("Neuer Artikel Name: ");
+                    break;
                 case "2":
                     System.out.println("Entfernt");
             }
@@ -126,13 +130,69 @@ public class BenutzerOberflaeche {
         }
     }
 
-    private static void artikelListeAnzeigen (){
+    private static void artikelListeAnzeigen () throws IOException{
         List<Artikel> artikelListe = SV.getArtikelListe();
 
         for (int i = 0; i < artikelListe.size(); i++) {
             Artikel a = artikelListe.get(i);
-            System.out.println("Aktueller Artikel: " + a.getName());
+            System.out.println("Name: " + a.getName() + " Artikelnummer: " + a.getNummer() + " Preis: " + a.getPreis());
         }
+
+        System.out.println("Sotieren nach:                             ");
+        System.out.println("Von A-Z:                                '1'");
+        System.out.println("Von Z-A:                                '2'");
+        System.out.println("Arikelnummer aufsteigend                '3'");
+        System.out.println("Artikelnummer absteigend:               '4'");
+        System.out.println("Preis aufsteigend:                      '5'");
+        System.out.println("Preis absteigend:                       '6'");
+        System.out.println("Bestand absteigend:                     '7'");
+        System.out.println("Bestand absteigend:                     '8'");
+        System.out.println("-------------------------------------------");
+        System.out.println("Beenden:                                'q'");
+        System.out.print("> ");
+        System.out.flush();
+        String optionA = liesEingabe();
+
+        switch (optionA){
+            case "1":
+                Collections.sort(artikelListe, Comparator.comparing(Artikel::getName));
+                artikelListe.forEach(System.out::println);
+                break;
+            case "2":
+                Collections.sort(artikelListe, Comparator.comparing(Artikel::getName));
+                Collections.reverse(artikelListe);
+                artikelListe.forEach(System.out::println);
+                break;
+            case "3":
+                Collections.sort(artikelListe, Comparator.comparing(Artikel::getNummer));
+                artikelListe.forEach(System.out::println);
+                break;
+            case "4":
+                Collections.sort(artikelListe, Comparator.comparing(Artikel::getNummer));
+                Collections.reverse(artikelListe);
+                artikelListe.forEach(System.out::println);
+                break;
+            case "5":
+                Collections.sort(artikelListe, Comparator.comparing(Artikel::getPreis));
+                artikelListe.forEach(System.out::println);
+                break;
+            case "6":
+                Collections.sort(artikelListe, Comparator.comparing(Artikel::getPreis));
+                Collections.reverse(artikelListe);
+                artikelListe.forEach(System.out::println);
+                break;
+            case "7":
+                Collections.sort(artikelListe, Comparator.comparing(Artikel::getBestand));
+                artikelListe.forEach(System.out::println);
+                break;
+            case "8":
+                Collections.sort(artikelListe, Comparator.comparing(Artikel::getBestand));
+                Collections.reverse(artikelListe);
+                artikelListe.forEach(System.out::println);
+                break;
+        }
+
+
     }
 
     private static void warenkorbAnzeigen() throws IOException {

@@ -12,6 +12,10 @@ public class Artikel {
         this.preis = preis;
     }
 
+    public Artikel() {
+
+    }
+
     public String getName() {
         return name;
     }
@@ -26,5 +30,29 @@ public class Artikel {
     }
     public void bestandErhoehen(int bestand) {
         this.bestand += bestand;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setNummer(int nummer) {
+        this.nummer = nummer;
+    }
+
+    public void setPreis(String preis) {
+        this.preis = preis;
+    }
+
+    public void setBestand(int bestand) {
+        this.bestand = bestand;
+    }
+
+    @Override
+    public String toString() {
+        return "Name= " + name +
+                ", Nummer= " + nummer +
+                ", Preis= " + preis +
+                ", Bestand= " + bestand;
     }
 }

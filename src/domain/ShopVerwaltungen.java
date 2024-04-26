@@ -26,6 +26,11 @@ public class ShopVerwaltungen {
      public List<Artikel> getArtikelListe(){
          return ArtikelListe;
      }
+
+    public void setArtikelListe(List<Artikel> artikelListe) {
+        ArtikelListe = artikelListe;
+    }
+
     public List<Artikel> getWK() {return WK;}
 
      public boolean checkLoginKunde(String name, String passwort){
