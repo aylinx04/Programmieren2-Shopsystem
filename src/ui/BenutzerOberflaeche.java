@@ -79,18 +79,23 @@ public class BenutzerOberflaeche {
             System.out.println("Erfolgreich angemeldet!");
 
             System.out.println("Kunden Optionen:                          ");
-            System.out.println("Warenkorb ansehen:                     '1'");
-            System.out.println("Ausloggen:                             '2'");
+            System.out.println("Artikelliste ansehen:                  '1'");
+            System.out.println("Warenkorb ansehen:                     '2'");
+            System.out.println("Ausloggen:                             '3'");
             System.out.println("------------------------------------------");
             System.out.println("Beenden:                               'q'");
             System.out.print("> ");
             System.out.flush();
             String optionK = liesEingabe();
             switch (optionK) {
-                case "1":
-                    warenkorbAnzeigen();
+                case"1":
+                    artikelListeAnzeigen();
                     break;
                 case "2":
+                    warenkorbAnzeigen();
+                    break;
+                case "3":
+                    //Platzhalter
                     System.out.println("Ausgeloggt");
             }
         } else {
@@ -106,10 +111,11 @@ public class BenutzerOberflaeche {
             System.out.println(" ");
             System.out.println(" ");
             System.out.println("Mitarbeiter Optionen:                     ");
-            System.out.println("Artikel hinzufügen:                    '1'");
-            System.out.println("Bestand erhöhen:                       '2'");
-            System.out.println("Mitarbeiter hinzufügen:                '3'");
-            System.out.println("Bestand erhöhen:                       '4'");
+            System.out.println("Artikelliste anzeigen:                 '1'");
+            System.out.println("Artikel hinzufügen:                    '2'");
+            System.out.println("Bestand erhöhen:                       '3'");
+            System.out.println("Mitarbeiter hinzufügen:                '4'");
+            System.out.println("Bestand erhöhen:                       '5'");
             System.out.println("------------------------------------------");
             System.out.println("Beenden:                               'q'");
             System.out.print("> ");
@@ -119,10 +125,15 @@ public class BenutzerOberflaeche {
             int auswahl;
             switch (optionM) {
                 case "1":
+                    artikelListeAnzeigen();
+                    break;
+                case "2":
+                    //Platzhalter
                     Artikel neuerArtikel = new Artikel();
                     System.out.println("Neuer Artikel Name: ");
                     break;
-                case "2":
+                case "3":
+                    //Platzhalter
                     System.out.println("Entfernt");
             }
         } else {
@@ -212,8 +223,10 @@ public class BenutzerOberflaeche {
         String option = liesEingabe();
         switch (option) {
             case "1":
+                //Platzhalter
                 System.out.println("Hinzugefügt");
             case "2":
+                //Platzhalter
                 System.out.println("Entfernt");
         }
 
