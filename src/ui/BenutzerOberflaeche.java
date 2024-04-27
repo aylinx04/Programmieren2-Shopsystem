@@ -93,7 +93,7 @@ public class BenutzerOberflaeche {
     public static void registrieren(String passwort, String passwort2, String name) throws IOException {
         boolean erfolg = SV.checkPasswort(passwort, passwort2);
         if (erfolg) {
-            //Methode aufrufen, um Neukunden anzulegen
+            SV.kundeAnlegen(name, passwort);
             System.out.println("Erfolgreich registriert!");
         }else{
             System.err.println("Passwörter stimmen nicht überein");

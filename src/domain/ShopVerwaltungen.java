@@ -56,4 +56,8 @@ public class ShopVerwaltungen {
     public boolean checkPasswort(String passwort, String passwort2){
         return passwort.equals(passwort2);
     }
+
+    public void kundeAnlegen(String name, String passwort){
+        KundenListe.add(new Kunde(name, KundenListe.size()+1, passwort));
+    }
 }
