@@ -86,7 +86,7 @@ public class BenutzerOberflaeche {
                 System.out.println("Auf Wiedersehen!");
                 break;
             default:
-                System.out.println("Ungültige Eingabe!");
+                System.err.println("Ungültige Eingabe!");
         }
     }
 
@@ -104,32 +104,33 @@ public class BenutzerOberflaeche {
         boolean erfolg = SV.checkLoginKunde(name, passwort);
         if (erfolg) {
             System.out.println("Erfolgreich angemeldet!");
+            String optionK = "";
+            do {
+                System.out.println("Kunden Optionen:                          ");
+                System.out.println("Artikelliste ansehen:                  '1'");
+                System.out.println("Warenkorb ansehen:                     '2'");
+                System.out.println("------------------------------------------");
+                System.out.println("Ausloggen:                             'q'");
+                System.out.print("> ");
+                System.out.flush();
+                optionK = liesEingabe();
+                switch (optionK) {
+                    case "1":
+                        artikelListeAnzeigen();
+                        break;
+                    case "2":
+                        warenkorbAnzeigen();
+                        break;
+                    case "q":
+                        System.out.println("Ausgeloggt");
+                        break;
+                    default:
+                        System.err.println("Ungültige Eingabe!");
+                }
 
-            System.out.println("Kunden Optionen:                          ");
-            System.out.println("Artikelliste ansehen:                  '1'");
-            System.out.println("Warenkorb ansehen:                     '2'");
-            System.out.println("Ausloggen:                             '3'");
-            System.out.println("------------------------------------------");
-            System.out.println("Beenden:                               'q'");
-            System.out.print("> ");
-            System.out.flush();
-            String optionK = liesEingabe();
-            switch (optionK) {
-                case"1":
-                    artikelListeAnzeigen();
-                    break;
-                case "2":
-                    warenkorbAnzeigen();
-                    break;
-                case "3":
-                    //Platzhalter
-                    System.out.println("Ausgeloggt");
-                    break;
-                default:
-                    System.out.println("Ungültige Eingabe!");
-            }
+            } while (!optionK.equals("q")) ;
         } else {
-            System.out.println("Falsche Eingabe!");
+            System.err.println("Falsche Eingabe!");
         }
 
     }
@@ -138,58 +139,60 @@ public class BenutzerOberflaeche {
         boolean erfolg = SV.checkLoginMitarbeiter(name, passwort);
         if (erfolg) {
             System.out.println("Erfolgreich angemeldet!");
-            System.out.println(" ");
-            System.out.println(" ");
-            System.out.println("Mitarbeiter Optionen:                     ");
-            System.out.println("Artikelliste anzeigen:                 '1'");
-            System.out.println("Artikel hinzufügen:                    '2'");
-            System.out.println("Bestand erhöhen:                       '3'");
-            System.out.println("Mitarbeiter hinzufügen:                '4'");
-            System.out.println("Ausloggen:                             '5'");
-            System.out.println("------------------------------------------");
-            System.out.println("Beenden:                               'q'");
-            System.out.print("> ");
-            System.out.flush();
-            String optionM = liesEingabe();
-            Scanner scanner = new Scanner(System.in);
-            int auswahl;
-            String artikelname;
-            int artikelnummer;
-            String preis;
-            int bestand;
+            String optionM = "";
+            do {
+                System.out.println(" ");
+                System.out.println(" ");
+                System.out.println("Mitarbeiter Optionen:                     ");
+                System.out.println("Artikelliste anzeigen:                 '1'");
+                System.out.println("Artikel hinzufügen:                    '2'");
+                System.out.println("Bestand erhöhen:                       '3'");
+                System.out.println("Mitarbeiter hinzufügen:                '4'");
+                System.out.println("------------------------------------------");
+                System.out.println("Ausloggen:                             'q'");
+                System.out.print("> ");
+                System.out.flush();
+                optionM = liesEingabe();
+                Scanner scanner = new Scanner(System.in);
+                int auswahl;
+                String artikelname;
+                int artikelnummer;
+                String preis;
+                int bestand;
 
-            switch (optionM) {
-                case "1":
-                    artikelListeAnzeigen();
-                    break;
-                case "2":
-                    System.out.print("Artikelname  > ");
-                    artikelname = liesEingabe();
-                    System.out.print("Artikelnummer  > ");
-                    artikelnummer = Integer.parseInt(liesEingabe()); //Fehlerbehandlung notwendig
-                    System.out.print("Preis  > ");
-                    preis = liesEingabe();
-                    System.out.print("Bestand  > ");
-                    bestand = Integer.parseInt(liesEingabe()); //Fehlerbehandlung notwendig
-                    SV.artikelAnlegen(artikelname, artikelnummer, preis, bestand);
-                    System.out.println("Neuer Artikel angelegt: " + SV.getArtikelListe().get(SV.getArtikelListe().size()-1));
-                    break;
-                case "3":
-                    //Platzhalter
-                    System.out.println("Bestand erhöht");
-                    break;
-                case "4":
-                    //Platzhalter
-                    System.out.println("Mitarbeiter hinzugefügt");
-                    break;
-                case "5":
-                    //Platzhalter
-                    System.out.println("Ausgeloggt");
-                default:
-                    System.out.println("Ungültige Eingabe!");
-            }
+                switch (optionM) {
+                    case "1":
+                        artikelListeAnzeigen();
+                        break;
+                    case "2":
+                        System.out.print("Artikelname  > ");
+                        artikelname = liesEingabe();
+                        System.out.print("Artikelnummer  > ");
+                        artikelnummer = Integer.parseInt(liesEingabe()); //Fehlerbehandlung notwendig
+                        System.out.print("Preis  > ");
+                        preis = liesEingabe();
+                        System.out.print("Bestand  > ");
+                        bestand = Integer.parseInt(liesEingabe()); //Fehlerbehandlung notwendig
+                        SV.artikelAnlegen(artikelname, artikelnummer, preis, bestand);
+                        System.out.println("Neuer Artikel angelegt: " + SV.getArtikelListe().get(SV.getArtikelListe().size() - 1));
+                        break;
+                    case "3":
+                        //Platzhalter
+                        System.out.println("Bestand erhöht");
+                        break;
+                    case "4":
+                        //Platzhalter
+                        System.out.println("Mitarbeiter hinzugefügt");
+                        break;
+                    case "q":
+                        System.out.println("Ausgeloggt");
+                        break;
+                    default:
+                        System.err.println("Ungültige Eingabe!");
+                }
+            } while (!optionM.equals("q"));
         } else {
-            System.out.println("Falsche Eingabe!");
+            System.err.println("Falsche Eingabe!");
         }
     }
 
@@ -254,7 +257,7 @@ public class BenutzerOberflaeche {
                 artikelListe.forEach(System.out::println);
                 break;
             default:
-                System.out.println("Ungültige Eingabe!");
+                System.err.println("Ungültige Eingabe!");
         }
 
 
@@ -285,7 +288,7 @@ public class BenutzerOberflaeche {
                 System.out.println("Artikel entfernt");
                 break;
             default:
-                System.out.println("Ungültige Eingabe!");
+                System.err.println("Ungültige Eingabe!");
         }
 
     }
