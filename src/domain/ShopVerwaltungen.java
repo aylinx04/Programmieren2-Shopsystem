@@ -13,17 +13,17 @@ public class ShopVerwaltungen {
     List<Kunde> KundenListe = new ArrayList<>();
     List<Mitarbeiter> MitarbeiterListe = new ArrayList<>();
 
-     public ShopVerwaltungen (){
-         ArtikelListe.add(new Artikel("Tomate", 1, "4,99€", 28));
-         ArtikelListe.add(new Artikel("Gurke", 2,"3,59€", 17));
-         ArtikelListe.add(new Artikel("Reis", 3, "2€", 12));
-         ArtikelListe.add(new Artikel("Salat", 4,"0,99€", 6));
-         ArtikelListe.add(new Artikel("Fanta", 5, "4€", 15));
-         KundenListe.add(new Kunde("Peter", 1, "geheim"));
-         MitarbeiterListe.add(new Mitarbeiter("Helga",6,"auchgeheim"));
-     }
+    public ShopVerwaltungen (){
+        ArtikelListe.add(new Artikel("Tomate", 1, "4,99€", 28));
+        ArtikelListe.add(new Artikel("Gurke", 2,"3,59€", 17));
+        ArtikelListe.add(new Artikel("Reis", 3, "2€", 12));
+        ArtikelListe.add(new Artikel("Salat", 4,"0,99€", 6));
+        ArtikelListe.add(new Artikel("Fanta", 5, "4€", 15));
+        KundenListe.add(new Kunde("Peter", 1, "geheim"));
+        MitarbeiterListe.add(new Mitarbeiter("Helga",6,"auchgeheim"));
+    }
 
-     public List<Artikel> getArtikelListe(){
+    public List<Artikel> getArtikelListe(){
          return ArtikelListe;
      }
 
@@ -33,15 +33,14 @@ public class ShopVerwaltungen {
 
     public List<Artikel> getWK() {return WK;}
 
-     public boolean checkLoginKunde(String name, String passwort){
-         for(Kunde u : KundenListe){
-             if(u.getName().equals(name) && u.getPasswort().equals(passwort)){
-                 return true;
-             }
-
-         }
-         return false;
-     }
+    public boolean checkLoginKunde(String name, String passwort){
+        for(Kunde u : KundenListe){
+            if(u.getName().equals(name) && u.getPasswort().equals(passwort)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public boolean checkLoginMitarbeiter(String name, String passwort){
         for(Mitarbeiter m : MitarbeiterListe){
@@ -59,5 +58,9 @@ public class ShopVerwaltungen {
 
     public void kundeAnlegen(String name, String passwort){
         KundenListe.add(new Kunde(name, KundenListe.size()+1, passwort));
+    }
+
+    public void artikelAnlegen(String name, int nummer, String preis, int bestand){
+         ArtikelListe.add(new Artikel(name, nummer, preis, bestand));
     }
 }

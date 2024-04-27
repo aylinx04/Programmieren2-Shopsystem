@@ -134,7 +134,7 @@ public class BenutzerOberflaeche {
 
     }
 
-    private static void einloggenMitarbeiter(String name, String passwort) throws IOException {
+    private static void einloggenMitarbeiter(String name, String passwort) throws IOException, NumberFormatException {
         boolean erfolg = SV.checkLoginMitarbeiter(name, passwort);
         if (erfolg) {
             System.out.println("Erfolgreich angemeldet!");
@@ -165,14 +165,14 @@ public class BenutzerOberflaeche {
                 case "2":
                     System.out.print("Artikelname  > ");
                     artikelname = liesEingabe();
-                    System.out.println("Artikelnummer  > ");
-                    artikelnummer = 0; //auf 0 gesetzt - wie geht Einlesen von int?
+                    System.out.print("Artikelnummer  > ");
+                    artikelnummer = Integer.parseInt(liesEingabe()); //Fehlerbehandlung notwendig
                     System.out.print("Preis  > ");
                     preis = liesEingabe();
-                    System.out.println("Bestand  > ");
-                    bestand = 0; //auf 0 gesetzt - wie geht Einlesen von int?
-                    Artikel neuerArtikel = new Artikel(artikelname, artikelnummer, preis, bestand);
-                    System.out.println("Neuer Artikel: " + neuerArtikel);
+                    System.out.print("Bestand  > ");
+                    bestand = Integer.parseInt(liesEingabe()); //Fehlerbehandlung notwendig
+                    SV.artikelAnlegen(artikelname, artikelnummer, preis, bestand);
+                    System.out.println("Neuer Artikel angelegt: " + SV.getArtikelListe().get(SV.getArtikelListe().size()-1));
                     break;
                 case "3":
                     //Platzhalter
