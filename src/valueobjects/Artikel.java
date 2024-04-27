@@ -6,10 +6,11 @@ public class Artikel {
     private String preis;
     private int bestand;
 
-    public Artikel(String name, int nummer, String preis){
+    public Artikel(String name, int nummer, String preis, int bestand){
         this.name = name;
         this.nummer = nummer;
         this.preis = preis;
+        this.bestand = bestand;
     }
 
     public Artikel() {

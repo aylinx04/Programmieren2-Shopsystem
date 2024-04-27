@@ -14,13 +14,13 @@ public class ShopVerwaltungen {
     List<Mitarbeiter> MitarbeiterListe = new ArrayList<>();
 
      public ShopVerwaltungen (){
-         ArtikelListe.add(new Artikel("Tomate", 1, "4,99€"));
-         ArtikelListe.add(new Artikel("Gurke", 2,"3,59€"));
-         ArtikelListe.add(new Artikel("Reis", 3, "2€"));
-         ArtikelListe.add(new Artikel("Salat", 4,"0,99€"));
-         ArtikelListe.add(new Artikel("Fanta", 5, "4€"));
+         ArtikelListe.add(new Artikel("Tomate", 1, "4,99€", 28));
+         ArtikelListe.add(new Artikel("Gurke", 2,"3,59€", 17));
+         ArtikelListe.add(new Artikel("Reis", 3, "2€", 12));
+         ArtikelListe.add(new Artikel("Salat", 4,"0,99€", 6));
+         ArtikelListe.add(new Artikel("Fanta", 5, "4€", 15));
          KundenListe.add(new Kunde("Peter", 1, "geheim"));
-         MitarbeiterListe.add(new Mitarbeiter("Helga","6","auchgeheim"));
+         MitarbeiterListe.add(new Mitarbeiter("Helga",6,"auchgeheim"));
      }
 
      public List<Artikel> getArtikelListe(){
@@ -51,5 +51,9 @@ public class ShopVerwaltungen {
 
         }
         return false;
+    }
+
+    public boolean checkPasswort(String passwort, String passwort2){
+        return passwort.equals(passwort2);
     }
 }

@@ -2,6 +2,7 @@ package src.ui;
 
 import src.domain.ShopVerwaltungen;
 import src.valueobjects.Artikel;
+import src.valueobjects.Kunde;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,6 +36,7 @@ public class BenutzerOberflaeche {
 
     private static void gibMenueAus() {
         System.out.println("\nBefehle:                      ");
+        System.out.println("Registrieren:                '0'");
         System.out.println("Einloggen als Kunde:         '1'");
         System.out.println("Einloggen als Mitarbeiter:   '2'");
         System.out.println("Artikelliste anzeigen:       '3'");
@@ -51,8 +53,18 @@ public class BenutzerOberflaeche {
     private static void verarbeiteEingabe(String line) throws IOException {
         String name;
         String passwort;
+        String passwort2;
 
         switch (line) {
+            case "0":
+                System.out.print("Name  > ");
+                name = liesEingabe();
+                System.out.print("Passwort  > ");
+                passwort = liesEingabe();
+                System.out.print("Passwort  > ");
+                passwort2 = liesEingabe();
+                registrieren(passwort, passwort2, name);
+                break;
             case "1":
                 System.out.print("Name  > ");
                 name = liesEingabe();
@@ -61,15 +73,30 @@ public class BenutzerOberflaeche {
                 einloggenKunde(name, passwort);
                 break;
             case "2":
-                System.out.println("Name: ");
+                System.out.print("Name  > ");
                 name = liesEingabe();
-                System.out.println("Passwort: ");
+                System.out.print("Passwort  > ");
                 passwort = liesEingabe();
                 einloggenMitarbeiter(name, passwort);
                 break;
             case "3":
                 artikelListeAnzeigen();
                 break;
+            case "q":
+                System.out.println("Auf Wiedersehen!");
+                break;
+            default:
+                System.out.println("Ungültige Eingabe!");
+        }
+    }
+
+    public static void registrieren(String passwort, String passwort2, String name) throws IOException {
+        boolean erfolg = SV.checkPasswort(passwort, passwort2);
+        if (erfolg) {
+            //Methode aufrufen, um Neukunden anzulegen
+            System.out.println("Erfolgreich registriert!");
+        }else{
+            System.err.println("Passwörter stimmen nicht überein");
         }
     }
 
@@ -97,6 +124,9 @@ public class BenutzerOberflaeche {
                 case "3":
                     //Platzhalter
                     System.out.println("Ausgeloggt");
+                    break;
+                default:
+                    System.out.println("Ungültige Eingabe!");
             }
         } else {
             System.out.println("Falsche Eingabe!");
@@ -115,7 +145,7 @@ public class BenutzerOberflaeche {
             System.out.println("Artikel hinzufügen:                    '2'");
             System.out.println("Bestand erhöhen:                       '3'");
             System.out.println("Mitarbeiter hinzufügen:                '4'");
-            System.out.println("Bestand erhöhen:                       '5'");
+            System.out.println("Ausloggen:                             '5'");
             System.out.println("------------------------------------------");
             System.out.println("Beenden:                               'q'");
             System.out.print("> ");
@@ -123,18 +153,40 @@ public class BenutzerOberflaeche {
             String optionM = liesEingabe();
             Scanner scanner = new Scanner(System.in);
             int auswahl;
+            String artikelname;
+            int artikelnummer;
+            String preis;
+            int bestand;
+
             switch (optionM) {
                 case "1":
                     artikelListeAnzeigen();
                     break;
                 case "2":
-                    //Platzhalter
-                    Artikel neuerArtikel = new Artikel();
-                    System.out.println("Neuer Artikel Name: ");
+                    System.out.print("Artikelname  > ");
+                    artikelname = liesEingabe();
+                    System.out.println("Artikelnummer  > ");
+                    artikelnummer = 0; //auf 0 gesetzt - wie geht Einlesen von int?
+                    System.out.print("Preis  > ");
+                    preis = liesEingabe();
+                    System.out.println("Bestand  > ");
+                    bestand = 0; //auf 0 gesetzt - wie geht Einlesen von int?
+                    Artikel neuerArtikel = new Artikel(artikelname, artikelnummer, preis, bestand);
+                    System.out.println("Neuer Artikel: " + neuerArtikel);
                     break;
                 case "3":
                     //Platzhalter
-                    System.out.println("Entfernt");
+                    System.out.println("Bestand erhöht");
+                    break;
+                case "4":
+                    //Platzhalter
+                    System.out.println("Mitarbeiter hinzugefügt");
+                    break;
+                case "5":
+                    //Platzhalter
+                    System.out.println("Ausgeloggt");
+                default:
+                    System.out.println("Ungültige Eingabe!");
             }
         } else {
             System.out.println("Falsche Eingabe!");
@@ -201,6 +253,8 @@ public class BenutzerOberflaeche {
                 Collections.reverse(artikelListe);
                 artikelListe.forEach(System.out::println);
                 break;
+            default:
+                System.out.println("Ungültige Eingabe!");
         }
 
 
@@ -224,10 +278,14 @@ public class BenutzerOberflaeche {
         switch (option) {
             case "1":
                 //Platzhalter
-                System.out.println("Hinzugefügt");
+                System.out.println("Artikel hinzugefügt");
+                break;
             case "2":
                 //Platzhalter
-                System.out.println("Entfernt");
+                System.out.println("Artikel entfernt");
+                break;
+            default:
+                System.out.println("Ungültige Eingabe!");
         }
 
     }
