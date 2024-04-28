@@ -61,7 +61,7 @@ public class BenutzerOberflaeche {
                 name = liesEingabe();
                 System.out.print("Passwort  > ");
                 passwort = liesEingabe();
-                System.out.print("Passwort  > ");
+                System.out.print("Passwort wiederholen  > ");
                 passwort2 = liesEingabe();
                 registrieren(passwort, passwort2, name);
                 break;
@@ -99,13 +99,9 @@ public class BenutzerOberflaeche {
             System.err.println("Passwörter stimmen nicht überein");
         }
     }
-    private static void MAanlegen(String passwort, String name) throws IOException {
-        System.out.print("Name  > ");
-        name = liesEingabe();
-        System.out.print("Passwort  > ");
-        passwort = liesEingabe();
 
-        boolean erfolg = SV.checkPasswort(passwort, passwort);
+    private static void MAanlegen(String passwort, String passwort2, String name) throws IOException {
+        boolean erfolg = SV.checkPasswort(passwort, passwort2);
         if (erfolg) {
             SV.mitarbeiterAnlegen(name, passwort);
             System.out.println("Erfolgreich registriert als Mitarbeiter!");
@@ -113,7 +109,6 @@ public class BenutzerOberflaeche {
             System.err.println("Passwörter stimmen nicht überein");
         }
     }
-
 
     private static void einloggenKunde(String name, String passwort) throws IOException {
         boolean erfolg = SV.checkLoginKunde(name, passwort);
@@ -170,6 +165,9 @@ public class BenutzerOberflaeche {
                 int artikelnummer;
                 String preis;
                 int bestand;
+                String neuerName;
+                String passwort1;
+                String passwort2;
 
                 switch (optionM) {
                     case "1":
@@ -192,7 +190,13 @@ public class BenutzerOberflaeche {
                         System.out.println("Bestand erhöht");
                         break;
                     case "4":
-                        MAanlegen(passwort, name);
+                        System.out.print("Name  > ");
+                        neuerName = liesEingabe();
+                        System.out.print("Passwort  > ");
+                        passwort1 = liesEingabe();
+                        System.out.print("Passwort wiederholen  > ");
+                        passwort2 = liesEingabe();
+                        MAanlegen(passwort1, passwort2, neuerName);
                         break;
                     case "q":
                         System.out.println("Ausgeloggt");
