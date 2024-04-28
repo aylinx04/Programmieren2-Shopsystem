@@ -63,4 +63,8 @@ public class ShopVerwaltungen {
     public void artikelAnlegen(String name, int nummer, String preis, int bestand){
          ArtikelListe.add(new Artikel(name, nummer, preis, bestand));
     }
+
+    public void mitarbeiterAnlegen(String name, String passwort) {
+        MitarbeiterListe.add(new Mitarbeiter(name, MitarbeiterListe.size()+1, passwort));
+    }
 }

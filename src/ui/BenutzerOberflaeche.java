@@ -99,6 +99,21 @@ public class BenutzerOberflaeche {
             System.err.println("Passwörter stimmen nicht überein");
         }
     }
+    private static void MAanlegen(String passwort, String name) throws IOException {
+        System.out.print("Name  > ");
+        name = liesEingabe();
+        System.out.print("Passwort  > ");
+        passwort = liesEingabe();
+
+        boolean erfolg = SV.checkPasswort(passwort, passwort);
+        if (erfolg) {
+            SV.mitarbeiterAnlegen(name, passwort);
+            System.out.println("Erfolgreich registriert als Mitarbeiter!");
+        } else {
+            System.err.println("Passwörter stimmen nicht überein");
+        }
+    }
+
 
     private static void einloggenKunde(String name, String passwort) throws IOException {
         boolean erfolg = SV.checkLoginKunde(name, passwort);
@@ -177,8 +192,7 @@ public class BenutzerOberflaeche {
                         System.out.println("Bestand erhöht");
                         break;
                     case "4":
-                        //Platzhalter
-                        System.out.println("Mitarbeiter hinzugefügt");
+                        MAanlegen(passwort, name);
                         break;
                     case "q":
                         System.out.println("Ausgeloggt");
