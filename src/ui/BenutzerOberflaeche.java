@@ -90,7 +90,7 @@ public class BenutzerOberflaeche {
         }
     }
 
-    public static void registrieren(String passwort, String passwort2, String name) throws IOException {
+    private static void registrieren(String passwort, String passwort2, String name) throws IOException {
         boolean erfolg = SV.checkPasswort(passwort, passwort2);
         if (erfolg) {
             SV.kundeAnlegen(name, passwort);
@@ -106,7 +106,7 @@ public class BenutzerOberflaeche {
             System.out.println("Erfolgreich angemeldet!");
             String optionK = "";
             do {
-                System.out.println("Kunden Optionen:                          ");
+                System.out.println("\nKunden Optionen:                        ");
                 System.out.println("Artikelliste ansehen:                  '1'");
                 System.out.println("Warenkorb ansehen:                     '2'");
                 System.out.println("------------------------------------------");
@@ -127,12 +127,10 @@ public class BenutzerOberflaeche {
                     default:
                         System.err.println("Ungültige Eingabe!");
                 }
-
             } while (!optionK.equals("q")) ;
         } else {
             System.err.println("Falsche Eingabe!");
         }
-
     }
 
     private static void einloggenMitarbeiter(String name, String passwort) throws IOException, NumberFormatException {
@@ -141,9 +139,7 @@ public class BenutzerOberflaeche {
             System.out.println("Erfolgreich angemeldet!");
             String optionM = "";
             do {
-                System.out.println(" ");
-                System.out.println(" ");
-                System.out.println("Mitarbeiter Optionen:                     ");
+                System.out.println("\nMitarbeiter Optionen:                   ");
                 System.out.println("Artikelliste anzeigen:                 '1'");
                 System.out.println("Artikel hinzufügen:                    '2'");
                 System.out.println("Bestand erhöhen:                       '3'");
@@ -203,64 +199,66 @@ public class BenutzerOberflaeche {
             Artikel a = artikelListe.get(i);
             System.out.println("Name: " + a.getName() + " Artikelnummer: " + a.getNummer() + " Preis: " + a.getPreis());
         }
+        String optionA = "";
+        do {
+            System.out.println("\nSotieren nach:                           ");
+            System.out.println("Von A-Z:                                '1'");
+            System.out.println("Von Z-A:                                '2'");
+            System.out.println("Arikelnummer aufsteigend                '3'");
+            System.out.println("Artikelnummer absteigend:               '4'");
+            System.out.println("Preis aufsteigend:                      '5'");
+            System.out.println("Preis absteigend:                       '6'");
+            System.out.println("Bestand absteigend:                     '7'");
+            System.out.println("Bestand absteigend:                     '8'");
+            System.out.println("-------------------------------------------");
+            System.out.println("Beenden:                                'q'");
+            System.out.print("> ");
+            System.out.flush();
+            optionA = liesEingabe();
 
-        System.out.println("Sotieren nach:                             ");
-        System.out.println("Von A-Z:                                '1'");
-        System.out.println("Von Z-A:                                '2'");
-        System.out.println("Arikelnummer aufsteigend                '3'");
-        System.out.println("Artikelnummer absteigend:               '4'");
-        System.out.println("Preis aufsteigend:                      '5'");
-        System.out.println("Preis absteigend:                       '6'");
-        System.out.println("Bestand absteigend:                     '7'");
-        System.out.println("Bestand absteigend:                     '8'");
-        System.out.println("-------------------------------------------");
-        System.out.println("Beenden:                                'q'");
-        System.out.print("> ");
-        System.out.flush();
-        String optionA = liesEingabe();
-
-        switch (optionA){
-            case "1":
-                Collections.sort(artikelListe, Comparator.comparing(Artikel::getName));
-                artikelListe.forEach(System.out::println);
-                break;
-            case "2":
-                Collections.sort(artikelListe, Comparator.comparing(Artikel::getName));
-                Collections.reverse(artikelListe);
-                artikelListe.forEach(System.out::println);
-                break;
-            case "3":
-                Collections.sort(artikelListe, Comparator.comparing(Artikel::getNummer));
-                artikelListe.forEach(System.out::println);
-                break;
-            case "4":
-                Collections.sort(artikelListe, Comparator.comparing(Artikel::getNummer));
-                Collections.reverse(artikelListe);
-                artikelListe.forEach(System.out::println);
-                break;
-            case "5":
-                Collections.sort(artikelListe, Comparator.comparing(Artikel::getPreis));
-                artikelListe.forEach(System.out::println);
-                break;
-            case "6":
-                Collections.sort(artikelListe, Comparator.comparing(Artikel::getPreis));
-                Collections.reverse(artikelListe);
-                artikelListe.forEach(System.out::println);
-                break;
-            case "7":
-                Collections.sort(artikelListe, Comparator.comparing(Artikel::getBestand));
-                artikelListe.forEach(System.out::println);
-                break;
-            case "8":
-                Collections.sort(artikelListe, Comparator.comparing(Artikel::getBestand));
-                Collections.reverse(artikelListe);
-                artikelListe.forEach(System.out::println);
-                break;
-            default:
-                System.err.println("Ungültige Eingabe!");
-        }
-
-
+            switch (optionA) {
+                case "1":
+                    Collections.sort(artikelListe, Comparator.comparing(Artikel::getName));
+                    artikelListe.forEach(System.out::println);
+                    break;
+                case "2":
+                    Collections.sort(artikelListe, Comparator.comparing(Artikel::getName));
+                    Collections.reverse(artikelListe);
+                    artikelListe.forEach(System.out::println);
+                    break;
+                case "3":
+                    Collections.sort(artikelListe, Comparator.comparing(Artikel::getNummer));
+                    artikelListe.forEach(System.out::println);
+                    break;
+                case "4":
+                    Collections.sort(artikelListe, Comparator.comparing(Artikel::getNummer));
+                    Collections.reverse(artikelListe);
+                    artikelListe.forEach(System.out::println);
+                    break;
+                case "5":
+                    Collections.sort(artikelListe, Comparator.comparing(Artikel::getPreis));
+                    artikelListe.forEach(System.out::println);
+                    break;
+                case "6":
+                    Collections.sort(artikelListe, Comparator.comparing(Artikel::getPreis));
+                    Collections.reverse(artikelListe);
+                    artikelListe.forEach(System.out::println);
+                    break;
+                case "7":
+                    Collections.sort(artikelListe, Comparator.comparing(Artikel::getBestand));
+                    artikelListe.forEach(System.out::println);
+                    break;
+                case "8":
+                    Collections.sort(artikelListe, Comparator.comparing(Artikel::getBestand));
+                    Collections.reverse(artikelListe);
+                    artikelListe.forEach(System.out::println);
+                    break;
+                case "q":
+                    break;
+                default:
+                    System.err.println("Ungültige Eingabe!");
+            }
+        } while (!optionA.equals("q"));
     }
 
     private static void warenkorbAnzeigen() throws IOException {
@@ -270,26 +268,30 @@ public class BenutzerOberflaeche {
             Artikel b = WK.get(i);
             System.out.println("Dein Warenkorb: " + b.getName());
         }
-        System.out.println("Optionen in deinem Warenkorb:             ");
-        System.out.println("Artikel hinzufügen:                    '1'");
-        System.out.println("Artikel entfernen:                     '2'");
-        System.out.println("------------------------------------------");
-        System.out.println("Beenden:                               'q'");
-        System.out.print("> ");
-        System.out.flush();
-        String option = liesEingabe();
-        switch (option) {
-            case "1":
-                //Platzhalter
-                System.out.println("Artikel hinzugefügt");
-                break;
-            case "2":
-                //Platzhalter
-                System.out.println("Artikel entfernt");
-                break;
-            default:
-                System.err.println("Ungültige Eingabe!");
-        }
-
+        String optionW = "";
+        do {
+            System.out.println("\nOptionen in deinem Warenkorb:           ");
+            System.out.println("Artikel hinzufügen:                    '1'");
+            System.out.println("Artikel entfernen:                     '2'");
+            System.out.println("------------------------------------------");
+            System.out.println("Beenden:                               'q'");
+            System.out.print("> ");
+            System.out.flush();
+            optionW = liesEingabe();
+            switch (optionW) {
+                case "1":
+                    //Platzhalter
+                    System.out.println("Artikel hinzugefügt");
+                    break;
+                case "2":
+                    //Platzhalter
+                    System.out.println("Artikel entfernt");
+                    break;
+                case "q":
+                    break;
+                default:
+                    System.err.println("Ungültige Eingabe!");
+            }
+        } while (!optionW.equals("q"));
     }
 }
