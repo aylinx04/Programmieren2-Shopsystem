@@ -280,11 +280,11 @@ public class BenutzerOberflaeche {
     }
 
     private static void warenkorbAnzeigen() throws IOException {
-        List<Artikel> WK = Warenkorb.getWarenkorb();
+        List<Artikel> warenkorb = WK.getWarenkorb();
 
-        for (int i = 0; i < WK.size(); i++) {
-            Artikel b = WK.get(i);
-            System.out.println("Dein Warenkorb: " + b.getName());
+        for (int i = 0; i < warenkorb.size(); i++) {
+            Artikel b = warenkorb.get(i);
+            System.out.println("Dein Warenkorb: " + b.toString());
         }
         String optionW = "";
         do {
@@ -296,9 +296,13 @@ public class BenutzerOberflaeche {
             System.out.print("> ");
             System.out.flush();
             optionW = liesEingabe();
+            String artikelname;
             switch (optionW) {
                 case "1":
-                    //Platzhalter
+                    System.out.print("Artikelname  > ");
+                    artikelname = liesEingabe();
+                    WK.artikelHinzufuegen(artikelname);
+
                     System.out.println("Artikel hinzugefügt");
                     break;
                 case "2":
