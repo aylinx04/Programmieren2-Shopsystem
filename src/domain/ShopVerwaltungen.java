@@ -53,7 +53,7 @@ public class ShopVerwaltungen {
         return passwort.equals(passwort2);
     }
 
-    public Artikel checkArtikel(String name){
+    public Artikel holeArtikel(String name){
         for (Artikel a : getArtikelListe()){
             if(a.getName().equals(name)){
                 return a;
@@ -66,8 +66,8 @@ public class ShopVerwaltungen {
         KundenListe.add(new Kunde(name, KundenListe.size()+1, passwort));
     }
 
-    public void artikelAnlegen(String name, int nummer, String preis, int bestand){
-         ArtikelListe.add(new Artikel(name, nummer, preis, bestand));
+    public void artikelAnlegen(String name, String preis, int bestand){
+         ArtikelListe.add(new Artikel(name, ArtikelListe.size()+1, preis, bestand));
     }
 
     public void mitarbeiterAnlegen(String name, String passwort) {

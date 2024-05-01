@@ -2,7 +2,6 @@ package src.ui;
 
 import src.domain.ShopVerwaltungen;
 import src.valueobjects.Artikel;
-import src.valueobjects.Kunde;
 import src.valueobjects.Warenkorb;
 
 import java.io.BufferedReader;
@@ -112,11 +111,12 @@ public class BenutzerOberflaeche {
         }
     }
 
-    private static void checkWarenkorb(String artikelname){
-        Artikel artikel = SV.checkArtikel(artikelname);
-        WK.artikelHinzufuegen(artikel);
-        System.out.println("Artikel hinzugefügt: " + artikel);
-        //System.err.println("Artikel nicht vorhanden");
+    private static void hinzufuegenWarenkorb(String artikelname, int anzahl){
+        Artikel a = SV.holeArtikel(artikelname);
+        a.bestandVerringern(anzahl);
+        Artikel wkArtikel = new Artikel(a.getName(), a.getNummer(), a.getPreis(), anzahl);
+        WK.artikelHinzufuegen(wkArtikel);
+        System.out.println("Artikel hinzugefügt: " + wkArtikel);
     }
 
     private static void einloggenKunde(String name, String passwort) throws IOException {
@@ -169,9 +169,9 @@ public class BenutzerOberflaeche {
                 System.out.flush();
                 optionM = liesEingabe();
                 String artikelname;
-                int artikelnummer;
                 String preis;
                 int bestand;
+                int anzahl;
                 String neuerName;
                 String passwort1;
                 String passwort2;
@@ -183,20 +183,20 @@ public class BenutzerOberflaeche {
                     case "2":
                         System.out.print("Artikelname  > ");
                         artikelname = liesEingabe();
-                        System.out.print("Artikelnummer  > ");
-                        artikelnummer = Integer.parseInt(liesEingabe()); //Fehlerbehandlung notwendig
                         System.out.print("Preis  > ");
                         preis = liesEingabe();
                         System.out.print("Bestand  > ");
                         bestand = Integer.parseInt(liesEingabe()); //Fehlerbehandlung notwendig
-                        SV.artikelAnlegen(artikelname, artikelnummer, preis, bestand);
+                        SV.artikelAnlegen(artikelname, preis, bestand);
                         System.out.println("Neuer Artikel angelegt: " + SV.getArtikelListe().get(SV.getArtikelListe().size() - 1));
                         break;
                     case "3":
                         System.out.print("Artikelname  > ");
                         artikelname = liesEingabe();
-                        SV.checkArtikel(artikelname);
-                        //Platzhalter
+                        Artikel artikel = SV.holeArtikel(artikelname);
+                        System.out.print("Anzahl  > ");
+                        anzahl = Integer.parseInt(liesEingabe()); //Fehlerbehandlung notwendig
+                        artikel.bestandErhoehen(anzahl);
                         System.out.println("Bestand erhöht");
                         break;
                     case "4":
@@ -229,10 +229,10 @@ public class BenutzerOberflaeche {
         }
         String optionA = "";
         do {
-            System.out.println("\nSotieren nach:                           ");
+            System.out.println("\nSortieren nach:                          ");
             System.out.println("Von A-Z:                                '1'");
             System.out.println("Von Z-A:                                '2'");
-            System.out.println("Arikelnummer aufsteigend                '3'");
+            System.out.println("Artikelnummer aufsteigend               '3'");
             System.out.println("Artikelnummer absteigend:               '4'");
             System.out.println("Preis aufsteigend:                      '5'");
             System.out.println("Preis absteigend:                       '6'");
@@ -289,7 +289,7 @@ public class BenutzerOberflaeche {
         } while (!optionA.equals("q"));
     }
 
-    private static void warenkorbAnzeigen() throws IOException {
+    private static void warenkorbAnzeigen() throws IOException, NumberFormatException {
         List<Artikel> warenkorb = WK.getWarenkorb();
 
         for (int i = 0; i < warenkorb.size(); i++) {
@@ -307,12 +307,14 @@ public class BenutzerOberflaeche {
             System.out.flush();
             optionW = liesEingabe();
             String artikelname;
+            int anzahl;
             switch (optionW) {
                 case "1":
                     System.out.print("Artikelname  > ");
                     artikelname = liesEingabe();
-                    checkWarenkorb(artikelname);
-
+                    System.out.print("Anzahl  > ");
+                    anzahl = Integer.parseInt(liesEingabe()); //Fehlerbehandlung notwendig
+                    hinzufuegenWarenkorb(artikelname, anzahl);
                     break;
                 case "2":
                     //Platzhalter

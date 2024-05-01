@@ -25,12 +25,18 @@ public class Artikel {
         return nummer;
     }
 
-    public int getBestand() { return bestand; }
     public String getPreis() {
         return preis;
     }
-    public void bestandErhoehen(int bestand) {
-        this.bestand += bestand;
+
+    public int getBestand() { return bestand; }
+
+    public void bestandErhoehen(int anzahl) {
+        this.bestand += anzahl;
+    }
+
+    public void bestandVerringern(int anzahl){
+        this.bestand -= anzahl;
     }
 
     public void setName(String name) {
