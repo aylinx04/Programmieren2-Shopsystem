@@ -3,6 +3,7 @@ package src.ui;
 import src.domain.ShopVerwaltungen;
 import src.valueobjects.Artikel;
 import src.valueobjects.Kunde;
+import src.valueobjects.Warenkorb;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.*;
 public class BenutzerOberflaeche {
 
     private static ShopVerwaltungen SV = new ShopVerwaltungen();
+    private static Warenkorb WK = new Warenkorb();
     private static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
 
@@ -159,8 +161,6 @@ public class BenutzerOberflaeche {
                 System.out.print("> ");
                 System.out.flush();
                 optionM = liesEingabe();
-                Scanner scanner = new Scanner(System.in);
-                int auswahl;
                 String artikelname;
                 int artikelnummer;
                 String preis;
@@ -280,7 +280,7 @@ public class BenutzerOberflaeche {
     }
 
     private static void warenkorbAnzeigen() throws IOException {
-        List<Artikel> WK = SV.getWK();
+        List<Artikel> WK = Warenkorb.getWarenkorb();
 
         for (int i = 0; i < WK.size(); i++) {
             Artikel b = WK.get(i);

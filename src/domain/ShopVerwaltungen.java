@@ -9,7 +9,6 @@ import java.util.List;
 
 public class ShopVerwaltungen {
     List<Artikel> ArtikelListe = new ArrayList<>();
-    List<Artikel> WK = new ArrayList<>();
     List<Kunde> KundenListe = new ArrayList<>();
     List<Mitarbeiter> MitarbeiterListe = new ArrayList<>();
 
@@ -30,8 +29,6 @@ public class ShopVerwaltungen {
     public void setArtikelListe(List<Artikel> artikelListe) {
         ArtikelListe = artikelListe;
     }
-
-    public List<Artikel> getWK() {return WK;}
 
     public boolean checkLoginKunde(String name, String passwort){
         for(Kunde u : KundenListe){
