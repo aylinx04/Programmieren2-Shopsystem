@@ -112,14 +112,11 @@ public class BenutzerOberflaeche {
         }
     }
 
-    private static void checkWarenkorb(String name){
-        boolean erfolg = SV.checkArtikel(name);
-        if (erfolg) {
-            WK.artikelHinzufuegen();
-            System.out.println("Artikel hinzugefügt");
-        } else {
-            System.err.println("Artikel nicht vorhanden");
-        }
+    private static void checkWarenkorb(String artikelname){
+        Artikel artikel = SV.checkArtikel(artikelname);
+        WK.artikelHinzufuegen(artikel);
+        System.out.println("Artikel hinzugefügt: " + artikel);
+        //System.err.println("Artikel nicht vorhanden");
     }
 
     private static void einloggenKunde(String name, String passwort) throws IOException {

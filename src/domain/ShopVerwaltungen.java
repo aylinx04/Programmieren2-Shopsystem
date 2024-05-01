@@ -53,13 +53,13 @@ public class ShopVerwaltungen {
         return passwort.equals(passwort2);
     }
 
-    public boolean checkArtikel(String name){
+    public Artikel checkArtikel(String name){
         for (Artikel a : getArtikelListe()){
             if(a.getName().equals(name)){
-                return true;
+                return a;
             }
         }
-        return false;
+        return getArtikelListe().get(0); //hier eigentlich Fehlerbehandlung
     }
 
     public void kundeAnlegen(String name, String passwort){

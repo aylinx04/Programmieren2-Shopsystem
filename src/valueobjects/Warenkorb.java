@@ -4,7 +4,6 @@ import src.domain.ShopVerwaltungen;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Warenkorb {
     private static ShopVerwaltungen SV = new ShopVerwaltungen();
@@ -16,8 +15,8 @@ public class Warenkorb {
 
     public static List<Artikel> getWarenkorb() {return warenkorb;}
 
-    public boolean artikelHinzufuegen(String name){
-        warenkorb.add(new Artikel());
+    public void artikelHinzufuegen(Artikel artikel){
+        warenkorb.add(artikel);
     }
 
 }
