@@ -53,6 +53,15 @@ public class ShopVerwaltungen {
         return passwort.equals(passwort2);
     }
 
+    public boolean checkArtikel(String name){
+        for (Artikel a : getArtikelListe()){
+            if(a.getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void kundeAnlegen(String name, String passwort){
         KundenListe.add(new Kunde(name, KundenListe.size()+1, passwort));
     }

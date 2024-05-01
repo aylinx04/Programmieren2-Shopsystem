@@ -112,6 +112,16 @@ public class BenutzerOberflaeche {
         }
     }
 
+    private static void checkWarenkorb(String name){
+        boolean erfolg = SV.checkArtikel(name);
+        if (erfolg) {
+            WK.artikelHinzufuegen();
+            System.out.println("Artikel hinzugefügt");
+        } else {
+            System.err.println("Artikel nicht vorhanden");
+        }
+    }
+
     private static void einloggenKunde(String name, String passwort) throws IOException {
         boolean erfolg = SV.checkLoginKunde(name, passwort);
         if (erfolg) {
@@ -186,6 +196,9 @@ public class BenutzerOberflaeche {
                         System.out.println("Neuer Artikel angelegt: " + SV.getArtikelListe().get(SV.getArtikelListe().size() - 1));
                         break;
                     case "3":
+                        System.out.print("Artikelname  > ");
+                        artikelname = liesEingabe();
+                        SV.checkArtikel(artikelname);
                         //Platzhalter
                         System.out.println("Bestand erhöht");
                         break;
@@ -301,9 +314,8 @@ public class BenutzerOberflaeche {
                 case "1":
                     System.out.print("Artikelname  > ");
                     artikelname = liesEingabe();
-                    WK.artikelHinzufuegen(artikelname);
+                    checkWarenkorb(artikelname);
 
-                    System.out.println("Artikel hinzugefügt");
                     break;
                 case "2":
                     //Platzhalter

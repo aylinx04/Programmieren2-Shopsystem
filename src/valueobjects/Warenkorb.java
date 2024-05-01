@@ -17,12 +17,7 @@ public class Warenkorb {
     public static List<Artikel> getWarenkorb() {return warenkorb;}
 
     public boolean artikelHinzufuegen(String name){
-        for (Artikel a : SV.getArtikelListe()){
-            if(a.getName().equals(name)){
-                return true;
-            }
-        }
-        return false;
+        warenkorb.add(new Artikel());
     }
 
 }
