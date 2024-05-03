@@ -61,16 +61,13 @@ public class ShopVerwaltungen {
                 return a;
             }
         }
-        return getArtikelListe().get(0); //hier eigentlich Fehlerbehandlung
+        return null;
     }
-    public boolean checkBestand(int anzahl){
-        for (Artikel b : getWarenkorb()){
-            if(b.getBestand() >= anzahl){
-                return true;
-            }
-        }
-        return false;
+
+    public boolean checkBestand(int anzahl, Artikel a){
+        return a.getBestand() >= anzahl;
     }
+
     public boolean checkObEsDenArtikelGibt(String name){
         for (Artikel a : getArtikelListe()){
             if(a.getName().equals(name)){

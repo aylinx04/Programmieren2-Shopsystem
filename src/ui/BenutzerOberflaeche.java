@@ -123,7 +123,7 @@ public class BenutzerOberflaeche {
     private static void hinzufuegenWarenkorb(String artikelname, int anzahl) {
         if (SV.checkObEsDenArtikelGibt(artikelname)) {
             Artikel a = SV.holeArtikel(artikelname);
-            boolean erfolg = SV.checkBestand(anzahl);
+            boolean erfolg = SV.checkBestand(anzahl, a);
             if (erfolg) {
                 a.bestandVerringern(anzahl);
                 Artikel wkArtikel = new Artikel(a.getName(), a.getNummer(), a.getPreis(), anzahl);
