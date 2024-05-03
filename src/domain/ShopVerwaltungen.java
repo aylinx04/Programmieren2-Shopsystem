@@ -15,11 +15,11 @@ public class ShopVerwaltungen {
     List<Mitarbeiter> MitarbeiterListe = new ArrayList<>();
 
     public ShopVerwaltungen (){
-        ArtikelListe.add(new Artikel("Tomate", 1, "4,99€", 28));
-        ArtikelListe.add(new Artikel("Gurke", 2,"3,59€", 17));
-        ArtikelListe.add(new Artikel("Reis", 3, "2€", 12));
-        ArtikelListe.add(new Artikel("Salat", 4,"0,99€", 6));
-        ArtikelListe.add(new Artikel("Fanta", 5, "4€", 15));
+        ArtikelListe.add(new Artikel("Tomate", 1, 4.99, 28));
+        ArtikelListe.add(new Artikel("Gurke", 2,3.59, 17));
+        ArtikelListe.add(new Artikel("Reis", 3, 2, 12));
+        ArtikelListe.add(new Artikel("Salat", 4,0.99, 6));
+        ArtikelListe.add(new Artikel("Fanta", 5, 4, 15));
         KundenListe.add(new Kunde("Peter", 1, "geheim", "Lindenalle 22", "87687", "Bremen"));
         MitarbeiterListe.add(new Mitarbeiter("Helga",6,"auchgeheim"));
     }
@@ -84,7 +84,7 @@ public class ShopVerwaltungen {
         KundenListe.add(new Kunde(name, KundenListe.size()+1, passwort, strasse, plz, wohnort));
     }
 
-    public void artikelAnlegen(String name, String preis, int bestand){
+    public void artikelAnlegen(String name, double preis, int bestand){
          ArtikelListe.add(new Artikel(name, ArtikelListe.size()+1, preis, bestand));
     }
 

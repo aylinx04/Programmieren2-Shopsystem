@@ -188,7 +188,7 @@ public class BenutzerOberflaeche {
                 System.out.flush();
                 optionM = liesEingabe();
                 String artikelname;
-                String preis;
+                double preis;
                 int bestand;
                 int anzahl;
                 String neuerName;
@@ -203,7 +203,7 @@ public class BenutzerOberflaeche {
                         System.out.print("Artikelname  > ");
                         artikelname = liesEingabe();
                         System.out.print("Preis  > ");
-                        preis = liesEingabe();
+                        preis = Double.parseDouble(liesEingabe());
                         System.out.print("Bestand  > ");
                         bestand = Integer.parseInt(liesEingabe()); //Fehlerbehandlung notwendig
                         SV.artikelAnlegen(artikelname, preis, bestand);
@@ -244,7 +244,7 @@ public class BenutzerOberflaeche {
 
         for (int i = 0; i < artikelListe.size(); i++) {
             Artikel a = artikelListe.get(i);
-            System.out.println("Name: " + a.getName() + " Artikelnummer: " + a.getNummer() + " Preis: " + a.getPreis());
+            System.out.println("Name: " + a.getName() + " Artikelnummer: " + a.getNummer() + " Preis: " + a.getPreis() + "€");
         }
         String optionA = "";
         do {
@@ -339,6 +339,9 @@ public class BenutzerOberflaeche {
                 case "2":
                     //Platzhalter
                     System.out.println("Artikel entfernt");
+                    break;
+                case "3":
+
                     break;
                 case "q":
                     break;

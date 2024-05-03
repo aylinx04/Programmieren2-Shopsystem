@@ -3,10 +3,10 @@ package src.valueobjects;
 public class Artikel {
     private String name;
     private int nummer;
-    private String preis;
+    private double preis;
     private int bestand;
 
-    public Artikel(String name, int nummer, String preis, int bestand){
+    public Artikel(String name, int nummer, double preis, int bestand){
         this.name = name;
         this.nummer = nummer;
         this.preis = preis;
@@ -25,7 +25,7 @@ public class Artikel {
         return nummer;
     }
 
-    public String getPreis() {
+    public double getPreis() {
         return preis;
     }
 
@@ -47,7 +47,7 @@ public class Artikel {
         this.nummer = nummer;
     }
 
-    public void setPreis(String preis) {
+    public void setPreis(double preis) {
         this.preis = preis;
     }
 
@@ -59,7 +59,7 @@ public class Artikel {
     public String toString() {
         return "Name= " + name +
                 ", Nummer= " + nummer +
-                ", Preis= " + preis +
+                ", Preis= " + preis + "€" +
                 ", Bestand= " + bestand;
     }
 }
