@@ -10,7 +10,7 @@ public class Warenkorb {
     static List<Artikel> warenkorb = new ArrayList<>();
 
     public Warenkorb(){
-        warenkorb.add(new Artikel("Brot", 7, "2,99€", 22));
+        warenkorb.add(new Artikel("Brot", 7, 2.99, 22));
     }
 
     public static List<Artikel> getWarenkorb() {return warenkorb;}
