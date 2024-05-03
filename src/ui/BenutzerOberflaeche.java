@@ -55,6 +55,9 @@ public class BenutzerOberflaeche {
         String name;
         String passwort;
         String passwort2;
+        String strasse;
+        String plz;
+        String wohnort;
 
         switch (line) {
             case "0":
@@ -64,7 +67,13 @@ public class BenutzerOberflaeche {
                 passwort = liesEingabe();
                 System.out.print("Passwort wiederholen  > ");
                 passwort2 = liesEingabe();
-                registrieren(passwort, passwort2, name);
+                System.out.print("Straße  > ");
+                strasse = liesEingabe();
+                System.out.print("Postleitzahl  > ");
+                plz = liesEingabe();
+                System.out.print("Wohnort  > ");
+                wohnort = liesEingabe();
+                registrieren(passwort, passwort2, name, strasse, plz, wohnort);
                 break;
             case "1":
                 System.out.print("Name  > ");
@@ -91,10 +100,10 @@ public class BenutzerOberflaeche {
         }
     }
 
-    private static void registrieren(String passwort, String passwort2, String name) throws IOException {
+    private static void registrieren(String passwort, String passwort2, String name, String strasse, String plz, String wohnort) throws IOException {
         boolean erfolg = SV.checkPasswort(passwort, passwort2);
         if (erfolg) {
-            SV.kundeAnlegen(name, passwort);
+            SV.kundeAnlegen(name, passwort, strasse, plz, wohnort);
             System.out.println("Erfolgreich registriert!");
         }else{
             System.err.println("Passwörter stimmen nicht überein");

@@ -8,10 +8,13 @@ public class Kunde {
     private String wohnort;
     private String passwort;
 
-    public Kunde(String name, int nr,  String passwort) {
+    public Kunde(String name, int nr,  String passwort, String strasse, String plz, String wohnort) {
         this.name = name;
         kundenNr = nr;
         this.passwort = passwort;
+        this.strasse = strasse;
+        this.plz = plz;
+        this.wohnort = wohnort;
     }
 
     public String getName() {

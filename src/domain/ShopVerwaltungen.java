@@ -18,7 +18,7 @@ public class ShopVerwaltungen {
         ArtikelListe.add(new Artikel("Reis", 3, "2€", 12));
         ArtikelListe.add(new Artikel("Salat", 4,"0,99€", 6));
         ArtikelListe.add(new Artikel("Fanta", 5, "4€", 15));
-        KundenListe.add(new Kunde("Peter", 1, "geheim"));
+        KundenListe.add(new Kunde("Peter", 1, "geheim", "Lindenalle 22", "87687", "Bremen"));
         MitarbeiterListe.add(new Mitarbeiter("Helga",6,"auchgeheim"));
     }
 
@@ -62,8 +62,8 @@ public class ShopVerwaltungen {
         return getArtikelListe().get(0); //hier eigentlich Fehlerbehandlung
     }
 
-    public void kundeAnlegen(String name, String passwort){
-        KundenListe.add(new Kunde(name, KundenListe.size()+1, passwort));
+    public void kundeAnlegen(String name, String passwort, String strasse, String plz, String wohnort){
+        KundenListe.add(new Kunde(name, KundenListe.size()+1, passwort, strasse, plz, wohnort));
     }
 
     public void artikelAnlegen(String name, String preis, int bestand){
