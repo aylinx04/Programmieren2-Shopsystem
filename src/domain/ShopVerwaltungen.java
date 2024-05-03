@@ -7,6 +7,8 @@ import src.valueobjects.Mitarbeiter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static src.valueobjects.Warenkorb.getWarenkorb;
+
 public class ShopVerwaltungen {
     List<Artikel> ArtikelListe = new ArrayList<>();
     List<Kunde> KundenListe = new ArrayList<>();
@@ -60,6 +62,22 @@ public class ShopVerwaltungen {
             }
         }
         return getArtikelListe().get(0); //hier eigentlich Fehlerbehandlung
+    }
+    public boolean checkBestand(int anzahl){
+        for (Artikel b : getWarenkorb()){
+            if(b.getBestand() >= anzahl){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean checkObEsDenArtikelGibt(String name){
+        for (Artikel a : getArtikelListe()){
+            if(a.getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void kundeAnlegen(String name, String passwort, String strasse, String plz, String wohnort){

@@ -122,7 +122,13 @@ public class BenutzerOberflaeche {
 
     private static void hinzufuegenWarenkorb(String artikelname, int anzahl){
         Artikel a = SV.holeArtikel(artikelname);
-        a.bestandVerringern(anzahl);
+        boolean erfolg = SV.checkBestand(anzahl);
+        if(erfolg){
+            a.bestandVerringern(anzahl);
+        } else {
+            System.err.println("Bestand nicht vorhanden!");
+        }
+
         Artikel wkArtikel = new Artikel(a.getName(), a.getNummer(), a.getPreis(), anzahl);
         WK.artikelHinzufuegen(wkArtikel);
         System.out.println("Artikel hinzugefügt: " + wkArtikel);
@@ -310,6 +316,7 @@ public class BenutzerOberflaeche {
             System.out.println("\nOptionen in deinem Warenkorb:           ");
             System.out.println("Artikel hinzufügen:                    '1'");
             System.out.println("Artikel entfernen:                     '2'");
+            System.out.println("Alles im Warenkorb kaufen:             '3'");
             System.out.println("------------------------------------------");
             System.out.println("Beenden:                               'q'");
             System.out.print("> ");
