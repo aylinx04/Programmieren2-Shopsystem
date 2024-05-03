@@ -120,19 +120,23 @@ public class BenutzerOberflaeche {
         }
     }
 
-    private static void hinzufuegenWarenkorb(String artikelname, int anzahl){
-        Artikel a = SV.holeArtikel(artikelname);
-        boolean erfolg = SV.checkBestand(anzahl);
-        if(erfolg){
-            a.bestandVerringern(anzahl);
+    private static void hinzufuegenWarenkorb(String artikelname, int anzahl) {
+        if (SV.checkObEsDenArtikelGibt(artikelname)) {
+            Artikel a = SV.holeArtikel(artikelname);
+            boolean erfolg = SV.checkBestand(anzahl);
+            if (erfolg) {
+                a.bestandVerringern(anzahl);
+                Artikel wkArtikel = new Artikel(a.getName(), a.getNummer(), a.getPreis(), anzahl);
+                WK.artikelHinzufuegen(wkArtikel);
+                System.out.println("Artikel hinzugefügt: " + wkArtikel);
+            } else {
+                System.err.println("Bestand nicht vorhanden!");
+            }
         } else {
-            System.err.println("Bestand nicht vorhanden!");
+            System.err.println("Artikel nicht gefunden!");
         }
-
-        Artikel wkArtikel = new Artikel(a.getName(), a.getNummer(), a.getPreis(), anzahl);
-        WK.artikelHinzufuegen(wkArtikel);
-        System.out.println("Artikel hinzugefügt: " + wkArtikel);
     }
+
 
     private static void einloggenKunde(String name, String passwort) throws IOException {
         boolean erfolg = SV.checkLoginKunde(name, passwort);
