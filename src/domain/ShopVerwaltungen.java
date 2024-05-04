@@ -7,7 +7,6 @@ import src.valueobjects.Mitarbeiter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static src.valueobjects.Warenkorb.getWarenkorb;
 
 public class ShopVerwaltungen {
     List<Artikel> ArtikelListe = new ArrayList<>();
