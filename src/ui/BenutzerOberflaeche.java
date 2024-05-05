@@ -348,8 +348,20 @@ public class BenutzerOberflaeche {
                     System.out.println("Artikel entfernt");
                     break;
                 case "3":
-                    WK.derKauf();
-                    WK.warenkorbLeeren();
+                    if (warenkorb.isEmpty()){
+                        System.err.println("Warenkorb ist leer!");
+                    }else {
+                        System.out.println("Sind Sie sicher?:                    ");
+                        System.out.println("Fortfahren:                       '1'");
+                        System.out.println("Abbrechen:                        '2'");
+                        String eingabe = liesEingabe();
+                        if (eingabe.equals("1")) {
+                            WK.derKauf();
+                            WK.warenkorbLeeren();
+                        } else if (eingabe.equals("2")) {
+                            System.err.println("Vorgang wurde Abgebrochen!");
+                        }
+                    }
                     break;
                 case "4":
                     WK.warenkorbLeeren();
