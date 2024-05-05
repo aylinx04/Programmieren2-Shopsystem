@@ -22,6 +22,15 @@ public class Warenkorb {
         }
         Rechnung.gesamtpreisErhoehen(artikel.getPreis() * artikel.getBestand());
     }
+    public void artikelEntfernen(String entfernen) {
+        Artikel entfernterArtikel = warenkorb.remove(entfernen);
+        if (entfernterArtikel != null) {
+            System.out.println("Der Artikel '" + entfernen + "' wurde erfolgreich entfernt.");
+        } else {
+            System.err.println("Es wurde kein Artikel mit dem Namen '" + entfernen + "' gefunden.");
+        }
+    }
+
     public void derKauf() {
 
 

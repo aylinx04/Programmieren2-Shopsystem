@@ -344,8 +344,9 @@ public class BenutzerOberflaeche {
                     hinzufuegenWarenkorb(artikelname, anzahl);
                     break;
                 case "2":
-                    //Platzhalter
-                    System.out.println("Artikel entfernt");
+                    System.out.print("Artikelname  > ");
+                    String entfernen = liesEingabe();
+                    WK.artikelEntfernen(entfernen);
                     break;
                 case "3":
                     if (warenkorb.isEmpty()){
