@@ -19,6 +19,7 @@ public class Warenkorb {
         }else{
             warenkorb.put(artikel.getName(), artikel);
         }
+        Rechnung.gesamtpreisErhoehen(artikel.getPreis() * artikel.getBestand());
     }
 
     public void warenkorbLeeren(){
