@@ -1,5 +1,6 @@
 package src.valueobjects;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +22,23 @@ public class Warenkorb {
         }
         Rechnung.gesamtpreisErhoehen(artikel.getPreis() * artikel.getBestand());
     }
+    public void derKauf() {
+
+
+        LocalDate Datum = LocalDate.now();
+        System.out.println(Datum);
+        System.out.println(" ");
+
+        double gesamtPreis = 0.0;
+        System.out.println("Dein Einkauf: ");
+        for (Artikel a : warenkorb.values()){
+            System.out.println(a);
+            gesamtPreis += (a.getPreis() * a.getBestand());
+        }
+
+        System.out.println("Gesamtpreis: " + gesamtPreis + "€");
+    }
+
 
     public void warenkorbLeeren(){
         warenkorb.clear();

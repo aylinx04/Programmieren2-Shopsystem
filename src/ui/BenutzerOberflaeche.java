@@ -310,12 +310,14 @@ public class BenutzerOberflaeche {
 
     private static void warenkorbAnzeigen() throws IOException, NumberFormatException {
         Map<String, Artikel> warenkorb = WK.getWarenkorb();
+        System.out.println("Dein Warenkorb: ");
         for (Artikel a : warenkorb.values()){
-            System.out.println("Dein Warenkorb: " + a);
+            System.out.println(a);
         }
         String optionW = "";
         do {
             System.out.println("\nOptionen in deinem Warenkorb:           ");
+            System.out.println("Warenkorb ansehen:                     '0'");
             System.out.println("Artikel hinzufügen:                    '1'");
             System.out.println("Artikel entfernen:                     '2'");
             System.out.println("Alles im Warenkorb kaufen:             '3'");
@@ -328,6 +330,12 @@ public class BenutzerOberflaeche {
             String artikelname;
             int anzahl;
             switch (optionW) {
+                case "0":
+                    System.out.println("Dein Warenkorb: ");
+                    for (Artikel a : warenkorb.values()){
+                        System.out.println(a);
+                    }
+                    break;
                 case "1":
                     System.out.print("Artikelname  > ");
                     artikelname = liesEingabe();
@@ -340,7 +348,8 @@ public class BenutzerOberflaeche {
                     System.out.println("Artikel entfernt");
                     break;
                 case "3":
-
+                    WK.derKauf();
+                    WK.warenkorbLeeren();
                     break;
                 case "4":
                     WK.warenkorbLeeren();
