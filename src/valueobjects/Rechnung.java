@@ -5,4 +5,8 @@ public class Rechnung {
 
     public static void gesamtpreisErhoehen(double preis) { gesamtpreis += preis; }
 
+    public static void gesamtpreisVerringern(double preis) { gesamtpreis -= preis; }
+
+    public double getGesamtpreis() { return gesamtpreis; }
+
 }

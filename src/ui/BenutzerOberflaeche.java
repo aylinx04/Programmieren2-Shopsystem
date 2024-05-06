@@ -2,6 +2,7 @@ package src.ui;
 
 import src.domain.ShopVerwaltungen;
 import src.valueobjects.Artikel;
+import src.valueobjects.Rechnung;
 import src.valueobjects.Warenkorb;
 
 import java.io.BufferedReader;
@@ -13,6 +14,7 @@ public class BenutzerOberflaeche {
 
     private static ShopVerwaltungen SV = new ShopVerwaltungen();
     private static Warenkorb WK = new Warenkorb();
+    private static Rechnung R = new Rechnung();
     private static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
 
@@ -137,6 +139,19 @@ public class BenutzerOberflaeche {
         }
     }
 
+    private static void entfernenWarenkorb(String artikelname, int anzahl) {
+        if (WK.istArtikelImWarenkorb(artikelname)) {
+            boolean erfolg = WK.checkAnzahlDesArtikels(anzahl, artikelname);
+            if (erfolg) {
+                WK.artikelEntfernen(artikelname, anzahl);
+                System.out.println("Der Artikel '" + artikelname + "' wurde erfolgreich entfernt.");
+            } else {
+                System.err.println("Anzahl nicht vorhanden!");
+            }
+        } else {
+            System.err.println("Es wurde kein Artikel mit dem Namen '" + artikelname + "' gefunden.");
+        }
+    }
 
     private static void einloggenKunde(String name, String passwort) throws IOException {
         boolean erfolg = SV.checkLoginKunde(name, passwort);
@@ -335,6 +350,7 @@ public class BenutzerOberflaeche {
                     for (Artikel a : warenkorb.values()){
                         System.out.println(a);
                     }
+                    System.out.println("Gesamtpreis: " + R.getGesamtpreis() + "€");
                     break;
                 case "1":
                     System.out.print("Artikelname  > ");
@@ -345,8 +361,10 @@ public class BenutzerOberflaeche {
                     break;
                 case "2":
                     System.out.print("Artikelname  > ");
-                    String entfernen = liesEingabe();
-                    WK.artikelEntfernen(entfernen);
+                    artikelname = liesEingabe();
+                    System.out.print("Anzahl  > ");
+                    anzahl = Integer.parseInt(liesEingabe()); //Fehlerbehandlung notwendig
+                    entfernenWarenkorb(artikelname, anzahl);
                     break;
                 case "3":
                     if (warenkorb.isEmpty()){
