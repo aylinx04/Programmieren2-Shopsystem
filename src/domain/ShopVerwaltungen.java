@@ -31,23 +31,18 @@ public class ShopVerwaltungen {
         ArtikelListe = artikelListe;
     }
 
-    public boolean checkLoginKunde(String name, String passwort){
-        for(Kunde u : KundenListe){
-            if(u.getName().equals(name) && u.getPasswort().equals(passwort)){
-                return true;
+    public int checkLogin(String name, String passwort) {
+        for (Kunde u : KundenListe) {
+            if (u.getName().equals(name) && u.getPasswort().equals(passwort)) {
+                return 1;
             }
         }
-        return false;
-    }
-
-    public boolean checkLoginMitarbeiter(String name, String passwort){
-        for(Mitarbeiter m : MitarbeiterListe){
-            if(m.getName().equals(name) && m.getPasswort().equals(passwort)){
-                return true;
+        for (Mitarbeiter m : MitarbeiterListe) {
+            if (m.getName().equals(name) && m.getPasswort().equals(passwort)) {
+                return 2;
             }
-
         }
-        return false;
+        return 0;
     }
 
     public boolean checkPasswort(String passwort, String passwort2){

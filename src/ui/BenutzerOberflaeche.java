@@ -40,9 +40,8 @@ public class BenutzerOberflaeche {
     private static void gibMenueAus() {
         System.out.println("\nBefehle:                      ");
         System.out.println("Registrieren:                '0'");
-        System.out.println("Einloggen als Kunde:         '1'");
-        System.out.println("Einloggen als Mitarbeiter:   '2'");
-        System.out.println("Artikelliste anzeigen:       '3'");
+        System.out.println("Einloggen:                   '1'");
+        System.out.println("Artikelliste anzeigen:       '2'");
         System.out.println("--------------------------------");
         System.out.println("Beenden:                     'q'");
         System.out.print("> ");
@@ -82,16 +81,9 @@ public class BenutzerOberflaeche {
                 name = liesEingabe();
                 System.out.print("Passwort  > ");
                 passwort = liesEingabe();
-                einloggenKunde(name, passwort);
+                einloggen(name, passwort);
                 break;
             case "2":
-                System.out.print("Name  > ");
-                name = liesEingabe();
-                System.out.print("Passwort  > ");
-                passwort = liesEingabe();
-                einloggenMitarbeiter(name, passwort);
-                break;
-            case "3":
                 artikelListeAnzeigen();
                 break;
             case "q":
@@ -99,6 +91,17 @@ public class BenutzerOberflaeche {
                 break;
             default:
                 System.err.println("Ungültige Eingabe!");
+        }
+    }
+
+    private static void einloggen(String name, String passwort) throws IOException {
+        int zahl = SV.checkLogin(name, passwort);
+        if(zahl == 1){
+            einloggenKunde(name, passwort);
+        } else if(zahl == 2){
+            einloggenMitarbeiter(name, passwort);
+        } else if (zahl == 0) {
+            System.err.println("Falsche Eingabe!");
         }
     }
 
@@ -154,8 +157,6 @@ public class BenutzerOberflaeche {
     }
 
     private static void einloggenKunde(String name, String passwort) throws IOException {
-        boolean erfolg = SV.checkLoginKunde(name, passwort);
-        if (erfolg) {
             System.out.println("Erfolgreich angemeldet!");
             String optionK = "";
             do {
@@ -181,14 +182,9 @@ public class BenutzerOberflaeche {
                         System.err.println("Ungültige Eingabe!");
                 }
             } while (!optionK.equals("q")) ;
-        } else {
-            System.err.println("Falsche Eingabe!");
-        }
     }
 
     private static void einloggenMitarbeiter(String name, String passwort) throws IOException, NumberFormatException {
-        boolean erfolg = SV.checkLoginMitarbeiter(name, passwort);
-        if (erfolg) {
             System.out.println("Erfolgreich angemeldet!");
             String optionM = "";
             do {
@@ -249,9 +245,6 @@ public class BenutzerOberflaeche {
                         System.err.println("Ungültige Eingabe!");
                 }
             } while (!optionM.equals("q"));
-        } else {
-            System.err.println("Falsche Eingabe!");
-        }
     }
 
     private static void artikelListeAnzeigen () throws IOException{
