@@ -7,10 +7,6 @@ import java.util.Map;
 public class Warenkorb {
     Map<String, Artikel> warenkorb = new HashMap<>();
 
-    public Warenkorb(){
-        warenkorb.put("Brot", new Artikel("Brot", 7, 2.99, 22));
-    }
-
     public Map<String, Artikel> getWarenkorb() {return warenkorb;}
 
     public boolean istArtikelImWarenkorb(String artikelName) {
@@ -45,24 +41,6 @@ public class Warenkorb {
         }
         Rechnung.gesamtpreisVerringern(vorhandenerArtikel.getPreis() * anzahl);
     }
-
-    public void derKauf() {
-
-
-        LocalDate Datum = LocalDate.now();
-        System.out.println(Datum);
-        System.out.println(" ");
-
-        double gesamtPreis = 0.0;
-        System.out.println("Dein Einkauf: ");
-        for (Artikel a : warenkorb.values()){
-            System.out.println(a);
-            gesamtPreis += (a.getPreis() * a.getBestand());
-        }
-
-        System.out.println("Gesamtpreis: " + gesamtPreis + "€");
-    }
-
 
     public void warenkorbLeeren(){
         warenkorb.clear();

@@ -97,9 +97,9 @@ public class BenutzerOberflaeche {
     private static void einloggen(String name, String passwort) throws IOException {
         int zahl = SV.checkLogin(name, passwort);
         if(zahl == 1){
-            einloggenKunde(name, passwort);
+            einloggenKunde();
         } else if(zahl == 2){
-            einloggenMitarbeiter(name, passwort);
+            einloggenMitarbeiter();
         } else if (zahl == 0) {
             System.err.println("Falsche Eingabe!");
         }
@@ -156,7 +156,7 @@ public class BenutzerOberflaeche {
         }
     }
 
-    private static void einloggenKunde(String name, String passwort) throws IOException {
+    private static void einloggenKunde() throws IOException {
             System.out.println("Erfolgreich angemeldet!");
             String optionK = "";
             do {
@@ -184,7 +184,7 @@ public class BenutzerOberflaeche {
             } while (!optionK.equals("q")) ;
     }
 
-    private static void einloggenMitarbeiter(String name, String passwort) throws IOException, NumberFormatException {
+    private static void einloggenMitarbeiter() throws IOException, NumberFormatException {
             System.out.println("Erfolgreich angemeldet!");
             String optionM = "";
             do {
@@ -250,10 +250,6 @@ public class BenutzerOberflaeche {
     private static void artikelListeAnzeigen () throws IOException{
         List<Artikel> artikelListe = SV.getArtikelListe();
 
-        for (int i = 0; i < artikelListe.size(); i++) {
-            Artikel a = artikelListe.get(i);
-            System.out.println("Name: " + a.getName() + " Artikelnummer: " + a.getNummer() + " Preis: " + a.getPreis() + "€");
-        }
         String optionA = "";
         do {
             System.out.println("\nSortieren nach:                          ");
@@ -318,6 +314,7 @@ public class BenutzerOberflaeche {
 
     private static void warenkorbAnzeigen() throws IOException, NumberFormatException {
         Map<String, Artikel> warenkorb = WK.getWarenkorb();
+        Rechnung rechnung = R;
         System.out.println("Dein Warenkorb: ");
         for (Artikel a : warenkorb.values()){
             System.out.println(a);
@@ -346,6 +343,7 @@ public class BenutzerOberflaeche {
                     System.out.println("Gesamtpreis: " + R.getGesamtpreis() + "€");
                     break;
                 case "1":
+                    artikelListeAnzeigen();
                     System.out.print("Artikelname  > ");
                     artikelname = liesEingabe();
                     System.out.print("Anzahl  > ");
@@ -368,7 +366,11 @@ public class BenutzerOberflaeche {
                         System.out.println("Abbrechen:                        '2'");
                         String eingabe = liesEingabe();
                         if (eingabe.equals("1")) {
-                            WK.derKauf();
+                            System.out.println("Dein Einkauf: ");
+                            System.out.println(rechnung);
+                            for (Artikel a : warenkorb.values()){
+                                System.out.println(a);
+                            }
                             WK.warenkorbLeeren();
                         } else if (eingabe.equals("2")) {
                             System.err.println("Vorgang wurde Abgebrochen!");
@@ -377,6 +379,7 @@ public class BenutzerOberflaeche {
                     break;
                 case "4":
                     WK.warenkorbLeeren();
+                    R.gesamtpreisAufNull();
                     System.out.println("Warenkorb wurde geleert");
                     break;
                 case "q":

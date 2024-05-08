@@ -12,6 +12,8 @@ public class ShopVerwaltungen {
     List<Artikel> ArtikelListe = new ArrayList<>();
     List<Kunde> KundenListe = new ArrayList<>();
     List<Mitarbeiter> MitarbeiterListe = new ArrayList<>();
+    static Kunde eingeloggt;
+    Mitarbeiter eing;
 
     public ShopVerwaltungen (){
         ArtikelListe.add(new Artikel("Tomate", 1, 4.99, 28));
@@ -27,18 +29,16 @@ public class ShopVerwaltungen {
          return ArtikelListe;
      }
 
-    public void setArtikelListe(List<Artikel> artikelListe) {
-        ArtikelListe = artikelListe;
-    }
-
     public int checkLogin(String name, String passwort) {
         for (Kunde u : KundenListe) {
             if (u.getName().equals(name) && u.getPasswort().equals(passwort)) {
+                eingeloggt = u;
                 return 1;
             }
         }
         for (Mitarbeiter m : MitarbeiterListe) {
             if (m.getName().equals(name) && m.getPasswort().equals(passwort)) {
+                eing = m;
                 return 2;
             }
         }
@@ -81,5 +81,9 @@ public class ShopVerwaltungen {
 
     public void mitarbeiterAnlegen(String name, String passwort) {
         MitarbeiterListe.add(new Mitarbeiter(name, MitarbeiterListe.size()+1, passwort));
+    }
+
+    public static Kunde getEingeloggt() {
+        return eingeloggt;
     }
 }

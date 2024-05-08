@@ -13,10 +13,6 @@ public class Artikel {
         this.bestand = bestand;
     }
 
-    public Artikel() {
-
-    }
-
     public String getName() {
         return name;
     }
@@ -37,18 +33,6 @@ public class Artikel {
 
     public void bestandVerringern(int anzahl){
         this.bestand -= anzahl;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setNummer(int nummer) {
-        this.nummer = nummer;
-    }
-
-    public void setPreis(double preis) {
-        this.preis = preis;
     }
 
     public void setBestand(int bestand) {

@@ -21,22 +21,10 @@ public class Kunde {
         return name;
     }
 
-    public int getKundenNr() {
-        return kundenNr;
-    }
-
-    public String getStrasse() {
-        return strasse;
-    }
-
-    public String getPlz() {
-        return plz;
-    }
-
-    public String getWohnort() {
-        return wohnort;
-    }
-
     public String getPasswort() {return passwort;
+    }
+
+    public String toString() {
+        return  name + "\n" + strasse + "\n" + plz + wohnort;
     }
 }
