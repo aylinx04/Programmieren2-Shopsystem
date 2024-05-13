@@ -1,11 +1,10 @@
 package src.domain;
 
-import src.valueobjects.Artikel;
-import src.valueobjects.Kunde;
-import src.valueobjects.Mitarbeiter;
+import src.valueobjects.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class ShopVerwaltungen {
@@ -14,6 +13,30 @@ public class ShopVerwaltungen {
     List<Mitarbeiter> MitarbeiterListe = new ArrayList<>();
     static Kunde eingeloggt;
     Mitarbeiter eing;
+
+
+    // Warenkorb sollte ein lokales Attribut von ShopVerwaltung sein
+    Warenkorb warenkorb = new Warenkorb();
+
+    Warenkorb getWarenkorb() {
+        return warenkorb;
+    }
+
+    // Die Shopverwaltung erzeugt bei Bedarf eine neue Rechnung
+    Rechnung getRechnung() {
+        Rechnung rechnung = new Rechnung();
+        // ToDo: Bevor der Warenkorb gekauft / geleert wird, hier die Rechnung erzeugen
+
+        Map<String, Artikel> inhalt = warenkorb.getWarenkorb();
+
+        for (Artikel artikel : inhalt.values()) {
+            // Jeden Artikel zur Rechnung hinzufügen
+            // rechnung.add...
+        }
+
+        return rechnung;
+    }
+
 
     public ShopVerwaltungen (){
         ArtikelListe.add(new Artikel("Tomate", 1, 4.99, 28));
