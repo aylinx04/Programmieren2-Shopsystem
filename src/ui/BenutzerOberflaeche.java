@@ -12,17 +12,16 @@ import java.util.*;
 
 public class BenutzerOberflaeche {
 
-    private static ShopVerwaltungen SV = new ShopVerwaltungen();
-    private static Warenkorb WK = new Warenkorb();
-    private static Rechnung R = new Rechnung();
+    private ShopVerwaltungen SV = new ShopVerwaltungen();
+
     private static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-
     public static void main(String[] args) {
-        run();
+        BenutzerOberflaeche cui = new BenutzerOberflaeche();
+        cui.run();
     }
 
-    public static void run() {
+    public void run() {
         String input = "";
 
         do {
@@ -37,7 +36,7 @@ public class BenutzerOberflaeche {
         } while (!input.equals("q"));
     }
 
-    private static void gibMenueAus() {
+    private void gibMenueAus() {
         System.out.println("\nBefehle:                      ");
         System.out.println("Registrieren:                '0'");
         System.out.println("Einloggen:                   '1'");
@@ -48,11 +47,11 @@ public class BenutzerOberflaeche {
         System.out.flush();
     }
 
-    private static String liesEingabe() throws IOException {
+    private String liesEingabe() throws IOException {
         return in.readLine();
     }
 
-    private static void verarbeiteEingabe(String line) throws IOException {
+    private void verarbeiteEingabe(String line) throws IOException {
         String name;
         String passwort;
         String passwort2;
@@ -94,7 +93,7 @@ public class BenutzerOberflaeche {
         }
     }
 
-    private static void einloggen(String name, String passwort) throws IOException {
+    private void einloggen(String name, String passwort) throws IOException {
         int zahl = SV.checkLogin(name, passwort);
         if(zahl == 1){
             einloggenKunde();
@@ -105,7 +104,7 @@ public class BenutzerOberflaeche {
         }
     }
 
-    private static void registrieren(String passwort, String passwort2, String name, String strasse, String plz, String wohnort) throws IOException {
+    private void registrieren(String passwort, String passwort2, String name, String strasse, String plz, String wohnort) throws IOException {
         boolean erfolg = SV.checkPasswort(passwort, passwort2);
         if (erfolg) {
             SV.kundeAnlegen(name, passwort, strasse, plz, wohnort);
@@ -115,7 +114,7 @@ public class BenutzerOberflaeche {
         }
     }
 
-    private static void MAanlegen(String passwort, String passwort2, String name) throws IOException {
+    private void MAanlegen(String passwort, String passwort2, String name) throws IOException {
         boolean erfolg = SV.checkPasswort(passwort, passwort2);
         if (erfolg) {
             SV.mitarbeiterAnlegen(name, passwort);
@@ -125,14 +124,17 @@ public class BenutzerOberflaeche {
         }
     }
 
-    private static void hinzufuegenWarenkorb(String artikelname, int anzahl) {
+    private void hinzufuegenWarenkorb(String artikelname, int anzahl) {
         if (SV.checkObEsDenArtikelGibt(artikelname)) {
             Artikel a = SV.holeArtikel(artikelname);
             boolean erfolg = SV.checkBestand(anzahl, a);
             if (erfolg) {
                 a.bestandVerringern(anzahl);
                 Artikel wkArtikel = new Artikel(a.getName(), a.getNummer(), a.getPreis(), anzahl);
-                WK.artikelHinzufuegen(wkArtikel);
+
+                Warenkorb w = SV.getWarenkorb();
+                w.artikelHinzufuegen(wkArtikel);
+
                 System.out.println("Artikel hinzugefügt: " + wkArtikel);
             } else {
                 System.err.println("Bestand nicht vorhanden!");
@@ -142,7 +144,9 @@ public class BenutzerOberflaeche {
         }
     }
 
-    private static void entfernenWarenkorb(String artikelname, int anzahl) {
+    private void entfernenWarenkorb(String artikelname, int anzahl) {
+        Warenkorb WK = SV.getWarenkorb();
+
         if (WK.istArtikelImWarenkorb(artikelname)) {
             boolean erfolg = WK.checkAnzahlDesArtikels(anzahl, artikelname);
             if (erfolg) {
@@ -156,7 +160,7 @@ public class BenutzerOberflaeche {
         }
     }
 
-    private static void einloggenKunde() throws IOException {
+    private void einloggenKunde() throws IOException {
             System.out.println("Erfolgreich angemeldet!");
             String optionK = "";
             do {
@@ -184,7 +188,7 @@ public class BenutzerOberflaeche {
             } while (!optionK.equals("q")) ;
     }
 
-    private static void einloggenMitarbeiter() throws IOException, NumberFormatException {
+    private void einloggenMitarbeiter() throws IOException, NumberFormatException {
             System.out.println("Erfolgreich angemeldet!");
             String optionM = "";
             do {
@@ -247,7 +251,7 @@ public class BenutzerOberflaeche {
             } while (!optionM.equals("q"));
     }
 
-    private static void artikelListeAnzeigen () throws IOException{
+    private void artikelListeAnzeigen () throws IOException{
         List<Artikel> artikelListe = SV.getArtikelListe();
 
         String optionA = "";
@@ -312,9 +316,11 @@ public class BenutzerOberflaeche {
         } while (!optionA.equals("q"));
     }
 
-    private static void warenkorbAnzeigen() throws IOException, NumberFormatException {
+    private void warenkorbAnzeigen() throws IOException, NumberFormatException {
+        Warenkorb WK = SV.getWarenkorb();
+
         Map<String, Artikel> warenkorb = WK.getWarenkorb();
-        Rechnung rechnung = R;
+
         System.out.println("Dein Warenkorb: ");
         for (Artikel a : warenkorb.values()){
             System.out.println(a);
@@ -340,7 +346,8 @@ public class BenutzerOberflaeche {
                     for (Artikel a : warenkorb.values()){
                         System.out.println(a);
                     }
-                    System.out.println("Gesamtpreis: " + R.getGesamtpreis() + "€");
+
+                   //  System.out.println("Gesamtpreis: " + R.getGesamtpreis() + "€");
                     break;
                 case "1":
                     artikelListeAnzeigen();
@@ -367,10 +374,16 @@ public class BenutzerOberflaeche {
                         String eingabe = liesEingabe();
                         if (eingabe.equals("1")) {
                             System.out.println("Dein Einkauf: ");
+
+                            // ToDo: Rechnung korrekt erzeugen
+                            Rechnung rechnung = SV.erzeugeRechnung();
                             System.out.println(rechnung);
+
                             for (Artikel a : warenkorb.values()){
                                 System.out.println(a);
                             }
+
+
                             WK.warenkorbLeeren();
                         } else if (eingabe.equals("2")) {
                             System.err.println("Vorgang wurde Abgebrochen!");
@@ -379,7 +392,6 @@ public class BenutzerOberflaeche {
                     break;
                 case "4":
                     WK.warenkorbLeeren();
-                    R.gesamtpreisAufNull();
                     System.out.println("Warenkorb wurde geleert");
                     break;
                 case "q":

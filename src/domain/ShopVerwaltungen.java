@@ -11,27 +11,33 @@ public class ShopVerwaltungen {
     List<Artikel> ArtikelListe = new ArrayList<>();
     List<Kunde> KundenListe = new ArrayList<>();
     List<Mitarbeiter> MitarbeiterListe = new ArrayList<>();
-    static Kunde eingeloggt;
+    Kunde eingeloggt;
     Mitarbeiter eing;
 
 
     // Warenkorb sollte ein lokales Attribut von ShopVerwaltung sein
-    Warenkorb warenkorb = new Warenkorb();
+    private Warenkorb warenkorb = new Warenkorb();
 
-    Warenkorb getWarenkorb() {
+    public Warenkorb getWarenkorb() {
         return warenkorb;
     }
 
-    // Die Shopverwaltung erzeugt bei Bedarf eine neue Rechnung
-    Rechnung getRechnung() {
-        Rechnung rechnung = new Rechnung();
+
+    public Rechnung erzeugeRechnung() {
+        Rechnung rechnung = new Rechnung(eingeloggt);
         // ToDo: Bevor der Warenkorb gekauft / geleert wird, hier die Rechnung erzeugen
 
         Map<String, Artikel> inhalt = warenkorb.getWarenkorb();
 
         for (Artikel artikel : inhalt.values()) {
             // Jeden Artikel zur Rechnung hinzufügen
-            // rechnung.add...
+            // rechnung.gesamtpreisErhoehen( ... )
+
+            // artikel.getPreis() * artikel.getBestand()
+
+            // Fanta: Bestand 15
+            // Kunde kauft 5 -> 5 * 0.99€ = ??
+            // Bleiben 10 übrig
         }
 
         return rechnung;
@@ -106,7 +112,7 @@ public class ShopVerwaltungen {
         MitarbeiterListe.add(new Mitarbeiter(name, MitarbeiterListe.size()+1, passwort));
     }
 
-    public static Kunde getEingeloggt() {
+    public Kunde getEingeloggt() {
         return eingeloggt;
     }
 }

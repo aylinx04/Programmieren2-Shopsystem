@@ -7,16 +7,18 @@ import java.time.LocalDate;
 
 public class Rechnung {
     LocalDate datum = LocalDate.now();
-    private static double gesamtpreis;
-    Kunde kunde = ShopVerwaltungen.getEingeloggt();
+    private double gesamtpreis;
+  //  Kunde kunde = ShopVerwaltungen.getEingeloggt();
+    Kunde kunde = null;
 
-    public Rechnung() {
+    public Rechnung(Kunde kunde) {
+        this.kunde = kunde;
         gesamtpreis = 0.0;
     }
 
-    public static void gesamtpreisErhoehen(double preis) { gesamtpreis += preis; }
+    public void gesamtpreisErhoehen(double preis) { gesamtpreis += preis; }
 
-    public static void gesamtpreisVerringern(double preis) { gesamtpreis -= preis; }
+    public void gesamtpreisVerringern(double preis) { gesamtpreis -= preis; }
 
     public double getGesamtpreis() { return gesamtpreis; }
 
