@@ -3,11 +3,10 @@ package src.valueobjects;
 import java.time.LocalDate;
 
 public class Ereignis {
-    private LocalDate datum;
+    LocalDate datum = LocalDate.now();
     private String status;
 
     public Ereignis(String status){
-        this.datum = datum;
         this.status = status;
     }
 
@@ -17,6 +16,6 @@ public class Ereignis {
 
     @Override
     public String toString() {
-        return "Ereignis:" + datum + "\n" + status;
+        return "Ereignis: " + datum + "\n" + status;
     }
 }

@@ -14,6 +14,7 @@ public class ShopVerwaltungen {
     Kunde eingeloggt;
     Mitarbeiter eing;
     private Warenkorb warenkorb = new Warenkorb();
+    public Ereignisliste ereignisliste = new Ereignisliste();
 
     public Warenkorb getWarenkorb() {
         return warenkorb;
@@ -22,16 +23,20 @@ public class ShopVerwaltungen {
 
     public Rechnung erzeugeRechnung() {
         Rechnung rechnung = new Rechnung(eingeloggt);
-        // ToDo: Bevor der Warenkorb gekauft / geleert wird, hier die Rechnung erzeugen
 
         Map<String, Artikel> inhalt = warenkorb.getWarenkorb();
 
         for (Artikel artikel : inhalt.values()) {
             rechnung.gesamtpreisErhoehen(artikel.getPreis() * artikel.getBestand());
         }
-        Ereignis ereignis = new Ereignis("Kunde: " + eingeloggt.getName() + "Der Einkauf: " + inhalt);
+        Ereignis ereignis = new Ereignis("Kunde: " + eingeloggt.getName() + "\nDer Einkauf: " + inhalt);
+        ereignisliste.ereignisHinzufuegen(ereignis);
 
         return rechnung;
+    }
+
+    public List<Ereignis> gebeEreignisListe(){
+        return ereignisliste.getEreignisListe();
     }
 
 
@@ -99,9 +104,11 @@ public class ShopVerwaltungen {
         Artikel a = new Artikel(name, ArtikelListe.size()+1, preis, bestand);
          ArtikelListe.add(a);
          Ereignis ereignis = new Ereignis("Mitarbeiter: " + eing.getName() + "\nHinzugefügter Artikel: " + a);
+        ereignisliste.ereignisHinzufuegen(ereignis);
     }
-    public void EreignisBestandErheoht(String artikelname, int anzahl){
-        Ereignis ereignis = new Ereignis("Mitarbeiter: " + eing.getName() + "Artikel: " + artikelname + "Erhöhter Bestand: " + anzahl);
+    public void ereignisBestandErhoeht(String artikelname, int anzahl){
+        Ereignis ereignis = new Ereignis("Mitarbeiter: " + eing.getName() + "\nArtikel: " + artikelname + "\nErhöhter Bestand: " + anzahl);
+        ereignisliste.ereignisHinzufuegen(ereignis);
     }
 
     public void mitarbeiterAnlegen(String name, String passwort) {

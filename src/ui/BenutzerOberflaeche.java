@@ -2,6 +2,7 @@ package src.ui;
 
 import src.domain.ShopVerwaltungen;
 import src.valueobjects.Artikel;
+import src.valueobjects.Ereignis;
 import src.valueobjects.Rechnung;
 import src.valueobjects.Warenkorb;
 
@@ -197,6 +198,7 @@ public class BenutzerOberflaeche {
                 System.out.println("Artikel hinzufügen:                    '2'");
                 System.out.println("Bestand erhöhen:                       '3'");
                 System.out.println("Mitarbeiter hinzufügen:                '4'");
+                System.out.println("Ereignisse anzeigen:                   '5'");
                 System.out.println("------------------------------------------");
                 System.out.println("Ausloggen:                             'q'");
                 System.out.print("> ");
@@ -231,7 +233,7 @@ public class BenutzerOberflaeche {
                         System.out.print("Anzahl  > ");
                         anzahl = Integer.parseInt(liesEingabe());
                         artikel.bestandErhoehen(anzahl);
-                        SV.EreignisBestandErheoht(artikelname, anzahl);
+                        SV.ereignisBestandErhoeht(artikelname, anzahl);
                         System.out.println("Bestand erhöht");
                         break;
                     case "4":
@@ -243,6 +245,12 @@ public class BenutzerOberflaeche {
                         passwort2 = liesEingabe();
                         MAanlegen(passwort1, passwort2, neuerName);
                         break;
+                    case "5":
+                        System.out.println("Ereignisse: ");
+                        List<Ereignis> ereignisse = SV.gebeEreignisListe();
+                        for (Ereignis e : ereignisse) {
+                            System.out.println(e);
+                        }
                     case "q":
                         System.out.println("Ausgeloggt");
                         break;
@@ -353,14 +361,14 @@ public class BenutzerOberflaeche {
                     System.out.print("Artikelname  > ");
                     artikelname = liesEingabe();
                     System.out.print("Anzahl  > ");
-                    anzahl = Integer.parseInt(liesEingabe()); //Fehlerbehandlung notwendig
+                    anzahl = Integer.parseInt(liesEingabe());
                     hinzufuegenWarenkorb(artikelname, anzahl);
                     break;
                 case "2":
                     System.out.print("Artikelname  > ");
                     artikelname = liesEingabe();
                     System.out.print("Anzahl  > ");
-                    anzahl = Integer.parseInt(liesEingabe()); //Fehlerbehandlung notwendig
+                    anzahl = Integer.parseInt(liesEingabe());
                     entfernenWarenkorb(artikelname, anzahl);
                     break;
                 case "3":
@@ -374,7 +382,6 @@ public class BenutzerOberflaeche {
                         if (eingabe.equals("1")) {
                             System.out.println("Dein Einkauf: ");
 
-                            // ToDo: Rechnung korrekt erzeugen
                             Rechnung rechnung = SV.erzeugeRechnung();
                             System.out.println(rechnung);
 
