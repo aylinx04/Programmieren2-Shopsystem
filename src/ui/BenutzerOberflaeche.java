@@ -346,8 +346,6 @@ public class BenutzerOberflaeche {
                     for (Artikel a : warenkorb.values()){
                         System.out.println(a);
                     }
-
-                   //  System.out.println("Gesamtpreis: " + R.getGesamtpreis() + "€");
                     break;
                 case "1":
                     artikelListeAnzeigen();

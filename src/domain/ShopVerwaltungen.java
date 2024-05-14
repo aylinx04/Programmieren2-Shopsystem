@@ -13,9 +13,6 @@ public class ShopVerwaltungen {
     List<Mitarbeiter> MitarbeiterListe = new ArrayList<>();
     Kunde eingeloggt;
     Mitarbeiter eing;
-
-
-    // Warenkorb sollte ein lokales Attribut von ShopVerwaltung sein
     private Warenkorb warenkorb = new Warenkorb();
 
     public Warenkorb getWarenkorb() {
@@ -30,14 +27,7 @@ public class ShopVerwaltungen {
         Map<String, Artikel> inhalt = warenkorb.getWarenkorb();
 
         for (Artikel artikel : inhalt.values()) {
-            // Jeden Artikel zur Rechnung hinzufügen
-            // rechnung.gesamtpreisErhoehen( ... )
-
-            // artikel.getPreis() * artikel.getBestand()
-
-            // Fanta: Bestand 15
-            // Kunde kauft 5 -> 5 * 0.99€ = ??
-            // Bleiben 10 übrig
+            rechnung.gesamtpreisErhoehen(artikel.getPreis() * artikel.getBestand());
         }
 
         return rechnung;
@@ -110,9 +100,5 @@ public class ShopVerwaltungen {
 
     public void mitarbeiterAnlegen(String name, String passwort) {
         MitarbeiterListe.add(new Mitarbeiter(name, MitarbeiterListe.size()+1, passwort));
-    }
-
-    public Kunde getEingeloggt() {
-        return eingeloggt;
     }
 }

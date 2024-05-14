@@ -25,6 +25,6 @@ public class Kunde {
     }
 
     public String toString() {
-        return  name + "\n" + strasse + "\n" + plz + wohnort;
+        return  name + "\n" + strasse + "\n" + plz + " " + wohnort;
     }
 }

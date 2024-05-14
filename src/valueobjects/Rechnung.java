@@ -1,6 +1,5 @@
 package src.valueobjects;
 
-import src.domain.ShopVerwaltungen;
 
 import java.time.LocalDate;
 
@@ -8,7 +7,6 @@ import java.time.LocalDate;
 public class Rechnung {
     LocalDate datum = LocalDate.now();
     private double gesamtpreis;
-  //  Kunde kunde = ShopVerwaltungen.getEingeloggt();
     Kunde kunde = null;
 
     public Rechnung(Kunde kunde) {
@@ -19,10 +17,6 @@ public class Rechnung {
     public void gesamtpreisErhoehen(double preis) { gesamtpreis += preis; }
 
     public void gesamtpreisVerringern(double preis) { gesamtpreis -= preis; }
-
-    public double getGesamtpreis() { return gesamtpreis; }
-
-    public void gesamtpreisAufNull() { gesamtpreis = 0.0; }
 
     public String toString() {
         return datum + "\nKunde: " + kunde + "\nGesamtpreis " + gesamtpreis + "€";

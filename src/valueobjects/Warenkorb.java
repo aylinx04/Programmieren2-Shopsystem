@@ -1,6 +1,5 @@
 package src.valueobjects;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +28,6 @@ public class Warenkorb {
         }else{
             warenkorb.put(artikel.getName(), artikel);
         }
-      //  Rechnung.gesamtpreisErhoehen(artikel.getPreis() * artikel.getBestand());
     }
 
     public void artikelEntfernen(String artikelname, int anzahl) {
@@ -39,7 +37,6 @@ public class Warenkorb {
         } else {
             warenkorb.remove(artikelname);
         }
-   //     Rechnung.gesamtpreisVerringern(vorhandenerArtikel.getPreis() * anzahl);
     }
 
     public void warenkorbLeeren(){
