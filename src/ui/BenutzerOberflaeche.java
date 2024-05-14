@@ -229,8 +229,9 @@ public class BenutzerOberflaeche {
                         artikelname = liesEingabe();
                         Artikel artikel = SV.holeArtikel(artikelname);
                         System.out.print("Anzahl  > ");
-                        anzahl = Integer.parseInt(liesEingabe()); //Fehlerbehandlung notwendig
+                        anzahl = Integer.parseInt(liesEingabe());
                         artikel.bestandErhoehen(anzahl);
+                        SV.EreignisBestandErheoht(artikelname, anzahl);
                         System.out.println("Bestand erhöht");
                         break;
                     case "4":

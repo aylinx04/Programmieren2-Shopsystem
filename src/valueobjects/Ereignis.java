@@ -6,7 +6,7 @@ public class Ereignis {
     private LocalDate datum;
     private String status;
 
-    public Ereignis(){
+    public Ereignis(String status){
         this.datum = datum;
         this.status = status;
     }

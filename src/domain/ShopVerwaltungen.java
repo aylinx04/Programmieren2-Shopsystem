@@ -29,6 +29,7 @@ public class ShopVerwaltungen {
         for (Artikel artikel : inhalt.values()) {
             rechnung.gesamtpreisErhoehen(artikel.getPreis() * artikel.getBestand());
         }
+        Ereignis ereignis = new Ereignis("Kunde: " + eingeloggt.getName() + "Der Einkauf: " + inhalt);
 
         return rechnung;
     }
@@ -95,7 +96,12 @@ public class ShopVerwaltungen {
     }
 
     public void artikelAnlegen(String name, double preis, int bestand){
-         ArtikelListe.add(new Artikel(name, ArtikelListe.size()+1, preis, bestand));
+        Artikel a = new Artikel(name, ArtikelListe.size()+1, preis, bestand);
+         ArtikelListe.add(a);
+         Ereignis ereignis = new Ereignis("Mitarbeiter: " + eing.getName() + "\nHinzugefügter Artikel: " + a);
+    }
+    public void EreignisBestandErheoht(String artikelname, int anzahl){
+        Ereignis ereignis = new Ereignis("Mitarbeiter: " + eing.getName() + "Artikel: " + artikelname + "Erhöhter Bestand: " + anzahl);
     }
 
     public void mitarbeiterAnlegen(String name, String passwort) {

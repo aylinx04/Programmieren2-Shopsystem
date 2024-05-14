@@ -16,8 +16,6 @@ public class Rechnung {
 
     public void gesamtpreisErhoehen(double preis) { gesamtpreis += preis; }
 
-    public void gesamtpreisVerringern(double preis) { gesamtpreis -= preis; }
-
     public String toString() {
         return datum + "\nKunde: " + kunde + "\nGesamtpreis " + gesamtpreis + "€";
     }

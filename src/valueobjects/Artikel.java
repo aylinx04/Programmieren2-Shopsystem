@@ -27,9 +27,7 @@ public class Artikel {
 
     public int getBestand() { return bestand; }
 
-    public void bestandErhoehen(int anzahl) {
-        this.bestand += anzahl;
-    }
+    public void bestandErhoehen(int anzahl) { this.bestand += anzahl; }
 
     public void bestandVerringern(int anzahl){
         this.bestand -= anzahl;
