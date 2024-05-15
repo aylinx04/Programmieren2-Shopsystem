@@ -14,7 +14,7 @@ public class ShopVerwaltungen {
     Kunde eingeloggt;
     Mitarbeiter eing;
     private Warenkorb warenkorb = new Warenkorb();
-    public Ereignisliste ereignisliste = new Ereignisliste();
+    private Ereignisliste ereignisliste = new Ereignisliste();
 
     public Warenkorb getWarenkorb() {
         return warenkorb;

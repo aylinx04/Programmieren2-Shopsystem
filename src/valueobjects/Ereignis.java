@@ -10,10 +10,6 @@ public class Ereignis {
         this.status = status;
     }
 
-    public LocalDate getDatum() {
-        return datum;
-    }
-
     @Override
     public String toString() {
         return "Ereignis: " + datum + "\n" + status;
