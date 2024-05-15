@@ -115,7 +115,7 @@ public class BenutzerOberflaeche {
         }
     }
 
-    private void MAanlegen(String passwort, String passwort2, String name) throws IOException {
+    private void MAanlegen(String passwort, String passwort2, String name) {
         boolean erfolg = SV.checkPasswort(passwort, passwort2);
         if (erfolg) {
             SV.mitarbeiterAnlegen(name, passwort);

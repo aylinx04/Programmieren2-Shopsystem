@@ -102,8 +102,8 @@ public class ShopVerwaltungen {
 
     public void artikelAnlegen(String name, double preis, int bestand){
         Artikel a = new Artikel(name, ArtikelListe.size()+1, preis, bestand);
-         ArtikelListe.add(a);
-         Ereignis ereignis = new Ereignis("Mitarbeiter: " + eing.getName() + "\nHinzugefügter Artikel: " + a);
+        ArtikelListe.add(a);
+        Ereignis ereignis = new Ereignis("Mitarbeiter: " + eing.getName() + "\nHinzugefügter Artikel: " + a);
         ereignisliste.ereignisHinzufuegen(ereignis);
     }
     public void ereignisBestandErhoeht(String artikelname, int anzahl){
