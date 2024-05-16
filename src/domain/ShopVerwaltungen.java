@@ -1,5 +1,6 @@
 package src.domain;
 
+import src.domain.exceptions.ArtikelNichtGefundenException;
 import src.valueobjects.*;
 
 import java.util.ArrayList;
@@ -74,26 +75,17 @@ public class ShopVerwaltungen {
         return passwort.equals(passwort2);
     }
 
-    public Artikel holeArtikel(String name){
+    public Artikel holeArtikel(String name) throws ArtikelNichtGefundenException {
         for (Artikel a : getArtikelListe()){
             if(a.getName().equals(name)){
                 return a;
             }
         }
-        return null;
+        throw new ArtikelNichtGefundenException(name);
     }
 
     public boolean checkBestand(int anzahl, Artikel a){
         return a.getBestand() >= anzahl;
-    }
-
-    public boolean checkObEsDenArtikelGibt(String name){
-        for (Artikel a : getArtikelListe()){
-            if(a.getName().equals(name)){
-                return true;
-            }
-        }
-        return false;
     }
 
     public void kundeAnlegen(String name, String passwort, String strasse, String plz, String wohnort){

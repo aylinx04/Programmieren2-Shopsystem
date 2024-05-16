@@ -1,6 +1,7 @@
 package src.ui;
 
 import src.domain.ShopVerwaltungen;
+import src.domain.exceptions.ArtikelNichtGefundenException;
 import src.valueobjects.Artikel;
 import src.valueobjects.Ereignis;
 import src.valueobjects.Rechnung;
@@ -14,8 +15,7 @@ import java.util.*;
 public class BenutzerOberflaeche {
 
     private ShopVerwaltungen SV = new ShopVerwaltungen();
-
-    private static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
     public static void main(String[] args) {
         BenutzerOberflaeche cui = new BenutzerOberflaeche();
@@ -105,7 +105,7 @@ public class BenutzerOberflaeche {
         }
     }
 
-    private void registrieren(String passwort, String passwort2, String name, String strasse, String plz, String wohnort) throws IOException {
+    private void registrieren(String passwort, String passwort2, String name, String strasse, String plz, String wohnort) {
         boolean erfolg = SV.checkPasswort(passwort, passwort2);
         if (erfolg) {
             SV.kundeAnlegen(name, passwort, strasse, plz, wohnort);
@@ -126,22 +126,21 @@ public class BenutzerOberflaeche {
     }
 
     private void hinzufuegenWarenkorb(String artikelname, int anzahl) {
-        if (SV.checkObEsDenArtikelGibt(artikelname)) {
+        try {
             Artikel a = SV.holeArtikel(artikelname);
             boolean erfolg = SV.checkBestand(anzahl, a);
             if (erfolg) {
                 a.bestandVerringern(anzahl);
                 Artikel wkArtikel = new Artikel(a.getName(), a.getNummer(), a.getPreis(), anzahl);
-
                 Warenkorb w = SV.getWarenkorb();
                 w.artikelHinzufuegen(wkArtikel);
-
                 System.out.println("Artikel hinzugefügt: " + wkArtikel);
             } else {
                 System.err.println("Bestand nicht vorhanden!");
             }
-        } else {
-            System.err.println("Artikel nicht gefunden!");
+        } catch (ArtikelNichtGefundenException e) {
+            System.out.println("Fehler beim Hinzufügen");
+            e.printStackTrace();
         }
     }
 
@@ -163,7 +162,7 @@ public class BenutzerOberflaeche {
 
     private void einloggenKunde() throws IOException {
             System.out.println("Erfolgreich angemeldet!");
-            String optionK = "";
+            String option = "";
             do {
                 System.out.println("\nKunden Optionen:                        ");
                 System.out.println("Artikelliste ansehen:                  '1'");
@@ -172,8 +171,8 @@ public class BenutzerOberflaeche {
                 System.out.println("Ausloggen:                             'q'");
                 System.out.print("> ");
                 System.out.flush();
-                optionK = liesEingabe();
-                switch (optionK) {
+                option = liesEingabe();
+                switch (option) {
                     case "1":
                         artikelListeAnzeigen();
                         break;
@@ -186,12 +185,12 @@ public class BenutzerOberflaeche {
                     default:
                         System.err.println("Ungültige Eingabe!");
                 }
-            } while (!optionK.equals("q")) ;
+            } while (!option.equals("q")) ;
     }
 
     private void einloggenMitarbeiter() throws IOException, NumberFormatException {
             System.out.println("Erfolgreich angemeldet!");
-            String optionM = "";
+            String option = "";
             do {
                 System.out.println("\nMitarbeiter Optionen:                   ");
                 System.out.println("Artikelliste anzeigen:                 '1'");
@@ -203,7 +202,7 @@ public class BenutzerOberflaeche {
                 System.out.println("Ausloggen:                             'q'");
                 System.out.print("> ");
                 System.out.flush();
-                optionM = liesEingabe();
+                option = liesEingabe();
                 String artikelname;
                 double preis;
                 int bestand;
@@ -212,7 +211,7 @@ public class BenutzerOberflaeche {
                 String passwort1;
                 String passwort2;
 
-                switch (optionM) {
+                switch (option) {
                     case "1":
                         artikelListeAnzeigen();
                         break;
@@ -222,19 +221,24 @@ public class BenutzerOberflaeche {
                         System.out.print("Preis  > ");
                         preis = Double.parseDouble(liesEingabe());
                         System.out.print("Bestand  > ");
-                        bestand = Integer.parseInt(liesEingabe()); //Fehlerbehandlung notwendig
+                        bestand = Integer.parseInt(liesEingabe());
                         SV.artikelAnlegen(artikelname, preis, bestand);
                         System.out.println("Neuer Artikel angelegt: " + SV.getArtikelListe().get(SV.getArtikelListe().size() - 1));
                         break;
                     case "3":
                         System.out.print("Artikelname  > ");
                         artikelname = liesEingabe();
-                        Artikel artikel = SV.holeArtikel(artikelname);
-                        System.out.print("Anzahl  > ");
-                        anzahl = Integer.parseInt(liesEingabe());
-                        artikel.bestandErhoehen(anzahl);
-                        SV.ereignisBestandErhoeht(artikelname, anzahl);
-                        System.out.println("Bestand erhöht");
+                        try {
+                            Artikel artikel = SV.holeArtikel(artikelname);
+                            System.out.print("Anzahl  > ");
+                            anzahl = Integer.parseInt(liesEingabe());
+                            artikel.bestandErhoehen(anzahl);
+                            SV.ereignisBestandErhoeht(artikelname, anzahl);
+                            System.out.println("Bestand erhöht");
+                        } catch (ArtikelNichtGefundenException e) {
+                            System.out.println("Fehler beim Bestand erhöhen");
+                            e.printStackTrace();
+                        }
                         break;
                     case "4":
                         System.out.print("Name  > ");
@@ -257,13 +261,13 @@ public class BenutzerOberflaeche {
                     default:
                         System.err.println("Ungültige Eingabe!");
                 }
-            } while (!optionM.equals("q"));
+            } while (!option.equals("q"));
     }
 
     private void artikelListeAnzeigen () throws IOException{
         List<Artikel> artikelListe = SV.getArtikelListe();
 
-        String optionA = "";
+        String option = "";
         do {
             System.out.println("\nSortieren nach:                          ");
             System.out.println("Von A-Z:                                '1'");
@@ -272,15 +276,15 @@ public class BenutzerOberflaeche {
             System.out.println("Artikelnummer absteigend:               '4'");
             System.out.println("Preis aufsteigend:                      '5'");
             System.out.println("Preis absteigend:                       '6'");
-            System.out.println("Bestand absteigend:                     '7'");
+            System.out.println("Bestand aufsteigend:                    '7'");
             System.out.println("Bestand absteigend:                     '8'");
             System.out.println("-------------------------------------------");
             System.out.println("Beenden:                                'q'");
             System.out.print("> ");
             System.out.flush();
-            optionA = liesEingabe();
+            option = liesEingabe();
 
-            switch (optionA) {
+            switch (option) {
                 case "1":
                     Collections.sort(artikelListe, Comparator.comparing(Artikel::getName));
                     artikelListe.forEach(System.out::println);
@@ -322,7 +326,7 @@ public class BenutzerOberflaeche {
                 default:
                     System.err.println("Ungültige Eingabe!");
             }
-        } while (!optionA.equals("q"));
+        } while (!option.equals("q"));
     }
 
     private void warenkorbAnzeigen() throws IOException, NumberFormatException {
@@ -334,7 +338,7 @@ public class BenutzerOberflaeche {
         for (Artikel a : warenkorb.values()){
             System.out.println(a);
         }
-        String optionW = "";
+        String option = "";
         do {
             System.out.println("\nOptionen in deinem Warenkorb:           ");
             System.out.println("Warenkorb ansehen:                     '0'");
@@ -346,10 +350,10 @@ public class BenutzerOberflaeche {
             System.out.println("Beenden:                               'q'");
             System.out.print("> ");
             System.out.flush();
-            optionW = liesEingabe();
+            option = liesEingabe();
             String artikelname;
             int anzahl;
-            switch (optionW) {
+            switch (option) {
                 case "0":
                     System.out.println("Dein Warenkorb: ");
                     for (Artikel a : warenkorb.values()){
@@ -381,15 +385,11 @@ public class BenutzerOberflaeche {
                         String eingabe = liesEingabe();
                         if (eingabe.equals("1")) {
                             System.out.println("Dein Einkauf: ");
-
                             Rechnung rechnung = SV.erzeugeRechnung();
                             System.out.println(rechnung);
-
                             for (Artikel a : warenkorb.values()){
                                 System.out.println(a);
                             }
-
-
                             WK.warenkorbLeeren();
                         } else if (eingabe.equals("2")) {
                             System.err.println("Vorgang wurde Abgebrochen!");
@@ -405,6 +405,6 @@ public class BenutzerOberflaeche {
                 default:
                     System.err.println("Ungültige Eingabe!");
             }
-        } while (!optionW.equals("q"));
+        } while (!option.equals("q"));
     }
 }
