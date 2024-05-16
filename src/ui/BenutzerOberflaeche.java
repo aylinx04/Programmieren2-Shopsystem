@@ -219,11 +219,21 @@ public class BenutzerOberflaeche {
                         System.out.print("Artikelname  > ");
                         artikelname = liesEingabe();
                         System.out.print("Preis  > ");
-                        preis = Double.parseDouble(liesEingabe());
-                        System.out.print("Bestand  > ");
-                        bestand = Integer.parseInt(liesEingabe());
-                        SV.artikelAnlegen(artikelname, preis, bestand);
-                        System.out.println("Neuer Artikel angelegt: " + SV.getArtikelListe().get(SV.getArtikelListe().size() - 1));
+                        try {
+                            preis = Double.parseDouble(liesEingabe());
+                            System.out.print("Bestand  > ");
+                            try {
+                                bestand = Integer.parseInt(liesEingabe());
+                                SV.artikelAnlegen(artikelname, preis, bestand);
+                                System.out.println("Neuer Artikel angelegt: " + SV.getArtikelListe().get(SV.getArtikelListe().size() - 1));
+                            } catch (NumberFormatException e) {
+                                System.err.println("Eingabe muss eine Zahl sein!");
+                                e.printStackTrace();
+                            }
+                        } catch (NumberFormatException e) {
+                            System.err.println("Eingabe muss eine Zahl sein!");
+                            e.printStackTrace();
+                        }
                         break;
                     case "3":
                         System.out.print("Artikelname  > ");
@@ -231,10 +241,15 @@ public class BenutzerOberflaeche {
                         try {
                             Artikel artikel = SV.holeArtikel(artikelname);
                             System.out.print("Anzahl  > ");
-                            anzahl = Integer.parseInt(liesEingabe());
-                            artikel.bestandErhoehen(anzahl);
-                            SV.ereignisBestandErhoeht(artikelname, anzahl);
-                            System.out.println("Bestand erhöht");
+                            try {
+                                anzahl = Integer.parseInt(liesEingabe());
+                                artikel.bestandErhoehen(anzahl);
+                                SV.ereignisBestandErhoeht(artikelname, anzahl);
+                                System.out.println("Bestand erhöht");
+                            } catch (NumberFormatException e) {
+                                System.err.println("Eingabe muss eine Zahl sein!");
+                                e.printStackTrace();
+                            }
                         } catch (ArtikelNichtGefundenException e) {
                             System.out.println("Fehler beim Bestand erhöhen");
                             e.printStackTrace();
@@ -365,8 +380,13 @@ public class BenutzerOberflaeche {
                     System.out.print("Artikelname  > ");
                     artikelname = liesEingabe();
                     System.out.print("Anzahl  > ");
-                    anzahl = Integer.parseInt(liesEingabe());
-                    hinzufuegenWarenkorb(artikelname, anzahl);
+                    try {
+                        anzahl = Integer.parseInt(liesEingabe());
+                        hinzufuegenWarenkorb(artikelname, anzahl);
+                    } catch (NumberFormatException e) {
+                        System.err.println("Eingabe muss eine Zahl sein!");
+                        e.printStackTrace();
+                    }
                     break;
                 case "2":
                     System.out.print("Artikelname  > ");
