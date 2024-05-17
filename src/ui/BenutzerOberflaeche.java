@@ -14,12 +14,22 @@ import java.util.*;
 
 public class BenutzerOberflaeche {
 
-    private ShopVerwaltungen SV = new ShopVerwaltungen();
-    private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    private ShopVerwaltungen SV;
+    private BufferedReader in;
+
+    public BenutzerOberflaeche(String datei) throws IOException {
+        SV = new ShopVerwaltungen(datei);
+        in = new BufferedReader(new InputStreamReader(System.in));
+    }
 
     public static void main(String[] args) {
-        BenutzerOberflaeche cui = new BenutzerOberflaeche();
-        cui.run();
+        try {
+            BenutzerOberflaeche cui = new BenutzerOberflaeche("Shop");
+            cui.run();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public void run() {
@@ -222,14 +232,9 @@ public class BenutzerOberflaeche {
                         try {
                             preis = Double.parseDouble(liesEingabe());
                             System.out.print("Bestand  > ");
-                            try {
-                                bestand = Integer.parseInt(liesEingabe());
-                                SV.artikelAnlegen(artikelname, preis, bestand);
-                                System.out.println("Neuer Artikel angelegt: " + SV.getArtikelListe().get(SV.getArtikelListe().size() - 1));
-                            } catch (NumberFormatException e) {
-                                System.err.println("Eingabe muss eine Zahl sein!");
-                                e.printStackTrace();
-                            }
+                            bestand = Integer.parseInt(liesEingabe());
+                            SV.artikelAnlegen(artikelname, preis, bestand);
+                            System.out.println("Neuer Artikel angelegt: " + SV.gibAlleArtikel().get(SV.gibAlleArtikel().size() - 1));
                         } catch (NumberFormatException e) {
                             System.err.println("Eingabe muss eine Zahl sein!");
                             e.printStackTrace();
@@ -280,7 +285,7 @@ public class BenutzerOberflaeche {
     }
 
     private void artikelListeAnzeigen () throws IOException{
-        List<Artikel> artikelListe = SV.getArtikelListe();
+        List<Artikel> artikelListe = SV.gibAlleArtikel();
 
         String option = "";
         do {

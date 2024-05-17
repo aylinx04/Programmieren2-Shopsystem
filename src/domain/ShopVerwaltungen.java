@@ -3,24 +3,25 @@ package src.domain;
 import src.domain.exceptions.ArtikelNichtGefundenException;
 import src.valueobjects.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 
 public class ShopVerwaltungen {
-    List<Artikel> ArtikelListe = new ArrayList<>();
     List<Kunde> KundenListe = new ArrayList<>();
     List<Mitarbeiter> MitarbeiterListe = new ArrayList<>();
     Kunde eingeloggt;
     Mitarbeiter eing;
     private Warenkorb warenkorb = new Warenkorb();
     private Ereignisliste ereignisliste = new Ereignisliste();
+    private String datei;
+    private ArtikelVerwaltung dieArtikel;
 
     public Warenkorb getWarenkorb() {
         return warenkorb;
     }
-
 
     public Rechnung erzeugeRechnung() {
         Rechnung rechnung = new Rechnung(eingeloggt);
@@ -40,20 +41,17 @@ public class ShopVerwaltungen {
         return ereignisliste.getEreignisListe();
     }
 
-
-    public ShopVerwaltungen (){
-        ArtikelListe.add(new Artikel("Tomate", 1, 4.99, 28));
-        ArtikelListe.add(new Artikel("Gurke", 2,3.59, 17));
-        ArtikelListe.add(new Artikel("Reis", 3, 2, 12));
-        ArtikelListe.add(new Artikel("Salat", 4,0.99, 6));
-        ArtikelListe.add(new Artikel("Fanta", 5, 4, 15));
-        KundenListe.add(new Kunde("Peter", 1, "geheim", "Lindenalle 22", "87687", "Bremen"));
-        MitarbeiterListe.add(new Mitarbeiter("Helga",6,"auchgeheim"));
+    public List<Artikel> gibAlleArtikel() {
+        return dieArtikel.getArtikelListe();
     }
 
-    public List<Artikel> getArtikelListe(){
-         return ArtikelListe;
-     }
+    public ShopVerwaltungen (String datei) throws IOException {
+        KundenListe.add(new Kunde("Peter", 1, "geheim", "Lindenalle 22", "87687", "Bremen"));
+        MitarbeiterListe.add(new Mitarbeiter("Helga",6,"auchgeheim"));
+        this.datei = datei;
+        dieArtikel = new ArtikelVerwaltung();
+        dieArtikel.liesDaten(datei+"_A.txt");
+    }
 
     public int checkLogin(String name, String passwort) {
         for (Kunde u : KundenListe) {
@@ -76,7 +74,7 @@ public class ShopVerwaltungen {
     }
 
     public Artikel holeArtikel(String name) throws ArtikelNichtGefundenException {
-        for (Artikel a : getArtikelListe()){
+        for (Artikel a : gibAlleArtikel()){
             if(a.getName().equals(name)){
                 return a;
             }
@@ -93,8 +91,8 @@ public class ShopVerwaltungen {
     }
 
     public void artikelAnlegen(String name, double preis, int bestand){
-        Artikel a = new Artikel(name, ArtikelListe.size()+1, preis, bestand);
-        ArtikelListe.add(a);
+        Artikel a = new Artikel(name, gibAlleArtikel().size()+1, preis, bestand);
+        gibAlleArtikel().add(a);
         Ereignis ereignis = new Ereignis("Mitarbeiter: " + eing.getName() + "\nHinzugefügter Artikel: " + a);
         ereignisliste.ereignisHinzufuegen(ereignis);
     }
