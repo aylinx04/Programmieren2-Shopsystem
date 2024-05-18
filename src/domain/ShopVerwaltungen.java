@@ -1,5 +1,6 @@
 package src.domain;
 
+import src.domain.exceptions.ArtikelExistiertBereitsException;
 import src.domain.exceptions.ArtikelNichtGefundenException;
 import src.valueobjects.*;
 
@@ -50,12 +51,12 @@ public class ShopVerwaltungen {
 
     public ShopVerwaltungen (String datei) throws IOException {
         KundenListe.add(new Kunde("Peter", 1, "geheim", "Lindenalle 22", "87687", "Bremen"));
-//        MitarbeiterListe.add(new Mitarbeiter("Helga",6,"auchgeheim"));
+
         this.datei = datei;
         dieArtikel = new ArtikelVerwaltung();
         dieArtikel.liesDaten(datei+"_A.txt");
         MA = new MitarbeiterVerwaltung();
-        MA.liesDaten(datei+"_B.txt");
+        MA.liesDaten(datei+"_M.txt");
     }
 
     public int checkLogin(String name, String passwort) {
@@ -65,7 +66,7 @@ public class ShopVerwaltungen {
                 return 1;
             }
         }
-        for (Mitarbeiter m : MA.MitarbeiterListe) {
+        for (Mitarbeiter m : MA.mitarbeiterListe) {
             if (m.getName().equals(name) && m.getPasswort().equals(passwort)) {
                 eing = m;
                 return 2;
@@ -87,6 +88,14 @@ public class ShopVerwaltungen {
         throw new ArtikelNichtGefundenException(name);
     }
 
+    public void artikelZurueck(String name, int anzahl) {
+        for (Artikel a : gibAlleArtikel()){
+            if(a.getName().equals(name)){
+                a.bestandErhoehen(anzahl);
+            }
+        }
+    }
+
     public boolean checkBestand(int anzahl, Artikel a){
         return a.getBestand() >= anzahl;
     }
@@ -95,27 +104,34 @@ public class ShopVerwaltungen {
         KundenListe.add(new Kunde(name, KundenListe.size()+1, passwort, strasse, plz, wohnort));
     }
 
-    public void artikelAnlegen(String name, double preis, int bestand) throws IOException {
+    public Artikel artikelAnlegen(String name, double preis, int bestand) throws ArtikelExistiertBereitsException {
+        if (dieArtikel.sucheArtikel(name) != null) {
+            throw new ArtikelExistiertBereitsException(name);
+        }
         Artikel a = new Artikel(name, gibAlleArtikel().size()+1, preis, bestand);
         gibAlleArtikel().add(a);
-        dieArtikel.schreibeDaten("Shop_A.txt");
         Ereignis ereignis = new Ereignis("Mitarbeiter: " + eing.getName() + "\nHinzugefügter Artikel: " + a);
         ereignisliste.ereignisHinzufuegen(ereignis);
+        return a;
     }
+
     public void ereignisBestandErhoeht(String artikelname, int anzahl){
         Ereignis ereignis = new Ereignis("Mitarbeiter: " + eing.getName() + "\nArtikel: " + artikelname + "\nErhöhter Bestand: " + anzahl);
         ereignisliste.ereignisHinzufuegen(ereignis);
     }
 
-    public void mitarbeiterAnlegen(String name, String passwort) throws IOException {
+    public void mitarbeiterAnlegen(String name, String passwort) {
         int mitarbeiterNummer = gibAlleMitarbeiter().size() + 1; // Aktuelle Anzahl der Mitarbeiter + 1
-        MA.MitarbeiterListe.add(new Mitarbeiter(name, mitarbeiterNummer, passwort));
-        MA.schreibeDaten("Shop_B.txt");
+        MA.mitarbeiterListe.add(new Mitarbeiter(name, mitarbeiterNummer, passwort));
         Ereignis ereignis = new Ereignis("Mitarbeiter: " + name + "\nHinzugefügter Mitarbeiter: " + name);
         ereignisliste.ereignisHinzufuegen(ereignis);
     }
 
-    public void schreibeDaten(String datei) throws IOException {
+    public void schreibeArtikelDaten(String datei) throws IOException {
         dieArtikel.schreibeDaten(datei);
+    }
+
+    public void schreibeMitarbeiterDaten(String datei) throws IOException {
+        MA.schreibeDaten(datei);
     }
 }

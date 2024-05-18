@@ -6,6 +6,7 @@ import src.valueobjects.Artikel;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -23,5 +24,16 @@ public class ArtikelVerwaltung {
 
     public List<Artikel> getArtikelListe() {
         return artikelListe;
+    }
+
+    public Artikel sucheArtikel(String name) {
+        Iterator it = artikelListe.iterator();
+        while (it.hasNext()) {
+            Artikel artikel = (Artikel) it.next();
+            if (artikel.getName().equals(name)) {
+                 return artikel;
+            }
+        }
+        return null;
     }
 }

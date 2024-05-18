@@ -51,13 +51,13 @@ public class FilePersistenceManager implements PersistenceManager{
         return new Artikel(name, nummer, preis, bestand);
     }
 
-    private boolean speicherArtikel(Artikel a) throws IOException {
+    private void speicherArtikel(Artikel a) {
         schreibeZeile(a.getName());
         schreibeZeile(String.valueOf(a.getNummer()));
         schreibeZeile(String.valueOf(a.getPreis()));
         schreibeZeile(String.valueOf(a.getBestand()));
-        return true;
     }
+
     public List<Mitarbeiter> leseMitarbeiterListe(String datei) throws IOException{
         reader = new BufferedReader(new FileReader(datei));
         List<Mitarbeiter> mitarbeiterHinzu = new ArrayList<>();
@@ -70,6 +70,7 @@ public class FilePersistenceManager implements PersistenceManager{
         } while (einMitarbeiter != null);
         return mitarbeiterHinzu;
     }
+
     public void schreibeMitarbeiterListe(List<Mitarbeiter> MitarbeiterListe, String datei) throws IOException{
         writer = new PrintWriter(new BufferedWriter(new FileWriter(datei)));
 
@@ -78,6 +79,7 @@ public class FilePersistenceManager implements PersistenceManager{
 
         writer.close();
     }
+
     private Mitarbeiter ladeMitarbeiter() throws IOException{
         String name = liesZeile();
         if (name == null) {
@@ -88,13 +90,11 @@ public class FilePersistenceManager implements PersistenceManager{
         return new Mitarbeiter(name, nummer, passwort);
     }
 
-    public boolean speicherMitarbeiter(Mitarbeiter m) throws IOException {
+    public void speicherMitarbeiter(Mitarbeiter m) {
         schreibeZeile(m.getName());
         schreibeZeile(String.valueOf(m.getNummer()));
         schreibeZeile(m.getPasswort());
-        return true;
     }
-
 
     private String liesZeile() throws IOException {
         if (reader != null)

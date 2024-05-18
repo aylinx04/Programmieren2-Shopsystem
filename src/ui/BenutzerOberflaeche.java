@@ -1,6 +1,7 @@
 package src.ui;
 
 import src.domain.ShopVerwaltungen;
+import src.domain.exceptions.ArtikelExistiertBereitsException;
 import src.domain.exceptions.ArtikelNichtGefundenException;
 import src.valueobjects.Artikel;
 import src.valueobjects.Ereignis;
@@ -191,6 +192,7 @@ public class BenutzerOberflaeche {
                         break;
                     case "q":
                         System.out.println("Ausgeloggt");
+                        SV.schreibeArtikelDaten("Shop_A.txt");
                         break;
                     default:
                         System.err.println("Ungültige Eingabe!");
@@ -233,10 +235,13 @@ public class BenutzerOberflaeche {
                             preis = Double.parseDouble(liesEingabe());
                             System.out.print("Bestand  > ");
                             bestand = Integer.parseInt(liesEingabe());
-                            SV.artikelAnlegen(artikelname, preis, bestand);
-                            System.out.println("Neuer Artikel angelegt: " + SV.gibAlleArtikel().get(SV.gibAlleArtikel().size() - 1));
+                            Artikel a = SV.artikelAnlegen(artikelname, preis, bestand);
+                            System.out.println("Neuer Artikel angelegt: " + a);
                         } catch (NumberFormatException e) {
                             System.err.println("Eingabe muss eine Zahl sein!");
+                            e.printStackTrace();
+                        } catch (ArtikelExistiertBereitsException e) {
+                            System.out.println("Fehler beim Artikel anlegen");
                             e.printStackTrace();
                         }
                         break;
@@ -246,18 +251,16 @@ public class BenutzerOberflaeche {
                         try {
                             Artikel artikel = SV.holeArtikel(artikelname);
                             System.out.print("Anzahl  > ");
-                            try {
                                 anzahl = Integer.parseInt(liesEingabe());
                                 artikel.bestandErhoehen(anzahl);
                                 SV.ereignisBestandErhoeht(artikelname, anzahl);
-                                System.out.println("Bestand erhöht");
-                            } catch (NumberFormatException e) {
+                                System.out.println("Bestand von '" + artikelname + "' um " + anzahl + " erhöht.");
+                        } catch (NumberFormatException e) {
                                 System.err.println("Eingabe muss eine Zahl sein!");
                                 e.printStackTrace();
-                            }
                         } catch (ArtikelNichtGefundenException e) {
-                            System.out.println("Fehler beim Bestand erhöhen");
-                            e.printStackTrace();
+                                System.out.println("Fehler beim Bestand erhöhen");
+                                e.printStackTrace();
                         }
                         break;
                     case "4":
@@ -277,8 +280,8 @@ public class BenutzerOberflaeche {
                         }
                     case "q":
                         System.out.println("Ausgeloggt");
-                        SV.schreibeDaten("Shop_A.txt");
-                        SV.schreibeDaten("Shop_B.txt");
+                        SV.schreibeArtikelDaten("Shop_A.txt");
+                        SV.schreibeMitarbeiterDaten("Shop_M.txt");
                         break;
                     default:
                         System.err.println("Ungültige Eingabe!");
@@ -401,6 +404,7 @@ public class BenutzerOberflaeche {
                     System.out.print("Anzahl  > ");
                     anzahl = Integer.parseInt(liesEingabe());
                     entfernenWarenkorb(artikelname, anzahl);
+                    SV.artikelZurueck(artikelname, anzahl);
                     break;
                 case "3":
                     if (warenkorb.isEmpty()){
@@ -424,6 +428,9 @@ public class BenutzerOberflaeche {
                     }
                     break;
                 case "4":
+                    for (Artikel a : warenkorb.values()){
+                        SV.artikelZurueck(a.getName(), a.getBestand());
+                    }
                     WK.warenkorbLeeren();
                     System.out.println("Warenkorb wurde geleert");
                     break;

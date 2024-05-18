@@ -9,15 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MitarbeiterVerwaltung {
-    List<Mitarbeiter> MitarbeiterListe = new ArrayList<>();
+    List<Mitarbeiter> mitarbeiterListe = new ArrayList<>();
     private PersistenceManager pm = new FilePersistenceManager();
+
     public void liesDaten(String datei) throws IOException {
-        MitarbeiterListe = pm.leseMitarbeiterListe(datei);
+        mitarbeiterListe = pm.leseMitarbeiterListe(datei);
     }
+
     public void schreibeDaten(String datei) throws IOException  {
-        pm.schreibeMitarbeiterListe(MitarbeiterListe, datei);
+        pm.schreibeMitarbeiterListe(mitarbeiterListe, datei);
     }
+
     public List<Mitarbeiter> getMitarbeiterListe() {
-        return MitarbeiterListe;
+        return mitarbeiterListe;
     }
 }
