@@ -125,7 +125,7 @@ public class BenutzerOberflaeche {
         }
     }
 
-    private void MAanlegen(String passwort, String passwort2, String name) {
+    private void MAanlegen(String passwort, String passwort2, String name) throws IOException {
         boolean erfolg = SV.checkPasswort(passwort, passwort2);
         if (erfolg) {
             SV.mitarbeiterAnlegen(name, passwort);
@@ -278,6 +278,7 @@ public class BenutzerOberflaeche {
                     case "q":
                         System.out.println("Ausgeloggt");
                         SV.schreibeDaten("Shop_A.txt");
+                        SV.schreibeDaten("Shop_B.txt");
                         break;
                     default:
                         System.err.println("Ungültige Eingabe!");

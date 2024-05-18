@@ -1,6 +1,7 @@
 package src.persistence;
 
 import src.valueobjects.Artikel;
+import src.valueobjects.Mitarbeiter;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -57,6 +58,43 @@ public class FilePersistenceManager implements PersistenceManager{
         schreibeZeile(String.valueOf(a.getBestand()));
         return true;
     }
+    public List<Mitarbeiter> leseMitarbeiterListe(String datei) throws IOException{
+        reader = new BufferedReader(new FileReader(datei));
+        List<Mitarbeiter> mitarbeiterHinzu = new ArrayList<>();
+        Mitarbeiter einMitarbeiter;
+        do {
+            einMitarbeiter = ladeMitarbeiter();
+            if (einMitarbeiter != null){
+                mitarbeiterHinzu.add(einMitarbeiter);
+            }
+        } while (einMitarbeiter != null);
+        return mitarbeiterHinzu;
+    }
+    public void schreibeMitarbeiterListe(List<Mitarbeiter> MitarbeiterListe, String datei) throws IOException{
+        writer = new PrintWriter(new BufferedWriter(new FileWriter(datei)));
+
+        for(Mitarbeiter m : MitarbeiterListe)
+            speicherMitarbeiter(m);
+
+        writer.close();
+    }
+    private Mitarbeiter ladeMitarbeiter() throws IOException{
+        String name = liesZeile();
+        if (name == null) {
+            return null;
+        }
+        int nummer = Integer.parseInt(liesZeile());
+        String passwort = liesZeile();
+        return new Mitarbeiter(name, nummer, passwort);
+    }
+
+    public boolean speicherMitarbeiter(Mitarbeiter m) throws IOException {
+        schreibeZeile(m.getName());
+        schreibeZeile(String.valueOf(m.getNummer()));
+        schreibeZeile(m.getPasswort());
+        return true;
+    }
+
 
     private String liesZeile() throws IOException {
         if (reader != null)

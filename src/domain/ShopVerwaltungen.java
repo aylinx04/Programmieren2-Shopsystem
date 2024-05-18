@@ -11,13 +11,13 @@ import java.util.Map;
 
 public class ShopVerwaltungen {
     List<Kunde> KundenListe = new ArrayList<>();
-    List<Mitarbeiter> MitarbeiterListe = new ArrayList<>();
     Kunde eingeloggt;
     Mitarbeiter eing;
     private Warenkorb warenkorb = new Warenkorb();
     private Ereignisliste ereignisliste = new Ereignisliste();
     private String datei;
     private ArtikelVerwaltung dieArtikel;
+    private MitarbeiterVerwaltung MA;
 
     public Warenkorb getWarenkorb() {
         return warenkorb;
@@ -44,13 +44,18 @@ public class ShopVerwaltungen {
     public List<Artikel> gibAlleArtikel() {
         return dieArtikel.getArtikelListe();
     }
+    public List<Mitarbeiter> gibAlleMitarbeiter(){
+        return MA.getMitarbeiterListe();
+    }
 
     public ShopVerwaltungen (String datei) throws IOException {
         KundenListe.add(new Kunde("Peter", 1, "geheim", "Lindenalle 22", "87687", "Bremen"));
-        MitarbeiterListe.add(new Mitarbeiter("Helga",6,"auchgeheim"));
+//        MitarbeiterListe.add(new Mitarbeiter("Helga",6,"auchgeheim"));
         this.datei = datei;
         dieArtikel = new ArtikelVerwaltung();
         dieArtikel.liesDaten(datei+"_A.txt");
+        MA = new MitarbeiterVerwaltung();
+        MA.liesDaten(datei+"_B.txt");
     }
 
     public int checkLogin(String name, String passwort) {
@@ -60,7 +65,7 @@ public class ShopVerwaltungen {
                 return 1;
             }
         }
-        for (Mitarbeiter m : MitarbeiterListe) {
+        for (Mitarbeiter m : MA.MitarbeiterListe) {
             if (m.getName().equals(name) && m.getPasswort().equals(passwort)) {
                 eing = m;
                 return 2;
@@ -102,9 +107,14 @@ public class ShopVerwaltungen {
         ereignisliste.ereignisHinzufuegen(ereignis);
     }
 
-    public void mitarbeiterAnlegen(String name, String passwort) {
-        MitarbeiterListe.add(new Mitarbeiter(name, MitarbeiterListe.size()+1, passwort));
+    public void mitarbeiterAnlegen(String name, String passwort) throws IOException {
+        int mitarbeiterNummer = gibAlleMitarbeiter().size() + 1; // Aktuelle Anzahl der Mitarbeiter + 1
+        MA.MitarbeiterListe.add(new Mitarbeiter(name, mitarbeiterNummer, passwort));
+        MA.schreibeDaten("Shop_B.txt");
+        Ereignis ereignis = new Ereignis("Mitarbeiter: " + name + "\nHinzugefügter Mitarbeiter: " + name);
+        ereignisliste.ereignisHinzufuegen(ereignis);
     }
+
     public void schreibeDaten(String datei) throws IOException {
         dieArtikel.schreibeDaten(datei);
     }

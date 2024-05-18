@@ -17,4 +17,8 @@ public class Mitarbeiter {
     }
 
     public String getPasswort() { return passwort; }
+
+    public int getNummer() {
+        return nummer;
+    }
 }
