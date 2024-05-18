@@ -90,9 +90,10 @@ public class ShopVerwaltungen {
         KundenListe.add(new Kunde(name, KundenListe.size()+1, passwort, strasse, plz, wohnort));
     }
 
-    public void artikelAnlegen(String name, double preis, int bestand){
+    public void artikelAnlegen(String name, double preis, int bestand) throws IOException {
         Artikel a = new Artikel(name, gibAlleArtikel().size()+1, preis, bestand);
         gibAlleArtikel().add(a);
+        dieArtikel.schreibeDaten("Shop_A.txt");
         Ereignis ereignis = new Ereignis("Mitarbeiter: " + eing.getName() + "\nHinzugefügter Artikel: " + a);
         ereignisliste.ereignisHinzufuegen(ereignis);
     }
@@ -103,5 +104,8 @@ public class ShopVerwaltungen {
 
     public void mitarbeiterAnlegen(String name, String passwort) {
         MitarbeiterListe.add(new Mitarbeiter(name, MitarbeiterListe.size()+1, passwort));
+    }
+    public void schreibeDaten(String datei) throws IOException {
+        dieArtikel.schreibeDaten(datei);
     }
 }

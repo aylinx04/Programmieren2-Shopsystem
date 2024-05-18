@@ -8,7 +8,7 @@ Gurke
 17
 Reis
 3
-2
+2.0
 12
 Salat
 4
@@ -16,5 +16,13 @@ Salat
 6
 Fanta
 5
-4
+4.0
 15
+Rukula
+6
+8.0
+15
+Erdbeere
+7
+4.99
+13
