@@ -123,7 +123,7 @@ public class ShopVerwaltungen {
     public void mitarbeiterAnlegen(String name, String passwort) {
         int mitarbeiterNummer = gibAlleMitarbeiter().size() + 1; // Aktuelle Anzahl der Mitarbeiter + 1
         MA.mitarbeiterListe.add(new Mitarbeiter(name, mitarbeiterNummer, passwort));
-        Ereignis ereignis = new Ereignis("Mitarbeiter: " + name + "\nHinzugefügter Mitarbeiter: " + name);
+        Ereignis ereignis = new Ereignis("Mitarbeiter: " + eing.getName() + "\nHinzugefügter Mitarbeiter: " + name);
         ereignisliste.ereignisHinzufuegen(ereignis);
     }
 

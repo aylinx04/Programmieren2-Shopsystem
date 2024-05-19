@@ -150,8 +150,7 @@ public class BenutzerOberflaeche {
                 System.err.println("Bestand nicht vorhanden!");
             }
         } catch (ArtikelNichtGefundenException e) {
-            System.out.println("Fehler beim Hinzufügen");
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 
@@ -239,10 +238,8 @@ public class BenutzerOberflaeche {
                             System.out.println("Neuer Artikel angelegt: " + a);
                         } catch (NumberFormatException e) {
                             System.err.println("Eingabe muss eine Zahl sein!");
-                            e.printStackTrace();
                         } catch (ArtikelExistiertBereitsException e) {
-                            System.out.println("Fehler beim Artikel anlegen");
-                            e.printStackTrace();
+                            System.err.println(e.getMessage());
                         }
                         break;
                     case "3":
@@ -257,10 +254,8 @@ public class BenutzerOberflaeche {
                                 System.out.println("Bestand von '" + artikelname + "' um " + anzahl + " erhöht.");
                         } catch (NumberFormatException e) {
                                 System.err.println("Eingabe muss eine Zahl sein!");
-                                e.printStackTrace();
                         } catch (ArtikelNichtGefundenException e) {
-                                System.out.println("Fehler beim Bestand erhöhen");
-                                e.printStackTrace();
+                                System.err.println(e.getMessage());
                         }
                         break;
                     case "4":
@@ -278,6 +273,7 @@ public class BenutzerOberflaeche {
                         for (Ereignis e : ereignisse) {
                             System.out.println(e);
                         }
+                        break;
                     case "q":
                         System.out.println("Ausgeloggt");
                         SV.schreibeArtikelDaten("Shop_A.txt");
@@ -395,7 +391,6 @@ public class BenutzerOberflaeche {
                         hinzufuegenWarenkorb(artikelname, anzahl);
                     } catch (NumberFormatException e) {
                         System.err.println("Eingabe muss eine Zahl sein!");
-                        e.printStackTrace();
                     }
                     break;
                 case "2":
