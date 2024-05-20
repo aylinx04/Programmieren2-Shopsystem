@@ -1,4 +1,6 @@
-package src.valueobjects;
+package src.domain;
+
+import src.valueobjects.Ereignis;
 
 import java.util.ArrayList;
 import java.util.List;

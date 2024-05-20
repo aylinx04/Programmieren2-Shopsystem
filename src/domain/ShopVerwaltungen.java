@@ -2,6 +2,7 @@ package src.domain;
 
 import src.domain.exceptions.ArtikelExistiertBereitsException;
 import src.domain.exceptions.ArtikelNichtGefundenException;
+import src.domain.exceptions.BestandNichtVorhandenException;
 import src.valueobjects.*;
 
 import java.io.IOException;
@@ -49,7 +50,7 @@ public class ShopVerwaltungen {
         return MA.getMitarbeiterListe();
     }
 
-    public ShopVerwaltungen (String datei) throws IOException {
+    public ShopVerwaltungen(String datei) throws IOException {
         KundenListe.add(new Kunde("Peter", 1, "geheim", "Lindenalle 22", "87687", "Bremen"));
 
         this.datei = datei;
@@ -96,8 +97,12 @@ public class ShopVerwaltungen {
         }
     }
 
-    public boolean checkBestand(int anzahl, Artikel a){
-        return a.getBestand() >= anzahl;
+    public void artikelBestandVerringern(int anzahl, Artikel a) throws BestandNichtVorhandenException {
+        if (a.getBestand() >= anzahl) {
+            a.bestandVerringern(anzahl);
+        } else {
+            throw new BestandNichtVorhandenException();
+        }
     }
 
     public void kundeAnlegen(String name, String passwort, String strasse, String plz, String wohnort){

@@ -3,6 +3,7 @@ package src.ui;
 import src.domain.ShopVerwaltungen;
 import src.domain.exceptions.ArtikelExistiertBereitsException;
 import src.domain.exceptions.ArtikelNichtGefundenException;
+import src.domain.exceptions.BestandNichtVorhandenException;
 import src.valueobjects.Artikel;
 import src.valueobjects.Ereignis;
 import src.valueobjects.Rechnung;
@@ -126,7 +127,7 @@ public class BenutzerOberflaeche {
         }
     }
 
-    private void MAanlegen(String passwort, String passwort2, String name) throws IOException {
+    private void MAanlegen(String passwort, String passwort2, String name) {
         boolean erfolg = SV.checkPasswort(passwort, passwort2);
         if (erfolg) {
             SV.mitarbeiterAnlegen(name, passwort);
@@ -139,17 +140,12 @@ public class BenutzerOberflaeche {
     private void hinzufuegenWarenkorb(String artikelname, int anzahl) {
         try {
             Artikel a = SV.holeArtikel(artikelname);
-            boolean erfolg = SV.checkBestand(anzahl, a);
-            if (erfolg) {
-                a.bestandVerringern(anzahl);
-                Artikel wkArtikel = new Artikel(a.getName(), a.getNummer(), a.getPreis(), anzahl);
-                Warenkorb w = SV.getWarenkorb();
-                w.artikelHinzufuegen(wkArtikel);
-                System.out.println("Artikel hinzugefügt: " + wkArtikel);
-            } else {
-                System.err.println("Bestand nicht vorhanden!");
-            }
-        } catch (ArtikelNichtGefundenException e) {
+            SV.artikelBestandVerringern(anzahl, a);
+            Artikel wkArtikel = new Artikel(a.getName(), a.getNummer(), a.getPreis(), anzahl);
+            Warenkorb w = SV.getWarenkorb();
+            w.artikelHinzufuegen(wkArtikel);
+            System.out.println("Artikel hinzugefügt: " + wkArtikel);
+        } catch (ArtikelNichtGefundenException | BestandNichtVorhandenException e) {
             System.err.println(e.getMessage());
         }
     }
