@@ -2,15 +2,15 @@ package src.valueobjects;
 
 public class Kunde {
     private String name;
-    private int kundenNr;
+    private int nummer;
+    private String passwort;
     private String strasse;
     private String plz;
     private String wohnort;
-    private String passwort;
 
-    public Kunde(String name, int nr,  String passwort, String strasse, String plz, String wohnort) {
+    public Kunde(String name, int nummer,  String passwort, String strasse, String plz, String wohnort) {
         this.name = name;
-        kundenNr = nr;
+        this.nummer = nummer;
         this.passwort = passwort;
         this.strasse = strasse;
         this.plz = plz;
@@ -21,8 +21,15 @@ public class Kunde {
         return name;
     }
 
-    public String getPasswort() {return passwort;
-    }
+    public int getNummer() {return nummer;}
+
+    public String getPasswort() {return passwort; }
+
+    public String getStrasse() { return strasse; }
+
+    public String getPlz() { return plz; }
+
+    public String getWohnort() { return wohnort; }
 
     public String toString() {
         return  name + "\n" + strasse + "\n" + plz + " " + wohnort;

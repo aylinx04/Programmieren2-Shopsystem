@@ -188,6 +188,7 @@ public class BenutzerOberflaeche {
                     case "q":
                         System.out.println("Ausgeloggt");
                         SV.schreibeArtikelDaten("Shop_A.txt");
+                        SV.schreibeKundenDaten("Shop_K.txt");
                         break;
                     default:
                         System.err.println("Ungültige Eingabe!");

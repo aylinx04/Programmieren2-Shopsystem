@@ -1,6 +1,7 @@
 package src.persistence;
 
 import src.valueobjects.Artikel;
+import src.valueobjects.Kunde;
 import src.valueobjects.Mitarbeiter;
 
 import java.io.*;
@@ -71,10 +72,10 @@ public class FilePersistenceManager implements PersistenceManager{
         return mitarbeiterHinzu;
     }
 
-    public void schreibeMitarbeiterListe(List<Mitarbeiter> MitarbeiterListe, String datei) throws IOException{
+    public void schreibeMitarbeiterListe(List<Mitarbeiter> mitarbeiterListe, String datei) throws IOException{
         writer = new PrintWriter(new BufferedWriter(new FileWriter(datei)));
 
-        for(Mitarbeiter m : MitarbeiterListe)
+        for(Mitarbeiter m : mitarbeiterListe)
             speicherMitarbeiter(m);
 
         writer.close();
@@ -94,6 +95,50 @@ public class FilePersistenceManager implements PersistenceManager{
         schreibeZeile(m.getName());
         schreibeZeile(String.valueOf(m.getNummer()));
         schreibeZeile(m.getPasswort());
+    }
+
+    public List<Kunde> leseKundenListe(String datei) throws IOException{
+        reader = new BufferedReader(new FileReader(datei));
+        List<Kunde> kundenListe = new ArrayList<>();
+        Kunde einKunde;
+        do {
+            einKunde = ladeKunde();
+            if (einKunde != null){
+                kundenListe.add(einKunde);
+            }
+        } while (einKunde != null);
+        return kundenListe;
+    }
+
+    public void schreibeKundenListe(List<Kunde> kundenListe, String datei) throws IOException{
+        writer = new PrintWriter(new BufferedWriter(new FileWriter(datei)));
+
+        for(Kunde k : kundenListe)
+            speicherKunde(k);
+
+        writer.close();
+    }
+
+    private Kunde ladeKunde() throws IOException{
+        String name = liesZeile();
+        if (name == null) {
+            return null;
+        }
+        int nummer = Integer.parseInt(liesZeile());
+        String passwort = liesZeile();
+        String strasse = liesZeile();
+        String plz = liesZeile();
+        String wohnort = liesZeile();
+        return new Kunde(name, nummer, passwort, strasse, plz, wohnort);
+    }
+
+    public void speicherKunde(Kunde k) {
+        schreibeZeile(k.getName());
+        schreibeZeile(String.valueOf(k.getNummer()));
+        schreibeZeile(k.getPasswort());
+        schreibeZeile(k.getStrasse());
+        schreibeZeile(k.getPlz());
+        schreibeZeile(k.getWohnort());
     }
 
     private String liesZeile() throws IOException {

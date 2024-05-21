@@ -7,7 +7,7 @@ import java.time.LocalDate;
 public class Rechnung {
     LocalDate datum = LocalDate.now();
     private double gesamtpreis;
-    Kunde kunde = null;
+    Kunde kunde;
 
     public Rechnung(Kunde kunde) {
         this.kunde = kunde;

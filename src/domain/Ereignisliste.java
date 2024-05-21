@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ereignisliste {
-    List<Ereignis> ereignisListe = new ArrayList<>();
+    private List<Ereignis> ereignisListe = new ArrayList<>();
 
     public List<Ereignis> getEreignisListe() {
         return ereignisListe;
