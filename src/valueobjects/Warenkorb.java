@@ -1,5 +1,8 @@
 package src.valueobjects;
 
+import src.domain.exceptions.ArtikelNichtGefundenException;
+import src.domain.exceptions.BestandNichtVorhandenException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,25 +11,19 @@ public class Warenkorb {
 
     public Map<String, Artikel> getWarenkorb() {return warenkorb;}
 
-    public boolean istArtikelImWarenkorb(String artikelName) {
-        return warenkorb.containsKey(artikelName);
-    }
-
-    public boolean checkAnzahlDesArtikels(int anzahl, String artikelName) {
+    public void istArtikelImWarenkorb(String artikelName) throws ArtikelNichtGefundenException {
         if (warenkorb.containsKey(artikelName)) {
-            Artikel artikel = warenkorb.get(artikelName);
-            return artikel.getBestand() >= anzahl;
         } else {
-            return false;
+            throw new ArtikelNichtGefundenException(artikelName);
         }
     }
 
-    public void artikelHinzufuegen(Artikel artikel){
-        if(warenkorb.containsKey(artikel.getName())){
-            Artikel vorhandenerArtikel = warenkorb.get(artikel.getName());
-            vorhandenerArtikel.setBestand(vorhandenerArtikel.getBestand() + artikel.getBestand());
-        }else{
-            warenkorb.put(artikel.getName(), artikel);
+    public void checkAnzahlDesArtikels(int anzahl, String artikelname) throws BestandNichtVorhandenException {
+        Artikel artikel = warenkorb.get(artikelname);
+        if (artikel.getBestand() >= anzahl) {
+            artikelEntfernen(artikelname, anzahl);
+        } else {
+            throw new BestandNichtVorhandenException();
         }
     }
 
@@ -36,6 +33,15 @@ public class Warenkorb {
             vorhandenerArtikel.setBestand(vorhandenerArtikel.getBestand() - anzahl);
         } else {
             warenkorb.remove(artikelname);
+        }
+    }
+
+    public void artikelHinzufuegen(Artikel artikel){
+        if(warenkorb.containsKey(artikel.getName())){
+            Artikel vorhandenerArtikel = warenkorb.get(artikel.getName());
+            vorhandenerArtikel.setBestand(vorhandenerArtikel.getBestand() + artikel.getBestand());
+        }else{
+            warenkorb.put(artikel.getName(), artikel);
         }
     }
 

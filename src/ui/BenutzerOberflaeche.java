@@ -153,16 +153,12 @@ public class BenutzerOberflaeche {
     private void entfernenWarenkorb(String artikelname, int anzahl) {
         Warenkorb WK = SV.getWarenkorb();
 
-        if (WK.istArtikelImWarenkorb(artikelname)) {
-            boolean erfolg = WK.checkAnzahlDesArtikels(anzahl, artikelname);
-            if (erfolg) {
-                WK.artikelEntfernen(artikelname, anzahl);
-                System.out.println("Der Artikel '" + artikelname + "' wurde erfolgreich entfernt.");
-            } else {
-                System.err.println("Anzahl nicht vorhanden!");
-            }
-        } else {
-            System.err.println("Es wurde kein Artikel mit dem Namen '" + artikelname + "' gefunden.");
+        try {
+            WK.istArtikelImWarenkorb(artikelname);
+            WK.checkAnzahlDesArtikels(anzahl, artikelname);
+            System.out.println("Der Artikel '" + artikelname + "' wurde erfolgreich " + anzahl + "x entfernt.");
+        } catch (ArtikelNichtGefundenException | BestandNichtVorhandenException e){
+            System.err.println(e.getMessage());
         }
     }
 
