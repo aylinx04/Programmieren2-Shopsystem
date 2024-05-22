@@ -6,6 +6,7 @@ import src.valueobjects.Kunde;
 import src.valueobjects.Mitarbeiter;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -176,15 +177,21 @@ public class FilePersistenceManager implements PersistenceManager{
     }
 
     private Ereignis ladeEreignis() throws IOException{
+        String datum = liesZeile();
+        String person = liesZeile();
         String status = liesZeile();
         if (status == null) {
             return null;
         }
+     //   StringList[] array = status.split("?");
 
-        return new Ereignis(status);
+        return new Ereignis(datum, person, status);
     }
 
     public void speicherEreignis(Ereignis e) {
-        schreibeZeile(e.toString());
+        schreibeZeile(String.valueOf(e.getDatum()));
+        schreibeZeile(e.getPerson());
+        schreibeZeile(e.getStatus());
+
     }
 }

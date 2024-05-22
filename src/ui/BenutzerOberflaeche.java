@@ -261,7 +261,13 @@ public class BenutzerOberflaeche {
                         break;
                     case "5":
                         System.out.println("Ereignisse: ");
-                        Collections.sort(SV.gebeEreignisListe(), Comparator.comparing(Ereignis :: getDatum));
+
+//                        for(Ereignis e : SV.gebeEreignisListe()) {
+//                            System.out.println(e);
+//                        }
+//                        System.out.println("----------------------------");
+
+                        Collections.sort(SV.gebeEreignisListe(), Comparator.comparing(Ereignis::getDatum));
                         SV.gebeEreignisListe().forEach(System.out::println);
                         break;
                     case "q":

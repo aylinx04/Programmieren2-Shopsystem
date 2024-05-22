@@ -6,6 +6,7 @@ import src.domain.exceptions.BestandNichtVorhandenException;
 import src.valueobjects.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ public class ShopVerwaltungen {
     private MitarbeiterVerwaltung mV;
     private KundenVerwaltung kV;
     private EreignisVerwaltung eV;
+    LocalDate date = LocalDate.now();
 
     public Warenkorb getWk() {
         return wk;
@@ -32,7 +34,7 @@ public class ShopVerwaltungen {
         for (Artikel artikel : inhalt.values()) {
             rechnung.gesamtpreisErhoehen(artikel.getPreis() * artikel.getBestand());
         }
-        Ereignis ereignis = new Ereignis("Kunde: " + eingeloggt.getName() + "\nDer Einkauf: " + inhalt.values());
+        Ereignis ereignis = new Ereignis(date.toString(),"Kunde: " + eingeloggt.getName(), "\nDer Einkauf: " + inhalt.values());
         eV.ereignisHinzufuegen(ereignis);
 
         return rechnung;
@@ -129,13 +131,13 @@ public class ShopVerwaltungen {
         }
         Artikel a = new Artikel(name, gibAlleArtikel().size()+1, preis, bestand);
         gibAlleArtikel().add(a);
-        Ereignis ereignis = new Ereignis("Mitarbeiter: " + eing.getName() + "\nHinzugefügter Artikel: " + a);
+        Ereignis ereignis = new Ereignis(date.toString(), "Mitarbeiter: " + eing.getName(), "\nHinzugefügter Artikel: " + a);
         eV.ereignisHinzufuegen(ereignis);
         return a;
     }
 
     public void ereignisBestandErhoeht(String artikelname, int anzahl){
-        Ereignis ereignis = new Ereignis("Mitarbeiter: " + eing.getName() + "\nArtikel: " + artikelname + "\nErhöhter Bestand: " + anzahl);
+        Ereignis ereignis = new Ereignis(date.toString(), "Mitarbeiter: " + eing.getName(), "\nArtikel: " + artikelname + "\nErhöhter Bestand: " + anzahl);
         eV.ereignisHinzufuegen(ereignis);
     }
 

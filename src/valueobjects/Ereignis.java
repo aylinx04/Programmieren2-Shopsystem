@@ -3,19 +3,25 @@ package src.valueobjects;
 import java.time.LocalDate;
 
 public class Ereignis {
-    LocalDate datum = LocalDate.now();
+    private String datum;
     private String status;
+    private String person;
 
-    public Ereignis(String status){
+    public Ereignis(String datum, String person, String status){
+        this.person = person;
         this.status = status;
+        this.datum = datum;
     }
 
-    @Override
-    public String toString() {
-        return "Ereignis: " + datum + "\n" + status;
-    }
-
-    public LocalDate getDatum() {
+    public String getDatum() {
         return datum;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getPerson() {
+        return person;
     }
 }
