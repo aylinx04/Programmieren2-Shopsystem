@@ -4,6 +4,7 @@ import src.domain.ShopVerwaltungen;
 import src.domain.exceptions.ArtikelExistiertBereitsException;
 import src.domain.exceptions.ArtikelNichtGefundenException;
 import src.domain.exceptions.BestandNichtVorhandenException;
+import src.domain.exceptions.LoginFehlgeschlagenException;
 import src.valueobjects.Artikel;
 import src.valueobjects.Ereignis;
 import src.valueobjects.Rechnung;
@@ -107,33 +108,35 @@ public class BenutzerOberflaeche {
     }
 
     private void einloggen(String name, String passwort) throws IOException {
-        int zahl = SV.checkLogin(name, passwort);
-        if(zahl == 1){
-            einloggenKunde();
-        } else if(zahl == 2){
-            einloggenMitarbeiter();
-        } else if (zahl == 0) {
-            System.err.println("Falsche Eingabe!");
+        try {
+            int zahl = SV.checkLogin(name, passwort);
+            if(zahl == 1){
+                einloggenKunde();
+            } else if(zahl == 2) {
+                einloggenMitarbeiter();
+            }
+        } catch (LoginFehlgeschlagenException e) {
+            System.err.println(e.getMessage());
         }
     }
 
     private void registrieren(String passwort, String passwort2, String name, String strasse, String plz, String wohnort) {
-        boolean erfolg = SV.checkPasswort(passwort, passwort2);
-        if (erfolg) {
+        try {
+            SV.checkPasswort(passwort, passwort2);
             SV.kundeAnlegen(name, passwort, strasse, plz, wohnort);
             System.out.println("Erfolgreich registriert!");
-        }else{
-            System.err.println("Passwörter stimmen nicht überein");
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 
     private void MAanlegen(String passwort, String passwort2, String name) {
-        boolean erfolg = SV.checkPasswort(passwort, passwort2);
-        if (erfolg) {
+        try {
+            SV.checkPasswort(passwort, passwort2);
             SV.mitarbeiterAnlegen(name, passwort);
             System.out.println("Erfolgreich registriert als Mitarbeiter!");
-        } else {
-            System.err.println("Passwörter stimmen nicht überein");
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 

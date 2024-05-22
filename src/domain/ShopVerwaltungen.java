@@ -1,8 +1,6 @@
 package src.domain;
 
-import src.domain.exceptions.ArtikelExistiertBereitsException;
-import src.domain.exceptions.ArtikelNichtGefundenException;
-import src.domain.exceptions.BestandNichtVorhandenException;
+import src.domain.exceptions.*;
 import src.valueobjects.*;
 
 import java.io.IOException;
@@ -60,7 +58,7 @@ public class ShopVerwaltungen {
         eV.liesDaten(datei+"_E.txt");
     }
 
-    public int checkLogin(String name, String passwort) {
+    public int checkLogin(String name, String passwort) throws LoginFehlgeschlagenException {
         for (Kunde u : kV.getKundenListe()) {
             if (u.getName().equals(name) && u.getPasswort().equals(passwort)) {
                 eingeloggt = u;
@@ -73,11 +71,13 @@ public class ShopVerwaltungen {
                 return 2;
             }
         }
-        return 0;
+        throw new LoginFehlgeschlagenException();
     }
 
-    public boolean checkPasswort(String passwort, String passwort2){
-        return passwort.equals(passwort2);
+    public void checkPasswort(String passwort, String passwort2) throws RegistrierenFehlgeschlagenException {
+        if(!passwort.equals(passwort2)) {
+            throw new RegistrierenFehlgeschlagenException();
+        }
     }
 
     public Artikel holeArtikel(String name) throws ArtikelNichtGefundenException {
