@@ -32,7 +32,7 @@ public class ShopVerwaltungen {
         for (Artikel artikel : inhalt.values()) {
             rechnung.gesamtpreisErhoehen(artikel.getPreis() * artikel.getBestand());
         }
-        Ereignis ereignis = new Ereignis("Kunde: " + eingeloggt.getName() + "\nDer Einkauf: " + inhalt);
+        Ereignis ereignis = new Ereignis("Kunde: " + eingeloggt.getName() + "\nDer Einkauf: " + inhalt.values());
         eV.ereignisHinzufuegen(ereignis);
 
         return rechnung;

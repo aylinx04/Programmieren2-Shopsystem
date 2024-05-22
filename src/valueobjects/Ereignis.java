@@ -18,8 +18,4 @@ public class Ereignis {
     public LocalDate getDatum() {
         return datum;
     }
-
-    public String getStatus() {
-        return status;
-    }
 }

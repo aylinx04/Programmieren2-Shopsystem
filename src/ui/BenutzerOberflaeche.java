@@ -267,10 +267,8 @@ public class BenutzerOberflaeche {
                         break;
                     case "5":
                         System.out.println("Ereignisse: ");
-                        List<Ereignis> ereignisse = SV.gebeEreignisListe();
-                        for (Ereignis e : ereignisse) {
-                            System.out.println(e);
-                        }
+                        Collections.sort(SV.gebeEreignisListe(), Comparator.comparing(Ereignis :: getDatum));
+                        SV.gebeEreignisListe().forEach(System.out::println);
                         break;
                     case "q":
                         System.out.println("Ausgeloggt");
