@@ -1,11 +1,9 @@
-Ereignis: 2024-05-22
+2024-05-22
+Mitarbeiter: Helga
+Ereignis - Artikel 'Kirsche' um 3 erhoeht.
+2024-05-22
+Mitarbeiter: Helga
+Ereignis - Hinzugefügter Artikel: Name= Brot, Nummer= 15, Preis= 2.59€, Bestand= 25
+2024-05-22
 Kunde: Peter
-Ereigenis war: Der Einkauf: {Zucker=Name= Zucker, Nummer= 13, Preis= 6.0€, Bestand= 1}
-Ereignis: 2024-05-22
-Mitarbeiter: Helga
-Hinzugefügter Artikel: Name= Kirsche, Nummer= 14, Preis= 3.99€, Bestand= 4
-Ereignis: 2024-05-22
-Mitarbeiter: Helga
-Ereignis=Kirsche um 7 erhoeht
-Artikel: Kirsche
-Erhöhter Bestand: 7
+Ereignis - Der Einkauf: [Name= Birne, Nummer= 9, Preis= 6.0€, Bestand= 2, Name= Erdbeere, Nummer= 7, Preis= 4.99€, Bestand= 3]

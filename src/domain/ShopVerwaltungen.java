@@ -34,7 +34,7 @@ public class ShopVerwaltungen {
         for (Artikel artikel : inhalt.values()) {
             rechnung.gesamtpreisErhoehen(artikel.getPreis() * artikel.getBestand());
         }
-        Ereignis ereignis = new Ereignis(date.toString(),"Kunde: " + eingeloggt.getName(), "\nDer Einkauf: " + inhalt.values());
+        Ereignis ereignis = new Ereignis(date.toString(),"Kunde: " + eingeloggt.getName(), "Ereignis - Der Einkauf: " + inhalt.values());
         eV.ereignisHinzufuegen(ereignis);
 
         return rechnung;
@@ -97,7 +97,7 @@ public class ShopVerwaltungen {
         }
     }
 
-    public void artikelBestandVerringern(int anzahl, Artikel a) throws BestandNichtVorhandenException {
+    public void artikelBestandVerringern(Artikel a, int anzahl) throws BestandNichtVorhandenException {
         if (a.getBestand() >= anzahl) {
             a.bestandVerringern(anzahl);
         } else {
@@ -106,13 +106,12 @@ public class ShopVerwaltungen {
     }
 
     public void istArtikelImWarenkorb(String artikelName) throws ArtikelNichtGefundenException {
-        if (wk.getWarenkorb().containsKey(artikelName)) {
-        } else {
+        if (!wk.getWarenkorb().containsKey(artikelName)) {
             throw new ArtikelNichtGefundenException(artikelName);
         }
     }
 
-    public void checkAnzahlDesArtikels(int anzahl, String artikelname) throws BestandNichtVorhandenException {
+    public void checkAnzahlDesArtikels(String artikelname, int anzahl) throws BestandNichtVorhandenException {
         Artikel artikel = wk.getWarenkorb().get(artikelname);
         if (artikel.getBestand() >= anzahl) {
             wk.artikelEntfernen(artikelname, anzahl);
@@ -129,15 +128,15 @@ public class ShopVerwaltungen {
         if (aV.sucheArtikel(name) != null) {
             throw new ArtikelExistiertBereitsException(name);
         }
-        Artikel a = new Artikel(name, gibAlleArtikel().size()+1, preis, bestand);
-        gibAlleArtikel().add(a);
-        Ereignis ereignis = new Ereignis(date.toString(), "Mitarbeiter: " + eing.getName(), "\nHinzugefügter Artikel: " + a);
+        Artikel a = new Artikel(name, aV.getArtikelListe().size()+1, preis, bestand);
+        aV.getArtikelListe().add(a);
+        Ereignis ereignis = new Ereignis(date.toString(), "Mitarbeiter: " + eing.getName(), "Ereignis - Hinzugefügter Artikel: " + a);
         eV.ereignisHinzufuegen(ereignis);
         return a;
     }
 
     public void ereignisBestandErhoeht(String artikelname, int anzahl){
-        Ereignis ereignis = new Ereignis(date.toString(), "Mitarbeiter: " + eing.getName(), "\nArtikel: " + artikelname + "\nErhöhter Bestand: " + anzahl);
+        Ereignis ereignis = new Ereignis(date.toString(), "Mitarbeiter: " + eing.getName(), "Ereignis - Artikel '" + artikelname + "' um " + anzahl +  " erhoeht.");
         eV.ereignisHinzufuegen(ereignis);
     }
 

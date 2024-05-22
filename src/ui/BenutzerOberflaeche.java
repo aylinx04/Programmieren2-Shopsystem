@@ -140,7 +140,7 @@ public class BenutzerOberflaeche {
     private void hinzufuegenWarenkorb(String artikelname, int anzahl) {
         try {
             Artikel a = SV.holeArtikel(artikelname);
-            SV.artikelBestandVerringern(anzahl, a);
+            SV.artikelBestandVerringern(a, anzahl);
             Artikel wkArtikel = new Artikel(a.getName(), a.getNummer(), a.getPreis(), anzahl);
             Warenkorb w = SV.getWk();
             w.artikelHinzufuegen(wkArtikel);
@@ -153,7 +153,7 @@ public class BenutzerOberflaeche {
     private void entfernenWarenkorb(String artikelname, int anzahl) {
         try {
             SV.istArtikelImWarenkorb(artikelname);
-            SV.checkAnzahlDesArtikels(anzahl, artikelname);
+            SV.checkAnzahlDesArtikels(artikelname, anzahl);
             System.out.println("Der Artikel '" + artikelname + "' wurde erfolgreich " + anzahl + "x entfernt.");
         } catch (ArtikelNichtGefundenException | BestandNichtVorhandenException e){
             System.err.println(e.getMessage());
@@ -261,12 +261,6 @@ public class BenutzerOberflaeche {
                         break;
                     case "5":
                         System.out.println("Ereignisse: ");
-
-//                        for(Ereignis e : SV.gebeEreignisListe()) {
-//                            System.out.println(e);
-//                        }
-//                        System.out.println("----------------------------");
-
                         Collections.sort(SV.gebeEreignisListe(), Comparator.comparing(Ereignis::getDatum));
                         SV.gebeEreignisListe().forEach(System.out::println);
                         break;

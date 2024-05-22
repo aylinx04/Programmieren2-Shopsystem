@@ -63,15 +63,15 @@ public class FilePersistenceManager implements PersistenceManager{
 
     public List<Mitarbeiter> leseMitarbeiterListe(String datei) throws IOException{
         reader = new BufferedReader(new FileReader(datei));
-        List<Mitarbeiter> mitarbeiterHinzu = new ArrayList<>();
+        List<Mitarbeiter> mitarbeiterListe = new ArrayList<>();
         Mitarbeiter einMitarbeiter;
         do {
             einMitarbeiter = ladeMitarbeiter();
             if (einMitarbeiter != null){
-                mitarbeiterHinzu.add(einMitarbeiter);
+                mitarbeiterListe.add(einMitarbeiter);
             }
         } while (einMitarbeiter != null);
-        return mitarbeiterHinzu;
+        return mitarbeiterListe;
     }
 
     public void schreibeMitarbeiterListe(List<Mitarbeiter> mitarbeiterListe, String datei) throws IOException{
@@ -154,17 +154,18 @@ public class FilePersistenceManager implements PersistenceManager{
         if (writer != null)
             writer.println(daten);
     }
+
     public List<Ereignis> leseEreignisListe(String datei) throws IOException{
         reader = new BufferedReader(new FileReader(datei));
-        List<Ereignis> ereignisList = new ArrayList<>();
+        List<Ereignis> ereignisListe = new ArrayList<>();
         Ereignis einEreignis;
         do {
             einEreignis = ladeEreignis();
             if (einEreignis != null){
-                ereignisList.add(einEreignis);
+                ereignisListe.add(einEreignis);
             }
         } while (einEreignis != null);
-        return ereignisList;
+        return ereignisListe;
     }
 
     public void schreibeEreignisListe(List<Ereignis> ereignisList, String datei) throws IOException{
@@ -178,18 +179,16 @@ public class FilePersistenceManager implements PersistenceManager{
 
     private Ereignis ladeEreignis() throws IOException{
         String datum = liesZeile();
-        String person = liesZeile();
-        String status = liesZeile();
-        if (status == null) {
+        if (datum == null) {
             return null;
         }
-     //   StringList[] array = status.split("?");
-
+        String person = liesZeile();
+        String status = liesZeile();
         return new Ereignis(datum, person, status);
     }
 
     public void speicherEreignis(Ereignis e) {
-        schreibeZeile(String.valueOf(e.getDatum()));
+        schreibeZeile(e.getDatum());
         schreibeZeile(e.getPerson());
         schreibeZeile(e.getStatus());
 
