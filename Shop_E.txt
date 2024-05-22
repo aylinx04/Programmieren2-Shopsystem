@@ -1,0 +1,10 @@
+Ereignis: 2024-05-22
+Kunde: Peter
+Der Einkauf: {Zucker=Name= Zucker, Nummer= 13, Preis= 6.0€, Bestand= 1}
+Ereignis: 2024-05-22
+Mitarbeiter: Helga
+Hinzugefügter Artikel: Name= Kirsche, Nummer= 14, Preis= 3.99€, Bestand= 4
+Ereignis: 2024-05-22
+Mitarbeiter: Helga
+Artikel: Kirsche
+Erhöhter Bestand: 7

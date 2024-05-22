@@ -17,7 +17,7 @@ Erdbeere
 Fanta
 5
 4.0
-15
+18
 Gurke
 2
 3.59
@@ -42,3 +42,15 @@ Tomate
 1
 4.99
 28
+Banane
+12
+5.99
+4
+Zucker
+13
+6.0
+3
+Kirsche
+14
+3.99
+11

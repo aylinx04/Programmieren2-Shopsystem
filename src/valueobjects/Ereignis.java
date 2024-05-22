@@ -14,4 +14,12 @@ public class Ereignis {
     public String toString() {
         return "Ereignis: " + datum + "\n" + status;
     }
+
+    public LocalDate getDatum() {
+        return datum;
+    }
+
+    public String getStatus() {
+        return status;
+    }
 }

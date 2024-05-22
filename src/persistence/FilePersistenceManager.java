@@ -1,6 +1,7 @@
 package src.persistence;
 
 import src.valueobjects.Artikel;
+import src.valueobjects.Ereignis;
 import src.valueobjects.Kunde;
 import src.valueobjects.Mitarbeiter;
 
@@ -152,5 +153,38 @@ public class FilePersistenceManager implements PersistenceManager{
         if (writer != null)
             writer.println(daten);
     }
+    public List<Ereignis> leseEreignisListe(String datei) throws IOException{
+        reader = new BufferedReader(new FileReader(datei));
+        List<Ereignis> ereignisList = new ArrayList<>();
+        Ereignis einEreignis;
+        do {
+            einEreignis = ladeEreignis();
+            if (einEreignis != null){
+                ereignisList.add(einEreignis);
+            }
+        } while (einEreignis != null);
+        return ereignisList;
+    }
 
+    public void schreibeEreignisListe(List<Ereignis> ereignisList, String datei) throws IOException{
+        writer = new PrintWriter(new BufferedWriter(new FileWriter(datei)));
+
+        for(Ereignis e : ereignisList)
+            speicherEreignis(e);
+
+        writer.close();
+    }
+
+    private Ereignis ladeEreignis() throws IOException{
+        String status = liesZeile();
+        if (status == null) {
+            return null;
+        }
+
+        return new Ereignis(status);
+    }
+
+    public void speicherEreignis(Ereignis e) {
+        schreibeZeile(e.toString());
+    }
 }

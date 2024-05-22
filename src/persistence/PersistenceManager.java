@@ -2,6 +2,7 @@ package src.persistence;
 
 import src.domain.exceptions.ArtikelNichtGefundenException;
 import src.valueobjects.Artikel;
+import src.valueobjects.Ereignis;
 import src.valueobjects.Kunde;
 import src.valueobjects.Mitarbeiter;
 
@@ -15,4 +16,6 @@ public interface PersistenceManager {
     void schreibeMitarbeiterListe(List<Mitarbeiter> mitarbeiterListe, String datei) throws  IOException;
     List<Kunde> leseKundenListe(String dateiquelle) throws IOException;
     void schreibeKundenListe(List<Kunde> kundenListe, String datei) throws  IOException;
+    List<Ereignis> leseEreignisListe(String dateiquelle) throws IOException;
+    void schreibeEreignisListe(List<Ereignis> ereignisList, String datei) throws  IOException;
 }
