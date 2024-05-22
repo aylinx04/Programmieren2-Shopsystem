@@ -11,22 +11,6 @@ public class Warenkorb {
 
     public Map<String, Artikel> getWarenkorb() {return warenkorb;}
 
-    public void istArtikelImWarenkorb(String artikelName) throws ArtikelNichtGefundenException {
-        if (warenkorb.containsKey(artikelName)) {
-        } else {
-            throw new ArtikelNichtGefundenException(artikelName);
-        }
-    }
-
-    public void checkAnzahlDesArtikels(int anzahl, String artikelname) throws BestandNichtVorhandenException {
-        Artikel artikel = warenkorb.get(artikelname);
-        if (artikel.getBestand() >= anzahl) {
-            artikelEntfernen(artikelname, anzahl);
-        } else {
-            throw new BestandNichtVorhandenException();
-        }
-    }
-
     public void artikelEntfernen(String artikelname, int anzahl) {
         Artikel vorhandenerArtikel = warenkorb.get(artikelname);
         if (vorhandenerArtikel.getBestand() > anzahl) {

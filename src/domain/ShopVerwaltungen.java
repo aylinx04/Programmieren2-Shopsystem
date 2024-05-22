@@ -13,21 +13,21 @@ import java.util.Map;
 public class ShopVerwaltungen {
     Kunde eingeloggt;
     Mitarbeiter eing;
-    private Warenkorb warenkorb = new Warenkorb();
+    private Warenkorb wk = new Warenkorb();
     private String datei;
     private ArtikelVerwaltung aV;
     private MitarbeiterVerwaltung mV;
     private KundenVerwaltung kV;
     private EreignisVerwaltung eV;
 
-    public Warenkorb getWarenkorb() {
-        return warenkorb;
+    public Warenkorb getWk() {
+        return wk;
     }
 
     public Rechnung erzeugeRechnung() {
         Rechnung rechnung = new Rechnung(eingeloggt);
 
-        Map<String, Artikel> inhalt = warenkorb.getWarenkorb();
+        Map<String, Artikel> inhalt = wk.getWarenkorb();
 
         for (Artikel artikel : inhalt.values()) {
             rechnung.gesamtpreisErhoehen(artikel.getPreis() * artikel.getBestand());
@@ -79,7 +79,7 @@ public class ShopVerwaltungen {
     }
 
     public Artikel holeArtikel(String name) throws ArtikelNichtGefundenException {
-        for (Artikel a : gibAlleArtikel()){
+        for (Artikel a : aV.getArtikelListe()){
             if(a.getName().equals(name)){
                 return a;
             }
@@ -88,7 +88,7 @@ public class ShopVerwaltungen {
     }
 
     public void artikelZurueck(String name, int anzahl) {
-        for (Artikel a : gibAlleArtikel()){
+        for (Artikel a : aV.getArtikelListe()){
             if(a.getName().equals(name)){
                 a.bestandErhoehen(anzahl);
             }
@@ -98,6 +98,22 @@ public class ShopVerwaltungen {
     public void artikelBestandVerringern(int anzahl, Artikel a) throws BestandNichtVorhandenException {
         if (a.getBestand() >= anzahl) {
             a.bestandVerringern(anzahl);
+        } else {
+            throw new BestandNichtVorhandenException();
+        }
+    }
+
+    public void istArtikelImWarenkorb(String artikelName) throws ArtikelNichtGefundenException {
+        if (wk.getWarenkorb().containsKey(artikelName)) {
+        } else {
+            throw new ArtikelNichtGefundenException(artikelName);
+        }
+    }
+
+    public void checkAnzahlDesArtikels(int anzahl, String artikelname) throws BestandNichtVorhandenException {
+        Artikel artikel = wk.getWarenkorb().get(artikelname);
+        if (artikel.getBestand() >= anzahl) {
+            wk.artikelEntfernen(artikelname, anzahl);
         } else {
             throw new BestandNichtVorhandenException();
         }

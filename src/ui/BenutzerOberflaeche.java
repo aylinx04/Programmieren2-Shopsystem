@@ -142,7 +142,7 @@ public class BenutzerOberflaeche {
             Artikel a = SV.holeArtikel(artikelname);
             SV.artikelBestandVerringern(anzahl, a);
             Artikel wkArtikel = new Artikel(a.getName(), a.getNummer(), a.getPreis(), anzahl);
-            Warenkorb w = SV.getWarenkorb();
+            Warenkorb w = SV.getWk();
             w.artikelHinzufuegen(wkArtikel);
             System.out.println("Artikel hinzugefügt: " + wkArtikel);
         } catch (ArtikelNichtGefundenException | BestandNichtVorhandenException e) {
@@ -151,11 +151,9 @@ public class BenutzerOberflaeche {
     }
 
     private void entfernenWarenkorb(String artikelname, int anzahl) {
-        Warenkorb WK = SV.getWarenkorb();
-
         try {
-            WK.istArtikelImWarenkorb(artikelname);
-            WK.checkAnzahlDesArtikels(anzahl, artikelname);
+            SV.istArtikelImWarenkorb(artikelname);
+            SV.checkAnzahlDesArtikels(anzahl, artikelname);
             System.out.println("Der Artikel '" + artikelname + "' wurde erfolgreich " + anzahl + "x entfernt.");
         } catch (ArtikelNichtGefundenException | BestandNichtVorhandenException e){
             System.err.println(e.getMessage());
@@ -344,7 +342,7 @@ public class BenutzerOberflaeche {
     }
 
     private void warenkorbAnzeigen() throws IOException, NumberFormatException {
-        Warenkorb WK = SV.getWarenkorb();
+        Warenkorb WK = SV.getWk();
 
         Map<String, Artikel> warenkorb = WK.getWarenkorb();
 
