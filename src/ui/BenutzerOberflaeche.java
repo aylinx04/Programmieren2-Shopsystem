@@ -1,14 +1,8 @@
 package src.ui;
 
 import src.domain.ShopVerwaltungen;
-import src.domain.exceptions.ArtikelExistiertBereitsException;
-import src.domain.exceptions.ArtikelNichtGefundenException;
-import src.domain.exceptions.BestandNichtVorhandenException;
-import src.domain.exceptions.LoginFehlgeschlagenException;
-import src.valueobjects.Artikel;
-import src.valueobjects.Ereignis;
-import src.valueobjects.Rechnung;
-import src.valueobjects.Warenkorb;
+import src.domain.exceptions.*;
+import src.valueobjects.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -125,7 +119,7 @@ public class BenutzerOberflaeche {
             SV.checkPasswort(passwort, passwort2);
             SV.kundeAnlegen(name, passwort, strasse, plz, wohnort);
             System.out.println("Erfolgreich registriert!");
-        } catch (Exception e) {
+        } catch (RegistrierenFehlgeschlagenException e) {
             System.err.println(e.getMessage());
         }
     }
@@ -135,7 +129,7 @@ public class BenutzerOberflaeche {
             SV.checkPasswort(passwort, passwort2);
             SV.mitarbeiterAnlegen(name, passwort);
             System.out.println("Erfolgreich registriert als Mitarbeiter!");
-        } catch (Exception e) {
+        } catch (RegistrierenFehlgeschlagenException e) {
             System.err.println(e.getMessage());
         }
     }
@@ -144,11 +138,16 @@ public class BenutzerOberflaeche {
         try {
             Artikel a = SV.holeArtikel(artikelname);
             SV.artikelBestandVerringern(a, anzahl);
-            Artikel wkArtikel = new Artikel(a.getName(), a.getNummer(), a.getPreis(), anzahl);
+            Artikel wkArtikel;
+            if(a instanceof Massengutartikel m){
+                wkArtikel = new Massengutartikel(m.getName(), m.getNummer(), m.getPreis(), anzahl, m.getPackungsgroesse());
+            } else {
+                wkArtikel = new Artikel(a.getName(), a.getNummer(), a.getPreis(), anzahl);
+            }
             Warenkorb w = SV.getWk();
             w.artikelHinzufuegen(wkArtikel);
             System.out.println("Artikel hinzugefügt: " + wkArtikel);
-        } catch (ArtikelNichtGefundenException | BestandNichtVorhandenException e) {
+        } catch (ArtikelNichtGefundenException | BestandNichtVorhandenException | PackungsgroesseException e) {
             System.err.println(e.getMessage());
         }
     }
@@ -158,7 +157,7 @@ public class BenutzerOberflaeche {
             SV.istArtikelImWarenkorb(artikelname);
             SV.checkAnzahlDesArtikels(artikelname, anzahl);
             System.out.println("Der Artikel '" + artikelname + "' wurde erfolgreich " + anzahl + "x entfernt.");
-        } catch (ArtikelNichtGefundenException | BestandNichtVorhandenException e){
+        } catch (ArtikelNichtGefundenException | BestandNichtVorhandenException | PackungsgroesseException e){
             System.err.println(e.getMessage());
         }
     }
@@ -227,13 +226,28 @@ public class BenutzerOberflaeche {
                         System.out.print("Preis  > ");
                         try {
                             preis = Double.parseDouble(liesEingabe());
-                            System.out.print("Bestand  > ");
-                            bestand = Integer.parseInt(liesEingabe());
-                            Artikel a = SV.artikelAnlegen(artikelname, preis, bestand);
-                            System.out.println("Neuer Artikel angelegt: " + a);
+                            System.out.println("Massengutartikel?              ");
+                            System.out.println("Ja:                         '1'");
+                            System.out.println("Nein:                       '2'");
+                            String eingabe = liesEingabe();
+                            if (eingabe.equals("1")) {
+                                System.out.print("Packungsgroesse  > ");
+                                int packungsgroesse;
+                                packungsgroesse = Integer.parseInt(liesEingabe());
+                                System.out.print("Bestand  > ");
+                                bestand = Integer.parseInt(liesEingabe());
+                                SV.checkPackungsgroesse(packungsgroesse, bestand);
+                                Artikel artikel = SV.artikelAnlegen(artikelname, preis, bestand, packungsgroesse);
+                                System.out.println("Neuer Artikel angelegt: " + artikel);
+                            } else if (eingabe.equals("2")) {
+                                System.out.print("Bestand  > ");
+                                bestand = Integer.parseInt(liesEingabe());
+                                Artikel a = SV.artikelAnlegen(artikelname, preis, bestand);
+                                System.out.println("Neuer Artikel angelegt: " + a);
+                            }
                         } catch (NumberFormatException e) {
                             System.err.println("Eingabe muss eine Zahl sein!");
-                        } catch (ArtikelExistiertBereitsException e) {
+                        } catch (ArtikelExistiertBereitsException | PackungsgroesseException e) {
                             System.err.println(e.getMessage());
                         }
                         break;
@@ -244,12 +258,11 @@ public class BenutzerOberflaeche {
                             Artikel artikel = SV.holeArtikel(artikelname);
                             System.out.print("Anzahl  > ");
                                 anzahl = Integer.parseInt(liesEingabe());
-                                artikel.bestandErhoehen(anzahl);
-                                SV.ereignisBestandErhoeht(artikelname, anzahl);
+                                SV.ereignisBestandErhoeht(artikel, anzahl);
                                 System.out.println("Bestand von '" + artikelname + "' um " + anzahl + " erhöht.");
                         } catch (NumberFormatException e) {
                                 System.err.println("Eingabe muss eine Zahl sein!");
-                        } catch (ArtikelNichtGefundenException e) {
+                        } catch (ArtikelNichtGefundenException | PackungsgroesseException e) {
                                 System.err.println(e.getMessage());
                         }
                         break;

@@ -80,6 +80,12 @@ public class ShopVerwaltungen {
         }
     }
 
+    public void checkPackungsgroesse(int packungsgroesse, int bestand) throws PackungsgroesseException {
+        if(bestand % packungsgroesse != 0) {
+            throw new PackungsgroesseException();
+        }
+    }
+
     public Artikel holeArtikel(String name) throws ArtikelNichtGefundenException {
         for (Artikel a : aV.getArtikelListe()){
             if(a.getName().equals(name)){
@@ -97,7 +103,12 @@ public class ShopVerwaltungen {
         }
     }
 
-    public void artikelBestandVerringern(Artikel a, int anzahl) throws BestandNichtVorhandenException {
+    public void artikelBestandVerringern(Artikel a, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException {
+        if (a instanceof Massengutartikel m) {
+            if ((anzahl % m.getPackungsgroesse()) != 0) {
+                throw new PackungsgroesseException();
+            }
+        }
         if (a.getBestand() >= anzahl) {
             a.bestandVerringern(anzahl);
         } else {
@@ -105,14 +116,19 @@ public class ShopVerwaltungen {
         }
     }
 
-    public void istArtikelImWarenkorb(String artikelName) throws ArtikelNichtGefundenException {
-        if (!wk.getWarenkorb().containsKey(artikelName)) {
-            throw new ArtikelNichtGefundenException(artikelName);
+    public void istArtikelImWarenkorb(String artikelname) throws ArtikelNichtGefundenException {
+        if (!wk.getWarenkorb().containsKey(artikelname)) {
+            throw new ArtikelNichtGefundenException(artikelname);
         }
     }
 
-    public void checkAnzahlDesArtikels(String artikelname, int anzahl) throws BestandNichtVorhandenException {
+    public void checkAnzahlDesArtikels(String artikelname, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException {
         Artikel artikel = wk.getWarenkorb().get(artikelname);
+        if (artikel instanceof Massengutartikel m) {
+            if ((anzahl % m.getPackungsgroesse()) != 0) {
+                throw new PackungsgroesseException();
+            }
+        }
         if (artikel.getBestand() >= anzahl) {
             wk.artikelEntfernen(artikelname, anzahl);
         } else {
@@ -135,8 +151,25 @@ public class ShopVerwaltungen {
         return a;
     }
 
-    public void ereignisBestandErhoeht(String artikelname, int anzahl){
-        Ereignis ereignis = new Ereignis(date.toString(), "Mitarbeiter: " + eing.getName(), "Ereignis - Artikel '" + artikelname + "' um " + anzahl +  " erhoeht.");
+    public Artikel artikelAnlegen(String name, double preis, int bestand, int packungsgroesse) throws ArtikelExistiertBereitsException {
+        if (aV.sucheArtikel(name) != null) {
+            throw new ArtikelExistiertBereitsException(name);
+        }
+        Artikel a = new Massengutartikel(name, aV.getArtikelListe().size()+1, preis, bestand, packungsgroesse);
+        aV.getArtikelListe().add(a);
+        Ereignis ereignis = new Ereignis(date.toString(), "Mitarbeiter: " + eing.getName(), "Ereignis - Hinzugefügter Artikel: " + a);
+        eV.ereignisHinzufuegen(ereignis);
+        return a;
+    }
+
+    public void ereignisBestandErhoeht(Artikel artikel, int anzahl) throws PackungsgroesseException {
+        if (artikel instanceof Massengutartikel m) {
+            if ((anzahl % m.getPackungsgroesse()) != 0) {
+                throw new PackungsgroesseException();
+            }
+        }
+        artikel.bestandErhoehen(anzahl);
+        Ereignis ereignis = new Ereignis(date.toString(), "Mitarbeiter: " + eing.getName(), "Ereignis - Artikel '" + artikel.getName() + "' um " + anzahl +  " erhoeht.");
         eV.ereignisHinzufuegen(ereignis);
     }
 

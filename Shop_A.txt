@@ -54,6 +54,10 @@ Tomate
 1
 4.99
 28
+Wasser
+16
+1.89
+18 (Packungsgroesse: 6)
 Zucker
 13
 6.0

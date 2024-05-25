@@ -1,9 +1,6 @@
 package src.persistence;
 
-import src.valueobjects.Artikel;
-import src.valueobjects.Ereignis;
-import src.valueobjects.Kunde;
-import src.valueobjects.Mitarbeiter;
+import src.valueobjects.*;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -49,16 +46,27 @@ public class FilePersistenceManager implements PersistenceManager{
         String preisString = liesZeile();
         double preis = Double.parseDouble(preisString);
         String bestandString = liesZeile();
-        int bestand = Integer.parseInt(bestandString);
+        if (bestandString.contains("(") && bestandString.contains(")")) {
+            int bestand = Integer.parseInt(bestandString.substring(0, bestandString.indexOf(" ")));
+            String packungsgroesseString = bestandString.substring(bestandString.indexOf(":") + 2, bestandString.length() - 1);
+            int packungsgroesse = Integer.parseInt(packungsgroesseString);
 
-        return new Artikel(name, nummer, preis, bestand);
+            return new Massengutartikel(name, nummer, preis, bestand, packungsgroesse);
+        } else {
+            int bestand = Integer.parseInt(bestandString);
+            return new Artikel(name, nummer, preis, bestand);
+        }
     }
 
     private void speicherArtikel(Artikel a) {
         schreibeZeile(a.getName());
         schreibeZeile(String.valueOf(a.getNummer()));
         schreibeZeile(String.valueOf(a.getPreis()));
-        schreibeZeile(String.valueOf(a.getBestand()));
+        if (a instanceof Massengutartikel m) {
+            schreibeZeile(a.getBestand() + " (Packungsgroesse: " + m.getPackungsgroesse() + ")");
+        } else {
+            schreibeZeile(String.valueOf(a.getBestand()));
+        }
     }
 
     public List<Mitarbeiter> leseMitarbeiterListe(String datei) throws IOException{

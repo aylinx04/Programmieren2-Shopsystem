@@ -7,3 +7,12 @@ Ereignis - Hinzugefügter Artikel: Name= Brot, Nummer= 15, Preis= 2.59€, Besta
 2024-05-22
 Kunde: Peter
 Ereignis - Der Einkauf: [Name= Birne, Nummer= 9, Preis= 6.0€, Bestand= 2, Name= Erdbeere, Nummer= 7, Preis= 4.99€, Bestand= 3]
+2024-05-25
+Mitarbeiter: Helga
+Ereignis - Hinzugefügter Artikel: Name= Wasser, Nummer= 16, Preis= 1.89€, Bestand= 18, Packungsgroesse= 6
+2024-05-25
+Mitarbeiter: Helga
+Ereignis - Artikel 'Wasser' um 6 erhoeht.
+2024-05-25
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Wasser, Nummer= 16, Preis= 1.89€, Bestand= 6]
