@@ -5,6 +5,8 @@ import src.valueobjects.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -191,5 +193,19 @@ public class ShopVerwaltungen {
     }
     public void schreibeEreignisDaten(String datei) throws IOException {
         eV.schreibeDaten(datei);
+    }
+    public List<Artikel> sucheArtikel(String titel) {
+        List<Artikel> suchErg = new ArrayList<>();
+        Iterator it = aV.getArtikelListe().iterator();
+        while (it.hasNext()) {
+            Artikel artikel = (Artikel) it.next();
+            if (artikel.getName().equals(titel)) {
+                suchErg.add(artikel);
+            }
+        }
+        return suchErg;
+    }
+    public List<Artikel> sucheNachTitel(String titel) {
+        return sucheArtikel(titel);
     }
 }
