@@ -2,9 +2,14 @@ package src.ui.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class EinloggenMitarbeiter extends JFrame{
     private JButton artikelHinzufügenButton = new JButton("Hinzufügen");
+    private JTextField artikeltextField = new JTextField();
+    private JTextField preistextField = new JTextField();
+    private JTextField bestandtextField = new JTextField();
+    private JRadioButton artikelTyp = new JRadioButton();
     private JButton artikelListeButton = new JButton("Artikelliste");
     private JButton bestandErhöhenButton = new JButton("Bestand");
     private JButton mitarbeiterHinzufügenButton = new JButton("Mitarbeiter Hinzufügen");
@@ -65,4 +70,30 @@ public class EinloggenMitarbeiter extends JFrame{
 
         add(westPanel, BorderLayout.NORTH);
     }
+    void verarbeiteArtikelHinzuKlick(ActionEvent e) {
+        if(!e.getSource().equals(artikelHinzufügenButton))
+            return;
+
+        String artikel = artikeltextField.getText();
+        String preis = preistextField.getText();
+        String bestand = bestandtextField.getText();
+
+
+//        einloggen(name, passwort);
+    }
+//    void klickVerarbeiten(ActionEvent e, String line){
+//
+//        switch (line){
+//            case artikelHinzufügenButton:
+//                if(!e.getSource().equals(artikelHinzufügenButton))
+//                    return;
+//
+//                String artikel = artikeltextField.getText();
+//                String preis = preistextField.getText();
+//                String bestand = bestandtextField.getText();
+//
+//
+//                einloggen(name, passwort);
+//        }
+//    }
 }
