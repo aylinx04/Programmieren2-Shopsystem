@@ -1,5 +1,7 @@
 package src.ui.gui;
 
+import src.domain.ShopVerwaltungen;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,7 +10,7 @@ public class EinloggenKunde extends JFrame{
     private JButton artikelListeButton = new JButton("Artikelliste");
     private JButton ausloggenButton = new JButton("Ausloggen");
 
-    public EinloggenKunde() {
+    public EinloggenKunde(ShopVerwaltungen SV) {
         buttonsLayoutMitarbeiter();
         setSize(640, 480);
         setLocation(0, 500);

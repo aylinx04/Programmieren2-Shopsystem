@@ -1,10 +1,14 @@
 package src.ui.gui;
 
+import src.domain.ShopVerwaltungen;
+import src.domain.exceptions.ArtikelExistiertBereitsException;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class EinloggenMitarbeiter extends JFrame{
+    private ShopVerwaltungen SV;
     private JButton artikelHinzufügenButton = new JButton("Hinzufügen");
     private JTextField artikeltextField = new JTextField();
     private JTextField preistextField = new JTextField();
@@ -16,7 +20,8 @@ public class EinloggenMitarbeiter extends JFrame{
     private JButton ereignisListeButton = new JButton("Ereignisse");
     private JButton ausloggenButton = new JButton("Ausloggen");
 
-    public EinloggenMitarbeiter() {
+    public EinloggenMitarbeiter(ShopVerwaltungen SV) {
+        this.SV = SV;
         buttonsLayoutMitarbeiter();
         setSize(640, 480);
         setLocation(0, 500);
@@ -68,19 +73,58 @@ public class EinloggenMitarbeiter extends JFrame{
         westPanel.add(ausloggenButton, c);
 //        artikelListeButton.addActionListener(dasEvent -> verarbeiteEinloggenKlick(dasEvent));
 
-        add(westPanel, BorderLayout.NORTH);
+//        if(!e.getSource().equals(artikelHinzufügenButton)){
+//            return;
+//        JLabel labelName = new JLabel("Artikelname:");
+//        c.gridx = 0;
+//        c.gridy = 0;
+//        westPanel.add(labelName, c);
+//
+//        artikeltextField.setPreferredSize(eingabeFeldGroesse);
+//        c.gridx = 0;
+//        c.gridy = 1;
+//        westPanel.add(artikeltextField, c);
+//        add(westPanel, BorderLayout.NORTH);
+//        }
     }
-    void verarbeiteArtikelHinzuKlick(ActionEvent e) {
+
+    void verarbeiteArtikelHinzuKlick(ActionEvent e) throws ArtikelExistiertBereitsException {
         if(!e.getSource().equals(artikelHinzufügenButton))
             return;
 
         String artikel = artikeltextField.getText();
-        String preis = preistextField.getText();
-        String bestand = bestandtextField.getText();
+        double preis = Double.parseDouble(preistextField.getText());
+        int bestand = Integer.parseInt(bestandtextField.getText());
 
 
-//        einloggen(name, passwort);
+        SV.artikelAnlegen(artikel, preis, bestand);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //    void klickVerarbeiten(ActionEvent e, String line){
 //
 //        switch (line){

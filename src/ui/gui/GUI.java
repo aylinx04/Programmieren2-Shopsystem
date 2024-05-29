@@ -110,10 +110,11 @@ public class GUI extends JFrame {
         try {
             int zahl = SV.checkLogin(name, passwort);
             if(zahl == 1){
-                einloggenKunde = new EinloggenKunde();
+                einloggenKunde = new EinloggenKunde(SV);
                 einloggenKunde.setVisible(true);
             } else if(zahl == 2) {
-                einloggenMitarbeiter = new EinloggenMitarbeiter();
+
+                einloggenMitarbeiter = new EinloggenMitarbeiter(SV);
                 einloggenMitarbeiter.setVisible(true);
             }
         } catch (LoginFehlgeschlagenException e) {
