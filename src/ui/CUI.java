@@ -232,8 +232,7 @@ public class CUI {
                             String eingabe = liesEingabe();
                             if (eingabe.equals("1")) {
                                 System.out.print("Packungsgroesse  > ");
-                                int packungsgroesse;
-                                packungsgroesse = Integer.parseInt(liesEingabe());
+                                int packungsgroesse = Integer.parseInt(liesEingabe());
                                 System.out.print("Bestand  > ");
                                 bestand = Integer.parseInt(liesEingabe());
                                 SV.checkPackungsgroesse(packungsgroesse, bestand);

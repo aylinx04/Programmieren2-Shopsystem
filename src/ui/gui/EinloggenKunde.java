@@ -6,11 +6,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class EinloggenKunde extends JFrame{
-    private JButton warenkorbButton = new JButton("Warenkorb");
+    private ShopVerwaltungen SV;
     private JButton artikelListeButton = new JButton("Artikelliste");
+    private JButton warenkorbButton = new JButton("Warenkorb");
     private JButton ausloggenButton = new JButton("Ausloggen");
 
     public EinloggenKunde(ShopVerwaltungen SV) {
+        this.SV = SV;
         buttonsLayoutMitarbeiter();
         setSize(640, 480);
         setLocation(0, 500);

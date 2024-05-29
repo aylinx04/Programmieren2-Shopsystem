@@ -15,7 +15,6 @@ public class ShopVerwaltungen {
     Kunde eingeloggt;
     Mitarbeiter eing;
     private Warenkorb wk = new Warenkorb();
-    private String datei;
     private ArtikelVerwaltung aV;
     private MitarbeiterVerwaltung mV;
     private KundenVerwaltung kV;
@@ -49,7 +48,6 @@ public class ShopVerwaltungen {
     }
 
     public ShopVerwaltungen(String datei) throws IOException {
-        this.datei = datei;
         aV = new ArtikelVerwaltung();
         aV.liesDaten(datei+"_A.txt");
         mV = new MitarbeiterVerwaltung();
@@ -191,9 +189,11 @@ public class ShopVerwaltungen {
     public void schreibeKundenDaten(String datei) throws IOException {
         kV.schreibeDaten(datei);
     }
+
     public void schreibeEreignisDaten(String datei) throws IOException {
         eV.schreibeDaten(datei);
     }
+
     public List<Artikel> sucheArtikel(String titel) {
         List<Artikel> suchErg = new ArrayList<>();
         Iterator it = aV.getArtikelListe().iterator();

@@ -58,6 +58,7 @@ public class GUI extends JFrame {
         }
         artikelModel.setArtikel(suchErgebnis);
     }
+
     private void layoutEinloggen(){
         JPanel westPanel = new JPanel();
         westPanel.setLayout(new GridBagLayout());
@@ -94,8 +95,8 @@ public class GUI extends JFrame {
 
         add(westPanel, BorderLayout.WEST);
 
-
     }
+
     void verarbeiteEinloggenKlick(ActionEvent e) {
         if(!e.getSource().equals(einloggenButton))
             return;
@@ -113,7 +114,6 @@ public class GUI extends JFrame {
                 einloggenKunde = new EinloggenKunde(SV);
                 einloggenKunde.setVisible(true);
             } else if(zahl == 2) {
-
                 einloggenMitarbeiter = new EinloggenMitarbeiter(SV);
                 einloggenMitarbeiter.setVisible(true);
             }
@@ -123,6 +123,6 @@ public class GUI extends JFrame {
     }
 
     public static void main(String[] args) {
-        GUI gui = new GUI();
+        new GUI();
     }
 }

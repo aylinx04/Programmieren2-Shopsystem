@@ -27,11 +27,9 @@ public class ArtikelVerwaltung {
     }
 
     public Artikel sucheArtikel(String name) {
-        Iterator it = artikelListe.iterator();
-        while (it.hasNext()) {
-            Artikel artikel = (Artikel) it.next();
+        for (Artikel artikel : artikelListe) {
             if (artikel.getName().equals(name)) {
-                 return artikel;
+                return artikel;
             }
         }
         return null;
