@@ -30,7 +30,7 @@ public class EinloggenMitarbeiter extends JFrame {
         this.SV = SV;
         buttonsLayoutMitarbeiter();
         setSize(640, 480);
-        setLocation(0, 500);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 

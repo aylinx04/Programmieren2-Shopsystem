@@ -5,9 +5,10 @@ import src.domain.exceptions.LoginFehlgeschlagenException;
 import src.valueobjects.Artikel;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -22,8 +23,6 @@ public class GUI extends JFrame {
     private JTextField suchTextFeld = new JTextField();
     private JButton suchenButton = new JButton("Suche");
     private ArtikelTabelModel artikelModel;
-    private EinloggenMitarbeiter einloggenMitarbeiter;
-    private EinloggenKunde einloggenKunde;
     private JTable artikelTabel;
 
 
@@ -43,26 +42,39 @@ public class GUI extends JFrame {
         addWindowListener(new FensterSchliesser());
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(640, 480);
-        setLocation(0, 500);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
     private void tabelle() {
         artikelModel = new ArtikelTabelModel(SV.gibAlleArtikel());
         artikelTabel = new JTable(artikelModel);
+        Dimension eingabeFeldGroesse = new Dimension(140,30);
         JPanel panel = new JPanel(new BorderLayout());
 
         JScrollPane scrollPane = new JScrollPane(artikelTabel);
         panel.add(scrollPane, BorderLayout.CENTER);
 
-        String suchBegriff = suchTextFeld.getText();
-        java.util.List<Artikel> suchErgebnis;
-        if (suchBegriff.isEmpty()) {
-            suchErgebnis = SV.gibAlleArtikel();
-        } else {
-            suchErgebnis = SV.sucheNachTitel(suchBegriff);
-        }
-        artikelModel.setArtikel(suchErgebnis);
+        JLabel labelSuche = new JLabel("Suche:");
+
+        suchTextFeld.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                aktualisiereSuchergebnisse();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                aktualisiereSuchergebnisse();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                aktualisiereSuchergebnisse();
+            }
+        });
+
+        suchTextFeld.setPreferredSize(eingabeFeldGroesse);
 
         String sotieren[] = {"Von A-Z", "Von Z-A", "Artikelnummer aufsteigend", "Artikelnummer absteigend", "Preis aufsteigend", "Preis absteigend", "Bestand aufsteigend", "Bestand absteigend"};
         JComboBox<String> sortierAuswahl = new JComboBox<>(sotieren);
@@ -106,10 +118,23 @@ public class GUI extends JFrame {
         JPanel sortierPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         sortierPanel.add(labelsotieren);
         sortierPanel.add(sortierAuswahl);
+        sortierPanel.add(labelSuche);
+        sortierPanel.add(suchTextFeld);
 
         panel.add(sortierPanel, BorderLayout.NORTH);
 
         add(panel, BorderLayout.CENTER);
+    }
+
+    private void aktualisiereSuchergebnisse() {
+        String suchBegriff = suchTextFeld.getText();
+        java.util.List<Artikel> suchErgebnis;
+        if (suchBegriff.isEmpty()) {
+            suchErgebnis = SV.gibAlleArtikel();
+        } else {
+            suchErgebnis = SV.sucheNachTitel(suchBegriff);
+        }
+        artikelModel.setArtikel(suchErgebnis);
     }
 
     private void layoutEinloggen(){
@@ -161,6 +186,9 @@ public class GUI extends JFrame {
     }
 
     private void einloggen(String name, String passwort) {
+        GridBagConstraints c = new GridBagConstraints();
+        JPanel westPanel = new JPanel();
+        westPanel.setLayout(new GridBagLayout());
         try {
             int zahl = SV.checkLogin(name, passwort);
             if (zahl == 1) {
@@ -185,7 +213,7 @@ public class GUI extends JFrame {
                 mitarbeiterFrame.setVisible(true);
             }
         } catch (LoginFehlgeschlagenException e) {
-            System.err.println(e.getMessage());
+            JOptionPane.showMessageDialog(GUI.this, "Anmeldung Fehlgeschlagen!", "Fehler", JOptionPane.ERROR_MESSAGE);
         }
     }
 
