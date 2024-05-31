@@ -24,6 +24,9 @@ public class GUI extends JFrame {
     private JButton suchenButton = new JButton("Suche");
     private ArtikelTabelModel artikelModel;
     private JTable artikelTabel;
+    private EinloggenKunde einloggenKunde;
+    private EinloggenMitarbeiter einloggenMitarbeiter;
+    private GUI gui;
 
 
     public GUI() {
@@ -186,31 +189,14 @@ public class GUI extends JFrame {
     }
 
     private void einloggen(String name, String passwort) {
-        GridBagConstraints c = new GridBagConstraints();
-        JPanel westPanel = new JPanel();
-        westPanel.setLayout(new GridBagLayout());
         try {
             int zahl = SV.checkLogin(name, passwort);
-            if (zahl == 1) {
-                JFrame kundenFrame = new EinloggenKunde(SV);
-                kundenFrame.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosed(WindowEvent e) {
-                        setEnabled(true);
-                    }
-                });
-                setEnabled(false);
-                kundenFrame.setVisible(true);
-            } else if (zahl == 2) {
-                JFrame mitarbeiterFrame = new EinloggenMitarbeiter(SV);
-                mitarbeiterFrame.addWindowListener(new WindowAdapter() {
-                    @Override
-                    public void windowClosed(WindowEvent e) {
-                        setEnabled(true);
-                    }
-                });
-                setEnabled(false);
-                mitarbeiterFrame.setVisible(true);
+            if(zahl == 1){
+                EinloggenKunde einloggenKunde = new EinloggenKunde(this, "Kunden Optionen", true, SV);
+                einloggenKunde.setVisible(true);
+            } else if(zahl == 2) {
+                einloggenMitarbeiter = new EinloggenMitarbeiter(this, "Mitarbeiter Optionene", true, SV);
+                einloggenMitarbeiter.setVisible(true);
             }
         } catch (LoginFehlgeschlagenException e) {
             JOptionPane.showMessageDialog(GUI.this, "Anmeldung Fehlgeschlagen!", "Fehler", JOptionPane.ERROR_MESSAGE);

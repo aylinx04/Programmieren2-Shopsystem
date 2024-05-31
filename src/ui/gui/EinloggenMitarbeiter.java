@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class EinloggenMitarbeiter extends JFrame {
+public class EinloggenMitarbeiter extends JDialog {
     private ShopVerwaltungen SV;
     private JTextField artikeltextField = new JTextField();
     private JTextField preistextField = new JTextField();
@@ -26,7 +26,8 @@ public class EinloggenMitarbeiter extends JFrame {
     private JPanel westPanel = new JPanel(new GridBagLayout());
     private GridBagConstraints c = new GridBagConstraints();
 
-    public EinloggenMitarbeiter(ShopVerwaltungen SV) {
+    public EinloggenMitarbeiter(JFrame parent, String title, boolean modal, ShopVerwaltungen SV) {
+        super(parent, title, modal);
         this.SV = SV;
         buttonsLayoutMitarbeiter();
         setSize(640, 480);
@@ -169,7 +170,8 @@ public class EinloggenMitarbeiter extends JFrame {
                 try {
                     verarbeiteArtikelHinzuKlick();
                 } catch (ArtikelExistiertBereitsException ex) {
-                    System.err.println(ex.getMessage());
+                    JOptionPane.showMessageDialog(EinloggenMitarbeiter.this, "Artikel existiert bereits!", "Fehler", JOptionPane.ERROR_MESSAGE);
+
                 }
             }
         });

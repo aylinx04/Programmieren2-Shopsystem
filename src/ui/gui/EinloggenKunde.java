@@ -5,17 +5,18 @@ import src.domain.ShopVerwaltungen;
 import javax.swing.*;
 import java.awt.*;
 
-public class EinloggenKunde extends JFrame{
+public class EinloggenKunde extends JDialog{
     private ShopVerwaltungen SV;
     private JButton artikelListeButton = new JButton("Artikelliste");
     private JButton warenkorbButton = new JButton("Warenkorb");
     private JButton ausloggenButton = new JButton("Ausloggen");
 
-    public EinloggenKunde(ShopVerwaltungen SV) {
+    public EinloggenKunde(JFrame parent, String title, boolean modal, ShopVerwaltungen SV) {
+        super(parent, title, modal);
         this.SV = SV;
         buttonsLayoutMitarbeiter();
         setSize(640, 480);
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(parent);
         setVisible(true);
     }
 
