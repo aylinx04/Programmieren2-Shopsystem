@@ -9,8 +9,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,13 +19,18 @@ public class GUI extends JFrame {
     private JTextField textfieldName = new JTextField();
     private JPasswordField passwordfieldPasswort = new JPasswordField();
     private JButton einloggenButton = new JButton("Einloggen");
+    private JButton registrierenButton = new JButton("Registrieren");
     private JTextField suchTextFeld = new JTextField();
-    private JButton suchenButton = new JButton("Suche");
+    private JTextField textfieldVorname = new JTextField();
+    private JPasswordField textfieldRPasswort = new JPasswordField();
+    private JPasswordField textfieldPasswort2 = new JPasswordField();
+    private JTextField textfieldRPLZ = new JTextField();
+
     private ArtikelTabelModel artikelModel;
     private JTable artikelTabel;
     private EinloggenKunde einloggenKunde;
     private EinloggenMitarbeiter einloggenMitarbeiter;
-    private GUI gui;
+    private JPanel anfangsKomponente;
 
 
     public GUI() {
@@ -38,9 +42,19 @@ public class GUI extends JFrame {
         }
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
         tabelle();
         layoutEinloggen();
+
+        registrierenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == registrierenButton) {
+                    registrierenLayout();
+                    setVisible(true);
+                }
+            }
+        });
+
 
         addWindowListener(new FensterSchliesser());
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -127,6 +141,27 @@ public class GUI extends JFrame {
         panel.add(sortierPanel, BorderLayout.NORTH);
 
         add(panel, BorderLayout.CENTER);
+
+        registrierenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == registrierenButton) {
+                    for (Component comp : sortierPanel.getComponents()) {
+                        comp.setVisible(false);
+                    }
+                }
+            }
+        });
+        registrierenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == registrierenButton) {
+                    for (Component comp : panel.getComponents()) {
+                        comp.setVisible(false);
+                    }
+                }
+            }
+        });
     }
 
     private void aktualisiereSuchergebnisse() {
@@ -141,8 +176,8 @@ public class GUI extends JFrame {
     }
 
     private void layoutEinloggen(){
-        JPanel westPanel = new JPanel();
-        westPanel.setLayout(new GridBagLayout());
+        JPanel einloggenPanel = new JPanel();
+        einloggenPanel.setLayout(new GridBagLayout());
         Dimension eingabeFeldGroesse = new Dimension(140,30);
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.NORTH;
@@ -150,34 +185,89 @@ public class GUI extends JFrame {
         JLabel labelName = new JLabel("Name:");
         c.gridx = 0;
         c.gridy = 0;
-        westPanel.add(labelName, c);
+        einloggenPanel.add(labelName, c);
 
         textfieldName.setPreferredSize(eingabeFeldGroesse);
         c.gridx = 0;
         c.gridy = 1;
-        westPanel.add(textfieldName, c);
+        einloggenPanel.add(textfieldName, c);
 
         JLabel labelPasswort = new JLabel("Passwort:");
         c.gridx = 0;
         c.gridy = 2;
-        westPanel.add(labelPasswort, c);
+        einloggenPanel.add(labelPasswort, c);
 
         passwordfieldPasswort.setPreferredSize(eingabeFeldGroesse);
         c.gridx = 0;
         c.gridy = 3;
-        westPanel.add(passwordfieldPasswort, c);
+        einloggenPanel.add(passwordfieldPasswort, c);
 
         einloggenButton.setPreferredSize(eingabeFeldGroesse);
         c.weighty = 1.0;
         c.gridx = 0;
         c.gridy = 4;
-        westPanel.add(einloggenButton, c);
+        einloggenPanel.add(einloggenButton, c);
         einloggenButton.addActionListener(this::verarbeiteEinloggenKlick);
 
-        add(westPanel, BorderLayout.WEST);
+        registrierenButton.setPreferredSize(eingabeFeldGroesse);
+        c.weighty = 1.0;
+        c.gridx = 0;
+        c.gridy = 5;
+        einloggenPanel.add(registrierenButton, c);
+        registrierenButton.addActionListener(this::verarbeiteRegistrierenKlick);
+
+        add(einloggenPanel, BorderLayout.WEST);
+
+        registrierenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == registrierenButton) {
+                    for (Component comp : einloggenPanel.getComponents()) {
+                        comp.setVisible(false);
+                    }
+                }
+            }
+        });
+    }
+
+    private void registrierenLayout(){
+        JPanel registrierenPanel = new JPanel();
+        registrierenPanel.setLayout(new GridBagLayout());
+        Dimension eingabeFeldGroesse = new Dimension(140,30);
+        GridBagConstraints c = new GridBagConstraints();
+        c.anchor = GridBagConstraints.NORTH;
+
+        JLabel labelVorname = new JLabel("Name:");
+        c.gridx = 0;
+        c.gridy = 0;
+        registrierenPanel.add(labelVorname, c);
+
+        textfieldVorname.setPreferredSize(eingabeFeldGroesse);
+        c.gridx = 0;
+        c.gridy = 1;
+        registrierenPanel.add(textfieldVorname, c);
+
+        JLabel labelpass = new JLabel("Passwort:");
+        c.gridx = 0;
+        c.gridy = 2;
+        registrierenPanel.add(labelpass, c);
+
+        textfieldRPasswort.setPreferredSize(eingabeFeldGroesse);
+        c.gridx = 0;
+        c.gridy = 3;
+        registrierenPanel.add(textfieldRPasswort, c);
+
+        add(registrierenPanel, BorderLayout.CENTER);
+
     }
 
 
+    void verarbeiteRegistrierenKlick(ActionEvent e){
+        if (!e.getSource().equals(registrierenButton)) {
+            return;
+        }
+
+    }
     void verarbeiteEinloggenKlick(ActionEvent e) {
         if(!e.getSource().equals(einloggenButton))
             return;
@@ -203,6 +293,11 @@ public class GUI extends JFrame {
         }
     }
 
+    private void hideComponents() {
+        for (Component comp : anfangsKomponente.getComponents()) {
+            comp.setVisible(false);
+        }
+    }
 
     public static void main(String[] args) {
         new GUI();
