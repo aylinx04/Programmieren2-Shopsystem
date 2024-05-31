@@ -7,6 +7,8 @@ import src.valueobjects.Artikel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 public class GUI extends JFrame {
@@ -110,17 +112,32 @@ public class GUI extends JFrame {
     private void einloggen(String name, String passwort) {
         try {
             int zahl = SV.checkLogin(name, passwort);
-            if(zahl == 1){
-                einloggenKunde = new EinloggenKunde(SV);
-                einloggenKunde.setVisible(true);
-            } else if(zahl == 2) {
-                einloggenMitarbeiter = new EinloggenMitarbeiter(SV);
-                einloggenMitarbeiter.setVisible(true);
+            if (zahl == 1) {
+                JFrame kundenFrame = new EinloggenKunde(SV);
+                kundenFrame.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        setEnabled(true);
+                    }
+                });
+                setEnabled(false);
+                kundenFrame.setVisible(true);
+            } else if (zahl == 2) {
+                JFrame mitarbeiterFrame = new EinloggenMitarbeiter(SV);
+                mitarbeiterFrame.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        setEnabled(true);
+                    }
+                });
+                setEnabled(false);
+                mitarbeiterFrame.setVisible(true);
             }
         } catch (LoginFehlgeschlagenException e) {
             System.err.println(e.getMessage());
         }
     }
+
 
     public static void main(String[] args) {
         new GUI();
