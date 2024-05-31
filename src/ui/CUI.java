@@ -299,7 +299,7 @@ public class CUI {
             System.out.println("\nSortieren nach:                          ");
             System.out.println("Von A-Z:                                '1'");
             System.out.println("Von Z-A:                                '2'");
-            System.out.println("Artikelnummer aufsteigend               '3'");
+            System.out.println("Artikelnummer aufsteigend:               '3'");
             System.out.println("Artikelnummer absteigend:               '4'");
             System.out.println("Preis aufsteigend:                      '5'");
             System.out.println("Preis absteigend:                       '6'");

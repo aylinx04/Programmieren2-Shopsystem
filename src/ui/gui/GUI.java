@@ -7,9 +7,12 @@ import src.valueobjects.Artikel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class GUI extends JFrame {
     private ShopVerwaltungen SV;
@@ -44,12 +47,13 @@ public class GUI extends JFrame {
         setVisible(true);
     }
 
-    private void tabelle(){
+    private void tabelle() {
         artikelModel = new ArtikelTabelModel(SV.gibAlleArtikel());
         artikelTabel = new JTable(artikelModel);
+        JPanel panel = new JPanel(new BorderLayout());
 
         JScrollPane scrollPane = new JScrollPane(artikelTabel);
-        add(scrollPane, BorderLayout.CENTER);
+        panel.add(scrollPane, BorderLayout.CENTER);
 
         String suchBegriff = suchTextFeld.getText();
         java.util.List<Artikel> suchErgebnis;
@@ -59,6 +63,53 @@ public class GUI extends JFrame {
             suchErgebnis = SV.sucheNachTitel(suchBegriff);
         }
         artikelModel.setArtikel(suchErgebnis);
+
+        String sotieren[] = {"Von A-Z", "Von Z-A", "Artikelnummer aufsteigend", "Artikelnummer absteigend", "Preis aufsteigend", "Preis absteigend", "Bestand aufsteigend", "Bestand absteigend"};
+        JComboBox<String> sortierAuswahl = new JComboBox<>(sotieren);
+        JLabel labelsotieren = new JLabel("Sortieren nach: ");
+        sortierAuswahl.addActionListener(e -> {
+            JComboBox<String> comboBox = (JComboBox<String>) e.getSource();
+            String selectedOption = (String) comboBox.getSelectedItem();
+            if (selectedOption.equals("Von A-Z")) {
+                Collections.sort(SV.gibAlleArtikel(), Comparator.comparing(Artikel::getName));
+
+            } else if (selectedOption.equals("Von Z-A")) {
+                Collections.sort(SV.gibAlleArtikel(), Comparator.comparing(Artikel::getName));
+                Collections.reverse(SV.gibAlleArtikel());
+
+            } else if (selectedOption.equals("Artikelnummer aufsteigend")) {
+                Collections.sort(SV.gibAlleArtikel(), Comparator.comparing(Artikel::getNummer));
+
+            } else if (selectedOption.equals("Artikelnummer absteigend")) {
+                Collections.sort(SV.gibAlleArtikel(), Comparator.comparing(Artikel::getNummer));
+                Collections.reverse(SV.gibAlleArtikel());
+
+            } else if (selectedOption.equals("Preis aufsteigend")) {
+                Collections.sort(SV.gibAlleArtikel(), Comparator.comparing(Artikel::getPreis));
+
+            } else if (selectedOption.equals("Preis absteigend")) {
+                Collections.sort(SV.gibAlleArtikel(), Comparator.comparing(Artikel::getPreis));
+                Collections.reverse(SV.gibAlleArtikel());
+
+            } else if (selectedOption.equals("Bestand aufsteigend")) {
+                Collections.sort(SV.gibAlleArtikel(), Comparator.comparing(Artikel::getBestand));
+
+            } else if (selectedOption.equals("Bestand absteigend")) {
+                Collections.sort(SV.gibAlleArtikel(), Comparator.comparing(Artikel::getBestand));
+                Collections.reverse(SV.gibAlleArtikel());
+            }
+
+            artikelModel.setArtikel(SV.gibAlleArtikel());
+        });
+
+
+        JPanel sortierPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        sortierPanel.add(labelsotieren);
+        sortierPanel.add(sortierAuswahl);
+
+        panel.add(sortierPanel, BorderLayout.NORTH);
+
+        add(panel, BorderLayout.CENTER);
     }
 
     private void layoutEinloggen(){
@@ -93,11 +144,11 @@ public class GUI extends JFrame {
         c.gridx = 0;
         c.gridy = 4;
         westPanel.add(einloggenButton, c);
-        einloggenButton.addActionListener(dasEvent -> verarbeiteEinloggenKlick(dasEvent));
+        einloggenButton.addActionListener(this::verarbeiteEinloggenKlick);
 
         add(westPanel, BorderLayout.WEST);
-
     }
+
 
     void verarbeiteEinloggenKlick(ActionEvent e) {
         if(!e.getSource().equals(einloggenButton))
