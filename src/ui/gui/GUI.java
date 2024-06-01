@@ -2,6 +2,7 @@ package src.ui.gui;
 
 import src.domain.ShopVerwaltungen;
 import src.domain.exceptions.LoginFehlgeschlagenException;
+import src.domain.exceptions.RegistrierenFehlgeschlagenException;
 import src.valueobjects.Artikel;
 
 import javax.swing.*;
@@ -20,11 +21,14 @@ public class GUI extends JFrame {
     private JPasswordField passwordfieldPasswort = new JPasswordField();
     private JButton einloggenButton = new JButton("Einloggen");
     private JButton registrierenButton = new JButton("Registrieren");
+    private JButton jetztRegistrierenButton = new JButton("Registrieren");
     private JTextField suchTextFeld = new JTextField();
     private JTextField textfieldVorname = new JTextField();
-    private JPasswordField textfieldRPasswort = new JPasswordField();
+    private JPasswordField textfieldPasswort = new JPasswordField();
     private JPasswordField textfieldPasswort2 = new JPasswordField();
-    private JTextField textfieldRPLZ = new JTextField();
+    private JTextField textfieldStrasse = new JTextField();
+    private JTextField textfieldPlz = new JTextField();
+    private JTextField textfieldWohnort = new JTextField();
 
     private ArtikelTabelModel artikelModel;
     private JTable artikelTabel;
@@ -32,6 +36,10 @@ public class GUI extends JFrame {
     private EinloggenMitarbeiter einloggenMitarbeiter;
     private JPanel anfangsKomponente;
 
+
+    public static void main(String[] args) {
+        new GUI();
+    }
 
     public GUI() {
         super("E-Shop");
@@ -43,7 +51,7 @@ public class GUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         tabelle();
-        layoutEinloggen();
+        einloggenLayout();
 
         registrierenButton.addActionListener(new ActionListener() {
             @Override
@@ -54,7 +62,6 @@ public class GUI extends JFrame {
                 }
             }
         });
-
 
         addWindowListener(new FensterSchliesser());
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -93,8 +100,8 @@ public class GUI extends JFrame {
 
         suchTextFeld.setPreferredSize(eingabeFeldGroesse);
 
-        String sotieren[] = {"Von A-Z", "Von Z-A", "Artikelnummer aufsteigend", "Artikelnummer absteigend", "Preis aufsteigend", "Preis absteigend", "Bestand aufsteigend", "Bestand absteigend"};
-        JComboBox<String> sortierAuswahl = new JComboBox<>(sotieren);
+        String[] sortieren = {"Von A-Z", "Von Z-A", "Artikelnummer aufsteigend", "Artikelnummer absteigend", "Preis aufsteigend", "Preis absteigend", "Bestand aufsteigend", "Bestand absteigend"};
+        JComboBox<String> sortierAuswahl = new JComboBox<>(sortieren);
         JLabel labelsotieren = new JLabel("Sortieren nach: ");
         sortierAuswahl.addActionListener(e -> {
             JComboBox<String> comboBox = (JComboBox<String>) e.getSource();
@@ -131,7 +138,6 @@ public class GUI extends JFrame {
             artikelModel.setArtikel(SV.gibAlleArtikel());
         });
 
-
         JPanel sortierPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         sortierPanel.add(labelsotieren);
         sortierPanel.add(sortierAuswahl);
@@ -139,29 +145,9 @@ public class GUI extends JFrame {
         sortierPanel.add(suchTextFeld);
 
         panel.add(sortierPanel, BorderLayout.NORTH);
-
         add(panel, BorderLayout.CENTER);
 
-        registrierenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == registrierenButton) {
-                    for (Component comp : sortierPanel.getComponents()) {
-                        comp.setVisible(false);
-                    }
-                }
-            }
-        });
-        registrierenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == registrierenButton) {
-                    for (Component comp : panel.getComponents()) {
-                        comp.setVisible(false);
-                    }
-                }
-            }
-        });
+        registrierenButton.addActionListener(e -> panel.setVisible(false));
     }
 
     private void aktualisiereSuchergebnisse() {
@@ -175,59 +161,32 @@ public class GUI extends JFrame {
         artikelModel.setArtikel(suchErgebnis);
     }
 
-    private void layoutEinloggen(){
+    private void einloggenLayout(){
         JPanel einloggenPanel = new JPanel();
         einloggenPanel.setLayout(new GridBagLayout());
         Dimension eingabeFeldGroesse = new Dimension(140,30);
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.NORTH;
 
-        JLabel labelName = new JLabel("Name:");
-        c.gridx = 0;
-        c.gridy = 0;
-        einloggenPanel.add(labelName, c);
+        addComponent(einloggenPanel, new JLabel("Name:"), 0, 0, eingabeFeldGroesse, c);
+        addComponent(einloggenPanel, textfieldName, 0, 1, eingabeFeldGroesse, c);
+        addComponent(einloggenPanel, new JLabel("Passwort:"), 0, 2, eingabeFeldGroesse, c);
+        addComponent(einloggenPanel, passwordfieldPasswort, 0, 3, eingabeFeldGroesse, c);
 
-        textfieldName.setPreferredSize(eingabeFeldGroesse);
-        c.gridx = 0;
-        c.gridy = 1;
-        einloggenPanel.add(textfieldName, c);
-
-        JLabel labelPasswort = new JLabel("Passwort:");
-        c.gridx = 0;
-        c.gridy = 2;
-        einloggenPanel.add(labelPasswort, c);
-
-        passwordfieldPasswort.setPreferredSize(eingabeFeldGroesse);
-        c.gridx = 0;
-        c.gridy = 3;
-        einloggenPanel.add(passwordfieldPasswort, c);
-
-        einloggenButton.setPreferredSize(eingabeFeldGroesse);
         c.weighty = 1.0;
-        c.gridx = 0;
-        c.gridy = 4;
-        einloggenPanel.add(einloggenButton, c);
+        addComponent(einloggenPanel, einloggenButton, 0, 4, eingabeFeldGroesse, c);
         einloggenButton.addActionListener(this::verarbeiteEinloggenKlick);
-
-        registrierenButton.setPreferredSize(eingabeFeldGroesse);
-        c.weighty = 1.0;
-        c.gridx = 0;
-        c.gridy = 5;
-        einloggenPanel.add(registrierenButton, c);
+        addComponent(einloggenPanel, registrierenButton, 0, 5, eingabeFeldGroesse, c);
         registrierenButton.addActionListener(this::verarbeiteRegistrierenKlick);
 
         add(einloggenPanel, BorderLayout.WEST);
+    }
 
-        registrierenButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == registrierenButton) {
-                    for (Component comp : einloggenPanel.getComponents()) {
-                        comp.setVisible(false);
-                    }
-                }
-            }
-        });
+    private void addComponent(JPanel panel, JComponent component, int gridx, int gridy, Dimension groesse, GridBagConstraints c) {
+        component.setPreferredSize(groesse);
+        c.gridx = gridx;
+        c.gridy = gridy;
+        panel.add(component, c);
     }
 
     private void registrierenLayout(){
@@ -236,39 +195,62 @@ public class GUI extends JFrame {
         Dimension eingabeFeldGroesse = new Dimension(140,30);
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.NORTH;
+        c.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel labelVorname = new JLabel("Name:");
-        c.gridx = 0;
-        c.gridy = 0;
-        registrierenPanel.add(labelVorname, c);
+        addComponent(registrierenPanel, new JLabel("Name:"), 0, 0, eingabeFeldGroesse, c);
+        addComponent(registrierenPanel, textfieldVorname, 1, 0, eingabeFeldGroesse, c);
+        addComponent(registrierenPanel, new JLabel("Passwort:"), 0, 1, eingabeFeldGroesse, c);
+        addComponent(registrierenPanel, textfieldPasswort, 1, 1, eingabeFeldGroesse, c);
+        addComponent(registrierenPanel, new JLabel("Passwort:"), 0, 2, eingabeFeldGroesse, c);
+        addComponent(registrierenPanel, textfieldPasswort2, 1, 2, eingabeFeldGroesse, c);
+        addComponent(registrierenPanel, new JLabel("Strasse:"), 0, 3, eingabeFeldGroesse, c);
+        addComponent(registrierenPanel, textfieldStrasse, 1, 3, eingabeFeldGroesse, c);
+        addComponent(registrierenPanel, new JLabel("PLZ:"), 0, 4, eingabeFeldGroesse, c);
+        addComponent(registrierenPanel, textfieldPlz, 1, 4, eingabeFeldGroesse, c);
+        addComponent(registrierenPanel, new JLabel("Wohnort:"), 0, 5, eingabeFeldGroesse, c);
+        addComponent(registrierenPanel, textfieldWohnort, 1, 5, eingabeFeldGroesse, c);
+        addComponent(registrierenPanel, jetztRegistrierenButton, 0, 6, eingabeFeldGroesse, c);
 
-        textfieldVorname.setPreferredSize(eingabeFeldGroesse);
-        c.gridx = 0;
-        c.gridy = 1;
-        registrierenPanel.add(textfieldVorname, c);
+        jetztRegistrierenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                verarbeiteRegistrierenKlick(e);
+            }
+        });
 
-        JLabel labelpass = new JLabel("Passwort:");
-        c.gridx = 0;
-        c.gridy = 2;
-        registrierenPanel.add(labelpass, c);
-
-        textfieldRPasswort.setPreferredSize(eingabeFeldGroesse);
-        c.gridx = 0;
-        c.gridy = 3;
-        registrierenPanel.add(textfieldRPasswort, c);
-
+        getContentPane().removeAll();
         add(registrierenPanel, BorderLayout.CENTER);
-
     }
 
-
-    void verarbeiteRegistrierenKlick(ActionEvent e){
-        if (!e.getSource().equals(registrierenButton)) {
+    private void verarbeiteRegistrierenKlick(ActionEvent e){
+        if(!e.getSource().equals(jetztRegistrierenButton))
+            return;
+        if(textfieldVorname.getText().isEmpty() ||
+                textfieldPasswort.getPassword().length == 0 ||
+                textfieldPasswort2.getPassword().length == 0 ||
+                textfieldStrasse.getText().isEmpty() ||
+                textfieldPlz.getText().isEmpty() ||
+                textfieldWohnort.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(GUI.this, "Bitte füllen Sie alle Felder aus.", "Fehler", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        String name = textfieldVorname.getText();
+        String passwort = String.valueOf(textfieldPasswort.getPassword());
+        String passwort2 = String.valueOf(textfieldPasswort2.getPassword());
+        String strasse = textfieldStrasse.getText();
+        String plz = textfieldPlz.getText();
+        String wohnort = textfieldWohnort.getText();
+        try {
+            SV.checkPasswort(passwort, passwort2);
+            SV.kundeAnlegen(name, passwort, strasse, plz, wohnort);
+            System.out.println("Erfolgreich registriert!");
+            einloggen(name, passwort);
+        } catch (RegistrierenFehlgeschlagenException ex) {
+            JOptionPane.showMessageDialog(GUI.this, ex.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
+        }
     }
-    void verarbeiteEinloggenKlick(ActionEvent e) {
+
+    private void verarbeiteEinloggenKlick(ActionEvent e) {
         if(!e.getSource().equals(einloggenButton))
             return;
 
@@ -282,14 +264,14 @@ public class GUI extends JFrame {
         try {
             int zahl = SV.checkLogin(name, passwort);
             if(zahl == 1){
-                EinloggenKunde einloggenKunde = new EinloggenKunde(this, "Kunden Optionen", true, SV);
+                einloggenKunde = new EinloggenKunde(this, "Kunden Optionen", true, SV);
                 einloggenKunde.setVisible(true);
             } else if(zahl == 2) {
-                einloggenMitarbeiter = new EinloggenMitarbeiter(this, "Mitarbeiter Optionene", true, SV);
+                einloggenMitarbeiter = new EinloggenMitarbeiter(this, "Mitarbeiter Optionen", true, SV);
                 einloggenMitarbeiter.setVisible(true);
             }
         } catch (LoginFehlgeschlagenException e) {
-            JOptionPane.showMessageDialog(GUI.this, "Anmeldung Fehlgeschlagen!", "Fehler", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(GUI.this, e.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -299,7 +281,4 @@ public class GUI extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        new GUI();
-    }
 }

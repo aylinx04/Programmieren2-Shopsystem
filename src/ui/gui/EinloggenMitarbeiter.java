@@ -14,13 +14,13 @@ public class EinloggenMitarbeiter extends JDialog {
     private JTextField preistextField = new JTextField();
     private JTextField bestandtextField = new JTextField();
     private JButton artikelListeButton = new JButton("Artikelliste");
-    private JButton artikelHinzufügenButton = new JButton("Hinzufügen");
-    private JButton bestandErhöhenButton = new JButton("Bestand");
+    private JButton artikelHinzufuegenButton = new JButton("Hinzufügen");
+    private JButton bestandErhoehenButton = new JButton("Bestand");
     private JTextField packungsgroesseTextField = new JTextField();
     private ButtonGroup massengutGroup = new ButtonGroup();
     private JRadioButton massengutJa = new JRadioButton("Ja");
     private JRadioButton massengutNein = new JRadioButton("Nein");
-    private JButton mitarbeiterHinzufügenButton = new JButton("Mitarbeiter hinzufügen");
+    private JButton mitarbeiterHinzufuegenButton = new JButton("Mitarbeiter hinzufügen");
     private JButton ereignisListeButton = new JButton("Ereignisse");
     private JButton ausloggenButton = new JButton("Ausloggen");
     private JPanel westPanel = new JPanel(new GridBagLayout());
@@ -29,6 +29,7 @@ public class EinloggenMitarbeiter extends JDialog {
     public EinloggenMitarbeiter(JFrame parent, String title, boolean modal, ShopVerwaltungen SV) {
         super(parent, title, modal);
         this.SV = SV;
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         buttonsLayoutMitarbeiter();
         setSize(640, 480);
         setLocationRelativeTo(null);
@@ -39,40 +40,38 @@ public class EinloggenMitarbeiter extends JDialog {
         Dimension eingabeFeldGroesse = new Dimension(140, 30);
         c.anchor = GridBagConstraints.NORTH;
 
-        artikelListeButton.setPreferredSize(eingabeFeldGroesse);
-        c.weighty = 1.0;
-        c.gridx = 0;
-        c.gridy = 0;
-        westPanel.add(artikelListeButton, c);
-
-        artikelHinzufügenButton.setPreferredSize(eingabeFeldGroesse);
-        c.gridx = 1;
-        westPanel.add(artikelHinzufügenButton, c);
-
-        bestandErhöhenButton.setPreferredSize(eingabeFeldGroesse);
-        c.gridx = 2;
-        westPanel.add(bestandErhöhenButton, c);
-
-        mitarbeiterHinzufügenButton.setPreferredSize(eingabeFeldGroesse);
-        c.gridx = 3;
-        westPanel.add(mitarbeiterHinzufügenButton, c);
-
-        ereignisListeButton.setPreferredSize(eingabeFeldGroesse);
-        c.gridx = 4;
-        westPanel.add(ereignisListeButton, c);
-
-        ausloggenButton.setPreferredSize(eingabeFeldGroesse);
-        c.gridx = 5;
-        westPanel.add(ausloggenButton, c);
+        addComponent(westPanel, artikelListeButton, 0, 0, eingabeFeldGroesse, c);
+        addComponent(westPanel, artikelHinzufuegenButton, 1, 0, eingabeFeldGroesse, c);
+        addComponent(westPanel, bestandErhoehenButton, 2, 0, eingabeFeldGroesse, c);
+        addComponent(westPanel, mitarbeiterHinzufuegenButton, 3, 0, eingabeFeldGroesse, c);
+        addComponent(westPanel, ereignisListeButton, 4, 0, eingabeFeldGroesse, c);
+        addComponent(westPanel, ausloggenButton, 5, 0, eingabeFeldGroesse, c);
 
         artikelListeButton.addActionListener(new ButtonActionListener());
-        artikelHinzufügenButton.addActionListener(new ButtonActionListener());
-        bestandErhöhenButton.addActionListener(new ButtonActionListener());
-        mitarbeiterHinzufügenButton.addActionListener(new ButtonActionListener());
+        artikelHinzufuegenButton.addActionListener(new ButtonActionListener());
+        bestandErhoehenButton.addActionListener(new ButtonActionListener());
+        mitarbeiterHinzufuegenButton.addActionListener(new ButtonActionListener());
         ereignisListeButton.addActionListener(new ButtonActionListener());
-        ausloggenButton.addActionListener(new ButtonActionListener());
 
         add(westPanel, BorderLayout.NORTH);
+
+        ausloggenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int antwort = JOptionPane.showConfirmDialog(EinloggenMitarbeiter.this, "Möchten Sie sich wirklich abmelden?", "Abmelden", JOptionPane.YES_NO_OPTION);
+                if (antwort == JOptionPane.YES_OPTION) {
+                    dispose();
+                }
+            }
+        });
+
+    }
+
+    private void addComponent(JPanel panel, JComponent component, int gridx, int gridy, Dimension groesse, GridBagConstraints c) {
+        component.setPreferredSize(groesse);
+        c.gridx = gridx;
+        c.gridy = gridy;
+        panel.add(component, c);
     }
 
     private class ButtonActionListener implements ActionListener {
@@ -85,7 +84,7 @@ public class EinloggenMitarbeiter extends JDialog {
 
                     break;
                 case "Hinzufügen":
-                    zeigeArtikelHinzufuegen();
+                    artikelHinzuLayout();
                     break;
                 case "Bestand":
 
@@ -96,23 +95,13 @@ public class EinloggenMitarbeiter extends JDialog {
                 case "Ereignisse":
 
                     break;
-                case "Ausloggen":
-
-                    break;
                 default:
                     break;
             }
         }
     }
 
-    private void addComponent(JPanel panel, JComponent component, int gridx, int gridy, Dimension groesse, GridBagConstraints c) {
-        component.setPreferredSize(groesse);
-        c.gridx = gridx;
-        c.gridy = gridy;
-        panel.add(component, c);
-    }
-
-    private void zeigeArtikelHinzufuegen() {
+    private void artikelHinzuLayout() {
         JPanel formPanel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         Dimension eingabeFeldGroesse = new Dimension(140, 30);
@@ -170,8 +159,7 @@ public class EinloggenMitarbeiter extends JDialog {
                 try {
                     verarbeiteArtikelHinzuKlick();
                 } catch (ArtikelExistiertBereitsException ex) {
-                    JOptionPane.showMessageDialog(EinloggenMitarbeiter.this, "Artikel existiert bereits!", "Fehler", JOptionPane.ERROR_MESSAGE);
-
+                    JOptionPane.showMessageDialog(EinloggenMitarbeiter.this, ex.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
