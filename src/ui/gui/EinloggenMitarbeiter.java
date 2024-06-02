@@ -26,6 +26,7 @@ public class EinloggenMitarbeiter extends JDialog {
     private JButton ereignisListeButton = new JButton("Ereignisse");
     private JButton ausloggenButton = new JButton("Ausloggen");
     private JPanel mitarbeiterPanel = new JPanel(new GridBagLayout());
+    JList ereignisListe = new JList<>();
     private GridBagConstraints c = new GridBagConstraints();
 
     public EinloggenMitarbeiter(JFrame parent, String title, boolean modal, ShopVerwaltungen SV) {
@@ -87,6 +88,7 @@ public class EinloggenMitarbeiter extends JDialog {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton source = (JButton) e.getSource();
+            ereignisListe.setListData(SV.gebeEreignisListe().toArray());
 
             switch (source.getText()) {
                 case "Artikelliste":
@@ -102,7 +104,7 @@ public class EinloggenMitarbeiter extends JDialog {
 
                     break;
                 case "Ereignisse":
-
+                    add(ereignisListe, BorderLayout.CENTER);
                     break;
                 default:
                     break;

@@ -34,7 +34,6 @@ public class GUI extends JFrame {
     private JTable artikelTabel;
 
     private JPanel registrierenPanel;
-    private JPanel anfangsKomponente;
 
 
     public static void main(String[] args) {
@@ -275,12 +274,6 @@ public class GUI extends JFrame {
             }
         } catch (LoginFehlgeschlagenException e) {
             JOptionPane.showMessageDialog(GUI.this, e.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void hideComponents() {
-        for (Component comp : anfangsKomponente.getComponents()) {
-            comp.setVisible(false);
         }
     }
 
