@@ -172,15 +172,33 @@ public class EinloggenMitarbeiter extends JDialog {
     }
 
     void verarbeiteArtikelHinzuKlick() throws ArtikelExistiertBereitsException {
-        String artikel = artikeltextField.getText();
-        double preis = Double.parseDouble(preistextField.getText());
-        int bestand = Integer.parseInt(bestandtextField.getText());
+        try {
+            if (artikeltextField.getText().isEmpty() ||
+                    Double.parseDouble(preistextField.getText()) == 0 ||
+                    Integer.parseInt(bestandtextField.getText()) == 0 ||
+                    (!massengutJa.isSelected()) && !massengutNein.isSelected()) {
+                JOptionPane.showMessageDialog(this, "Bitte füllen Sie alle Felder aus.", "Fehler", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-        if (massengutJa.isSelected()) {
-            int packungsgroesse = Integer.parseInt(packungsgroesseTextField.getText());
-            SV.artikelAnlegen(artikel, preis, bestand, packungsgroesse);
-        } else {
-            SV.artikelAnlegen(artikel, preis, bestand);
+            String artikel = artikeltextField.getText();
+            double preis = Double.parseDouble(preistextField.getText());
+            int bestand = Integer.parseInt(bestandtextField.getText());
+
+            if (massengutJa.isSelected()) {
+                int packungsgroesse = Integer.parseInt(packungsgroesseTextField.getText());
+                if (Integer.parseInt(packungsgroesseTextField.getText()) == 0) {
+                    JOptionPane.showMessageDialog(this, "Bitte füllen Sie alle Felder aus.", "Fehler", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                SV.artikelAnlegen(artikel, preis, bestand, packungsgroesse);
+                JOptionPane.showMessageDialog(this, "Artikel erfolgreich angelegt!", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                SV.artikelAnlegen(artikel, preis, bestand);
+                JOptionPane.showMessageDialog(this, "Artikel erfolgreich angelegt!", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Bitte geben Sie gültige Zahlenwerte ein.", "Fehler", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
