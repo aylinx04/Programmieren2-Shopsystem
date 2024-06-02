@@ -33,6 +33,7 @@ public class GUI extends JFrame {
     private ArtikelTabelModel artikelModel;
     private JTable artikelTabel;
 
+    private JPanel registrierenPanel;
     private JPanel anfangsKomponente;
 
 
@@ -189,7 +190,7 @@ public class GUI extends JFrame {
     }
 
     private void registrierenLayout(){
-        JPanel registrierenPanel = new JPanel();
+        registrierenPanel = new JPanel();
         registrierenPanel.setLayout(new GridBagLayout());
         Dimension eingabeFeldGroesse = new Dimension(140,30);
         GridBagConstraints c = new GridBagConstraints();
@@ -242,7 +243,12 @@ public class GUI extends JFrame {
         try {
             SV.checkPasswort(passwort, passwort2);
             SV.kundeAnlegen(name, passwort, strasse, plz, wohnort);
-            System.out.println("Erfolgreich registriert!");
+            JOptionPane.showMessageDialog(GUI.this, "Registrierung erfolgreich!", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
+            if (registrierenPanel != null) {
+                registrierenPanel.setVisible(false);
+            }
+            einloggenLayout();
+            tabelle();
             einloggen(name, passwort);
         } catch (RegistrierenFehlgeschlagenException ex) {
             JOptionPane.showMessageDialog(GUI.this, ex.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
