@@ -24,19 +24,18 @@ public class EinloggenKunde extends JDialog{
     }
 
     public void buttonsLayoutKunde(){
-        JPanel westPanel = new JPanel();
-        westPanel.setLayout(new GridBagLayout());
+        JPanel kundenPanel = new JPanel();
+        kundenPanel.setLayout(new GridBagLayout());
         Dimension eingabeFeldGroesse = new Dimension(140,30);
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.NORTH;
 
-        addComponent(westPanel, artikelListeButton, 0, 0, eingabeFeldGroesse, c);
-        addComponent(westPanel, warenkorbButton, 1, 0, eingabeFeldGroesse, c);
-        addComponent(westPanel, ausloggenButton, 2, 0, eingabeFeldGroesse, c);
+        addComponent(kundenPanel, artikelListeButton, 0, 0, eingabeFeldGroesse, c);
+        addComponent(kundenPanel, warenkorbButton, 1, 0, eingabeFeldGroesse, c);
+        addComponent(kundenPanel, ausloggenButton, 2, 0, eingabeFeldGroesse, c);
 
         artikelListeButton.addActionListener(new EinloggenKunde.ButtonActionListener());
         warenkorbButton.addActionListener(new EinloggenKunde.ButtonActionListener());
-        ausloggenButton.addActionListener(new EinloggenKunde.ButtonActionListener());
 
         ausloggenButton.addActionListener(new ActionListener() {
             @Override
@@ -48,7 +47,7 @@ public class EinloggenKunde extends JDialog{
             }
         });
 
-        add(westPanel, BorderLayout.NORTH);
+        add(kundenPanel, BorderLayout.NORTH);
     }
 
     private void addComponent(JPanel panel, JComponent component, int gridx, int gridy, Dimension groesse, GridBagConstraints c) {

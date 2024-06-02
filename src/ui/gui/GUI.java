@@ -32,8 +32,7 @@ public class GUI extends JFrame {
 
     private ArtikelTabelModel artikelModel;
     private JTable artikelTabel;
-    private EinloggenKunde einloggenKunde;
-    private EinloggenMitarbeiter einloggenMitarbeiter;
+
     private JPanel anfangsKomponente;
 
 
@@ -102,7 +101,7 @@ public class GUI extends JFrame {
 
         String[] sortieren = {"Von A-Z", "Von Z-A", "Artikelnummer aufsteigend", "Artikelnummer absteigend", "Preis aufsteigend", "Preis absteigend", "Bestand aufsteigend", "Bestand absteigend"};
         JComboBox<String> sortierAuswahl = new JComboBox<>(sortieren);
-        JLabel labelsotieren = new JLabel("Sortieren nach: ");
+        JLabel sortierenLabel = new JLabel("Sortieren nach: ");
         sortierAuswahl.addActionListener(e -> {
             JComboBox<String> comboBox = (JComboBox<String>) e.getSource();
             String selectedOption = (String) comboBox.getSelectedItem();
@@ -139,7 +138,7 @@ public class GUI extends JFrame {
         });
 
         JPanel sortierPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        sortierPanel.add(labelsotieren);
+        sortierPanel.add(sortierenLabel);
         sortierPanel.add(sortierAuswahl);
         sortierPanel.add(labelSuche);
         sortierPanel.add(suchTextFeld);
@@ -264,11 +263,9 @@ public class GUI extends JFrame {
         try {
             int zahl = SV.checkLogin(name, passwort);
             if(zahl == 1){
-                einloggenKunde = new EinloggenKunde(this, "Kunden Optionen", true, SV);
-                einloggenKunde.setVisible(true);
+                new EinloggenKunde(this, "Kunden Optionen", true, SV);
             } else if(zahl == 2) {
-                einloggenMitarbeiter = new EinloggenMitarbeiter(this, "Mitarbeiter Optionen", true, SV);
-                einloggenMitarbeiter.setVisible(true);
+                new EinloggenMitarbeiter(this, "Mitarbeiter Optionen", true, SV);
             }
         } catch (LoginFehlgeschlagenException e) {
             JOptionPane.showMessageDialog(GUI.this, e.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);

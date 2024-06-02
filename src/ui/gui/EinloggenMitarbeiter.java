@@ -23,7 +23,7 @@ public class EinloggenMitarbeiter extends JDialog {
     private JButton mitarbeiterHinzufuegenButton = new JButton("Mitarbeiter hinzufügen");
     private JButton ereignisListeButton = new JButton("Ereignisse");
     private JButton ausloggenButton = new JButton("Ausloggen");
-    private JPanel westPanel = new JPanel(new GridBagLayout());
+    private JPanel mitarbeiterPanel = new JPanel(new GridBagLayout());
     private GridBagConstraints c = new GridBagConstraints();
 
     public EinloggenMitarbeiter(JFrame parent, String title, boolean modal, ShopVerwaltungen SV) {
@@ -40,12 +40,12 @@ public class EinloggenMitarbeiter extends JDialog {
         Dimension eingabeFeldGroesse = new Dimension(140, 30);
         c.anchor = GridBagConstraints.NORTH;
 
-        addComponent(westPanel, artikelListeButton, 0, 0, eingabeFeldGroesse, c);
-        addComponent(westPanel, artikelHinzufuegenButton, 1, 0, eingabeFeldGroesse, c);
-        addComponent(westPanel, bestandErhoehenButton, 2, 0, eingabeFeldGroesse, c);
-        addComponent(westPanel, mitarbeiterHinzufuegenButton, 3, 0, eingabeFeldGroesse, c);
-        addComponent(westPanel, ereignisListeButton, 4, 0, eingabeFeldGroesse, c);
-        addComponent(westPanel, ausloggenButton, 5, 0, eingabeFeldGroesse, c);
+        addComponent(mitarbeiterPanel, artikelListeButton, 0, 0, eingabeFeldGroesse, c);
+        addComponent(mitarbeiterPanel, artikelHinzufuegenButton, 1, 0, eingabeFeldGroesse, c);
+        addComponent(mitarbeiterPanel, bestandErhoehenButton, 2, 0, eingabeFeldGroesse, c);
+        addComponent(mitarbeiterPanel, mitarbeiterHinzufuegenButton, 3, 0, eingabeFeldGroesse, c);
+        addComponent(mitarbeiterPanel, ereignisListeButton, 4, 0, eingabeFeldGroesse, c);
+        addComponent(mitarbeiterPanel, ausloggenButton, 5, 0, eingabeFeldGroesse, c);
 
         artikelListeButton.addActionListener(new ButtonActionListener());
         artikelHinzufuegenButton.addActionListener(new ButtonActionListener());
@@ -53,7 +53,7 @@ public class EinloggenMitarbeiter extends JDialog {
         mitarbeiterHinzufuegenButton.addActionListener(new ButtonActionListener());
         ereignisListeButton.addActionListener(new ButtonActionListener());
 
-        add(westPanel, BorderLayout.NORTH);
+        add(mitarbeiterPanel, BorderLayout.NORTH);
 
         ausloggenButton.addActionListener(new ActionListener() {
             @Override
@@ -102,27 +102,27 @@ public class EinloggenMitarbeiter extends JDialog {
     }
 
     private void artikelHinzuLayout() {
-        JPanel formPanel = new JPanel(new GridBagLayout());
+        JPanel artikelHinzuPanel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         Dimension eingabeFeldGroesse = new Dimension(140, 30);
         c.anchor = GridBagConstraints.NORTH;
 
-        addComponent(formPanel, new JLabel("Artikelname:"), 0, 0, eingabeFeldGroesse, c);
-        addComponent(formPanel, artikeltextField, 1, 0, eingabeFeldGroesse, c);
-        addComponent(formPanel, new JLabel("Preis:"), 0, 1, eingabeFeldGroesse, c);
-        addComponent(formPanel, preistextField, 1, 1, eingabeFeldGroesse, c);
-        addComponent(formPanel, new JLabel("Bestand:"), 0, 2, eingabeFeldGroesse, c);
-        addComponent(formPanel, bestandtextField, 1, 2, eingabeFeldGroesse, c);
-        addComponent(formPanel, new JLabel("Massengutartikel:"), 0, 3, eingabeFeldGroesse, c);
+        addComponent(artikelHinzuPanel, new JLabel("Artikelname:"), 0, 0, eingabeFeldGroesse, c);
+        addComponent(artikelHinzuPanel, artikeltextField, 1, 0, eingabeFeldGroesse, c);
+        addComponent(artikelHinzuPanel, new JLabel("Preis:"), 0, 1, eingabeFeldGroesse, c);
+        addComponent(artikelHinzuPanel, preistextField, 1, 1, eingabeFeldGroesse, c);
+        addComponent(artikelHinzuPanel, new JLabel("Bestand:"), 0, 2, eingabeFeldGroesse, c);
+        addComponent(artikelHinzuPanel, bestandtextField, 1, 2, eingabeFeldGroesse, c);
+        addComponent(artikelHinzuPanel, new JLabel("Massengutartikel:"), 0, 3, eingabeFeldGroesse, c);
 
         massengutGroup.add(massengutJa);
         massengutGroup.add(massengutNein);
-        addComponent(formPanel, massengutJa, 1, 3, eingabeFeldGroesse, c);
-        addComponent(formPanel, massengutNein, 2, 3, eingabeFeldGroesse, c);
+        addComponent(artikelHinzuPanel, massengutJa, 1, 3, eingabeFeldGroesse, c);
+        addComponent(artikelHinzuPanel, massengutNein, 2, 3, eingabeFeldGroesse, c);
 
         JLabel labelPackungsgroesse = new JLabel("Packungsgröße:");
-        addComponent(formPanel, labelPackungsgroesse, 0, 4, eingabeFeldGroesse, c);
-        addComponent(formPanel, packungsgroesseTextField, 1, 4, eingabeFeldGroesse, c);
+        addComponent(artikelHinzuPanel, labelPackungsgroesse, 0, 4, eingabeFeldGroesse, c);
+        addComponent(artikelHinzuPanel, packungsgroesseTextField, 1, 4, eingabeFeldGroesse, c);
 
         packungsgroesseTextField.setVisible(false);
         labelPackungsgroesse.setVisible(false);
@@ -151,7 +151,7 @@ public class EinloggenMitarbeiter extends JDialog {
         c.gridx = 0;
         c.gridy = 5;
         c.gridwidth = 3;
-        formPanel.add(speichernButton, c);
+        artikelHinzuPanel.add(speichernButton, c);
 
         speichernButton.addActionListener(new ActionListener() {
             @Override
@@ -165,8 +165,8 @@ public class EinloggenMitarbeiter extends JDialog {
         });
 
         getContentPane().removeAll();
-        add(westPanel, BorderLayout.NORTH);
-        add(formPanel, BorderLayout.CENTER);
+        add(mitarbeiterPanel, BorderLayout.NORTH);
+        add(artikelHinzuPanel, BorderLayout.CENTER);
         revalidate();
         repaint();
     }
