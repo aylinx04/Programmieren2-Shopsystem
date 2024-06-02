@@ -2,11 +2,13 @@ package src.ui.gui;
 
 import src.domain.ShopVerwaltungen;
 import src.domain.exceptions.ArtikelExistiertBereitsException;
+import src.domain.exceptions.PackungsgroesseException;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class EinloggenMitarbeiter extends JDialog {
     private ShopVerwaltungen SV;
@@ -61,6 +63,13 @@ public class EinloggenMitarbeiter extends JDialog {
                 int antwort = JOptionPane.showConfirmDialog(EinloggenMitarbeiter.this, "Möchten Sie sich wirklich abmelden?", "Abmelden", JOptionPane.YES_NO_OPTION);
                 if (antwort == JOptionPane.YES_OPTION) {
                     dispose();
+                    try {
+                        SV.schreibeArtikelDaten("Shop_A.txt");
+                        SV.schreibeMitarbeiterDaten("Shop_M.txt");
+                        SV.schreibeEreignisDaten("Shop_E.txt");
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             }
         });
@@ -191,6 +200,7 @@ public class EinloggenMitarbeiter extends JDialog {
                     JOptionPane.showMessageDialog(this, "Bitte füllen Sie alle Felder aus.", "Fehler", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                SV.checkPackungsgroesse(packungsgroesse, bestand);
                 SV.artikelAnlegen(artikel, preis, bestand, packungsgroesse);
                 JOptionPane.showMessageDialog(this, "Artikel erfolgreich angelegt!", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
             } else {
@@ -199,6 +209,8 @@ public class EinloggenMitarbeiter extends JDialog {
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Bitte geben Sie gültige Zahlenwerte ein.", "Fehler", JOptionPane.ERROR_MESSAGE);
+        } catch (PackungsgroesseException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

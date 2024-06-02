@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class EinloggenKunde extends JDialog{
     private ShopVerwaltungen SV;
@@ -43,6 +44,13 @@ public class EinloggenKunde extends JDialog{
                 int antwort = JOptionPane.showConfirmDialog(EinloggenKunde.this, "Möchten Sie sich wirklich abmelden?", "Abmelden", JOptionPane.YES_NO_OPTION);
                 if (antwort == JOptionPane.YES_OPTION) {
                     dispose();
+                    try {
+                        SV.schreibeArtikelDaten("Shop_A.txt");
+                        SV.schreibeKundenDaten("Shop_K.txt");
+                        SV.schreibeEreignisDaten("Shop_E.txt");
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             }
         });
