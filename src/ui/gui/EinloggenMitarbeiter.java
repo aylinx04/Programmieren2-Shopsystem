@@ -9,6 +9,8 @@ import src.valueobjects.Artikel;
 import src.valueobjects.Ereignis;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,6 +36,7 @@ public class EinloggenMitarbeiter extends JDialog {
     private JButton mitarbeiterHinzufuegenButton = new JButton("Mitarbeiter hinzufügen");
     private JButton ereignisListeButton = new JButton("Ereignisse");
     private JButton ausloggenButton = new JButton("Ausloggen");
+    private JTextField suchTextFeld = new JTextField();
     private JPanel mitarbeiterPanel = new JPanel(new GridBagLayout());
     private JPanel mitarbeiterHinzuPanel = new JPanel();
     private ArtikelTabelModel artikelModel;
@@ -374,10 +377,32 @@ public class EinloggenMitarbeiter extends JDialog {
     private void tabelleEreignisse() {
         ereignisModel = new EreignisTabelModel(SV.gebeEreignisListe());
         ereignisTabel = new JTable(ereignisModel);
+        Dimension eingabeFeldGroesse = new Dimension(140,30);
 
         JPanel panel = new JPanel(new BorderLayout());
 
         JScrollPane scrollPane = new JScrollPane(ereignisTabel);
+
+        JLabel labelSuche = new JLabel("Suche:");
+
+        suchTextFeld.setPreferredSize(eingabeFeldGroesse);
+
+//        suchTextFeld.getDocument().addDocumentListener(new DocumentListener() {
+//            @Override
+//            public void insertUpdate(DocumentEvent e) {
+//                aktualisiereSuchergebnisse();
+//            }
+//
+//            @Override
+//            public void removeUpdate(DocumentEvent e) {
+//                aktualisiereSuchergebnisse();
+//            }
+//
+//            @Override
+//            public void changedUpdate(DocumentEvent e) {
+//                aktualisiereSuchergebnisse();
+//            }
+//        });
 
 
         artikelListeButton.addActionListener(new ActionListener() {
@@ -391,12 +416,27 @@ public class EinloggenMitarbeiter extends JDialog {
 
         Collections.sort(SV.gebeEreignisListe(), Comparator.comparing(Ereignis::getDatum));
 
+        JPanel ereignisPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        ereignisPanel.add(labelSuche);
+        ereignisPanel.add(suchTextFeld);
 
         getContentPane().removeAll();
         add(mitarbeiterPanel, BorderLayout.NORTH);
+        panel.add(ereignisPanel, BorderLayout.NORTH);
         panel.add(scrollPane, BorderLayout.CENTER);
         add(panel, BorderLayout.CENTER);
         revalidate();
         repaint();
     }
+
+//    private void aktualisiereSuchergebnisse() {
+//        String suchBegriff = suchTextFeld.getText();
+//        java.util.List<Ereignis> suchErgebnis;
+//        if (suchBegriff.isEmpty()) {
+//            suchErgebnis = SV.gebeEreignisListe();
+//        } else {
+//            suchErgebnis = SV.sucheNachTitel(suchBegriff);
+//        }
+//        artikelModel.setArtikel(suchErgebnis);
+//    }
 }

@@ -205,7 +205,12 @@ public class ShopVerwaltungen {
         }
         return suchErg;
     }
+
     public List<Artikel> sucheNachTitel(String titel) {
         return sucheArtikel(titel);
     }
-}
+
+//    public List<Ereignis> sucheNachEreignis(String ereignis){
+//        return
+//    }
+//}
