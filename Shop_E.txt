@@ -1,24 +1,27 @@
 2024-05-22
-Mitarbeiter: Helga
-Ereignis - Artikel 'Kirsche' um 3 erhoeht.
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Birne, Nummer= 9, Preis= 6.0€, Bestand= 2, Name= Erdbeere, Nummer= 7, Preis= 4.99€, Bestand= 3]
 2024-05-22
 Mitarbeiter: Helga
 Ereignis - Hinzugefügter Artikel: Name= Brot, Nummer= 15, Preis= 2.59€, Bestand= 25
 2024-05-22
-Kunde: Peter
-Ereignis - Der Einkauf: [Name= Birne, Nummer= 9, Preis= 6.0€, Bestand= 2, Name= Erdbeere, Nummer= 7, Preis= 4.99€, Bestand= 3]
-2024-05-25
 Mitarbeiter: Helga
-Ereignis - Hinzugefügter Artikel: Name= Wasser, Nummer= 16, Preis= 1.89€, Bestand= 18, Packungsgroesse= 6
+Ereignis - Artikel 'Kirsche' um 3 erhoeht.
+2024-05-25
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Wasser, Nummer= 16, Preis= 1.89€, Bestand= 6]
 2024-05-25
 Mitarbeiter: Helga
 Ereignis - Artikel 'Wasser' um 6 erhoeht.
 2024-05-25
-Kunde: Peter
-Ereignis - Der Einkauf: [Name= Wasser, Nummer= 16, Preis= 1.89€, Bestand= 6]
+Mitarbeiter: Helga
+Ereignis - Hinzugefügter Artikel: Name= Wasser, Nummer= 16, Preis= 1.89€, Bestand= 18, Packungsgroesse= 6
 2024-06-05
 Mitarbeiter: Helga
-Ereignis - Artikel 'Tomate' um 5 erhoeht.
+Ereignis - Hinzugefügter Artikel: Name= Öl, Nummer= 17, Preis= 2.0€, Bestand= 6
 2024-06-05
 Mitarbeiter: Helga
 Ereignis - Artikel 'Tomate' um 1 erhoeht.
+2024-06-05
+Mitarbeiter: Helga
+Ereignis - Artikel 'Tomate' um 5 erhoeht.

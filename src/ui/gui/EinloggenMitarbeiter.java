@@ -6,12 +6,15 @@ import src.domain.exceptions.ArtikelNichtGefundenException;
 import src.domain.exceptions.PackungsgroesseException;
 import src.domain.exceptions.RegistrierenFehlgeschlagenException;
 import src.valueobjects.Artikel;
+import src.valueobjects.Ereignis;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class EinloggenMitarbeiter extends JDialog {
     private ShopVerwaltungen SV;
@@ -32,10 +35,11 @@ public class EinloggenMitarbeiter extends JDialog {
     private JButton ereignisListeButton = new JButton("Ereignisse");
     private JButton ausloggenButton = new JButton("Ausloggen");
     private JPanel mitarbeiterPanel = new JPanel(new GridBagLayout());
-    private JList ereignisListe = new JList<>();
     private JPanel mitarbeiterHinzuPanel = new JPanel();
     private ArtikelTabelModel artikelModel;
     private JTable artikelTabel;
+    private EreignisTabelModel ereignisModel;
+    private JTable ereignisTabel;
 
     private GridBagConstraints c = new GridBagConstraints();
 
@@ -98,7 +102,6 @@ public class EinloggenMitarbeiter extends JDialog {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton source = (JButton) e.getSource();
-            ereignisListe.setListData(SV.gebeEreignisListe().toArray());
 
             switch (source.getText()) {
                 case "Artikelliste":
@@ -114,7 +117,7 @@ public class EinloggenMitarbeiter extends JDialog {
                     mitarbeiterHinzuLayout();
                     break;
                 case "Ereignisse":
-                    add(ereignisListe, BorderLayout.CENTER);
+                    tabelleEreignisse();
                     break;
                 default:
                     break;
@@ -360,6 +363,34 @@ public class EinloggenMitarbeiter extends JDialog {
                 repaint();
             }
         });
+
+        getContentPane().removeAll();
+        add(mitarbeiterPanel, BorderLayout.NORTH);
+        panel.add(scrollPane, BorderLayout.CENTER);
+        add(panel, BorderLayout.CENTER);
+        revalidate();
+        repaint();
+    }
+    private void tabelleEreignisse() {
+        ereignisModel = new EreignisTabelModel(SV.gebeEreignisListe());
+        ereignisTabel = new JTable(ereignisModel);
+
+        JPanel panel = new JPanel(new BorderLayout());
+
+        JScrollPane scrollPane = new JScrollPane(ereignisTabel);
+
+
+        artikelListeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.setVisible(true);
+                revalidate();
+                repaint();
+            }
+        });
+
+        Collections.sort(SV.gebeEreignisListe(), Comparator.comparing(Ereignis::getDatum));
+
 
         getContentPane().removeAll();
         add(mitarbeiterPanel, BorderLayout.NORTH);

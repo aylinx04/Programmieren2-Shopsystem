@@ -62,3 +62,7 @@ Wasser
 16
 1.89
 18 (Packungsgroesse: 6)
+Öl
+17
+2.0
+6
