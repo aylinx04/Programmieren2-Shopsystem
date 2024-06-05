@@ -13,19 +13,22 @@ public class EinloggenKunde extends JDialog{
     private JButton artikelListeButton = new JButton("Artikelliste");
     private JButton warenkorbButton = new JButton("Warenkorb");
     private JButton ausloggenButton = new JButton("Ausloggen");
+    private JPanel kundenPanel = new JPanel(new GridBagLayout());
+    private ArtikelTabelModel artikelModel;
+    private JTable artikelTabel;
 
     public EinloggenKunde(JFrame parent, String title, boolean modal, ShopVerwaltungen SV) {
         super(parent, title, modal);
         this.SV = SV;
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         buttonsLayoutKunde();
+        tabelle();
         setSize(640, 480);
         setLocationRelativeTo(parent);
         setVisible(true);
     }
 
     public void buttonsLayoutKunde(){
-        JPanel kundenPanel = new JPanel();
         kundenPanel.setLayout(new GridBagLayout());
         Dimension eingabeFeldGroesse = new Dimension(140,30);
         GridBagConstraints c = new GridBagConstraints();
@@ -72,7 +75,7 @@ public class EinloggenKunde extends JDialog{
 
             switch (source.getText()) {
                 case "Artikelliste":
-
+                    tabelle();
                     break;
                 case "Warenkorb":
 
@@ -81,6 +84,32 @@ public class EinloggenKunde extends JDialog{
                     break;
             }
         }
+    }
+
+    private void tabelle() {
+        artikelModel = new ArtikelTabelModel(SV.gibAlleArtikel());
+        artikelTabel = new JTable(artikelModel);
+
+        JPanel panel = new JPanel(new BorderLayout());
+
+        JScrollPane scrollPane = new JScrollPane(artikelTabel);
+
+
+        artikelListeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.setVisible(true);
+                revalidate();
+                repaint();
+            }
+        });
+
+        getContentPane().removeAll();
+        add(kundenPanel, BorderLayout.NORTH);
+        panel.add(scrollPane, BorderLayout.CENTER);
+        add(panel, BorderLayout.CENTER);
+        revalidate();
+        repaint();
     }
 
 }

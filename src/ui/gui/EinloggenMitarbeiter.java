@@ -2,7 +2,10 @@ package src.ui.gui;
 
 import src.domain.ShopVerwaltungen;
 import src.domain.exceptions.ArtikelExistiertBereitsException;
+import src.domain.exceptions.ArtikelNichtGefundenException;
 import src.domain.exceptions.PackungsgroesseException;
+import src.domain.exceptions.RegistrierenFehlgeschlagenException;
+import src.valueobjects.Artikel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +15,9 @@ import java.io.IOException;
 
 public class EinloggenMitarbeiter extends JDialog {
     private ShopVerwaltungen SV;
+    private JTextField mitarbeiterName = new JTextField();
+    private JPasswordField passwort = new JPasswordField();
+    private JPasswordField passwort1 = new JPasswordField();
     private JTextField artikeltextField = new JTextField();
     private JTextField preistextField = new JTextField();
     private JTextField bestandtextField = new JTextField();
@@ -26,7 +32,11 @@ public class EinloggenMitarbeiter extends JDialog {
     private JButton ereignisListeButton = new JButton("Ereignisse");
     private JButton ausloggenButton = new JButton("Ausloggen");
     private JPanel mitarbeiterPanel = new JPanel(new GridBagLayout());
-    JList ereignisListe = new JList<>();
+    private JList ereignisListe = new JList<>();
+    private JPanel mitarbeiterHinzuPanel = new JPanel();
+    private ArtikelTabelModel artikelModel;
+    private JTable artikelTabel;
+
     private GridBagConstraints c = new GridBagConstraints();
 
     public EinloggenMitarbeiter(JFrame parent, String title, boolean modal, ShopVerwaltungen SV) {
@@ -34,6 +44,7 @@ public class EinloggenMitarbeiter extends JDialog {
         this.SV = SV;
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         buttonsLayoutMitarbeiter();
+        tabelle();
         setSize(640, 480);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -74,7 +85,6 @@ public class EinloggenMitarbeiter extends JDialog {
                 }
             }
         });
-
     }
 
     private void addComponent(JPanel panel, JComponent component, int gridx, int gridy, Dimension groesse, GridBagConstraints c) {
@@ -92,16 +102,16 @@ public class EinloggenMitarbeiter extends JDialog {
 
             switch (source.getText()) {
                 case "Artikelliste":
-
+                    tabelle();
                     break;
                 case "Hinzufügen":
                     artikelHinzuLayout();
                     break;
                 case "Bestand":
-
+                    bestandLayout();
                     break;
                 case "Mitarbeiter hinzufügen":
-
+                    mitarbeiterHinzuLayout();
                     break;
                 case "Ereignisse":
                     add(ereignisListe, BorderLayout.CENTER);
@@ -182,6 +192,74 @@ public class EinloggenMitarbeiter extends JDialog {
         repaint();
     }
 
+    private void bestandLayout() {
+        JPanel bestandPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        Dimension eingabeFeldGroesse = new Dimension(140, 30);
+        c.anchor = GridBagConstraints.NORTH;
+
+        addComponent(bestandPanel, new JLabel("Artikelname:"), 0, 0, eingabeFeldGroesse, c);
+        addComponent(bestandPanel, artikeltextField, 1, 0, eingabeFeldGroesse, c);
+        addComponent(bestandPanel, new JLabel("Bestand:"), 0, 2, eingabeFeldGroesse, c);
+        addComponent(bestandPanel, bestandtextField, 1, 2, eingabeFeldGroesse, c);
+
+        JButton speichernButton = new JButton("Speichern");
+        c.gridx = 0;
+        c.gridy = 5;
+        c.gridwidth = 3;
+        bestandPanel.add(speichernButton, c);
+
+        speichernButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    verarbeiteBestandKlick();
+                } catch (ArtikelNichtGefundenException | PackungsgroesseException ex) {
+                    JOptionPane.showMessageDialog(EinloggenMitarbeiter.this, ex.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        getContentPane().removeAll();
+        add(mitarbeiterPanel, BorderLayout.NORTH);
+        add(bestandPanel, BorderLayout.CENTER);
+        revalidate();
+        repaint();
+    }
+
+    private void mitarbeiterHinzuLayout() {
+        JPanel mitarbeiterHinzuPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        Dimension eingabeFeldGroesse = new Dimension(140, 30);
+        c.anchor = GridBagConstraints.NORTH;
+
+        addComponent(mitarbeiterHinzuPanel, new JLabel("Name:"), 0, 0, eingabeFeldGroesse, c);
+        addComponent(mitarbeiterHinzuPanel, mitarbeiterName, 1, 0, eingabeFeldGroesse, c);
+        addComponent(mitarbeiterHinzuPanel, new JLabel("Passwort:"), 0, 2, eingabeFeldGroesse, c);
+        addComponent(mitarbeiterHinzuPanel, passwort, 1, 2, eingabeFeldGroesse, c);
+        addComponent(mitarbeiterHinzuPanel, new JLabel("Passwort wiederholen:"), 0, 3, eingabeFeldGroesse, c);
+        addComponent(mitarbeiterHinzuPanel, passwort1, 1, 3, eingabeFeldGroesse, c);
+
+        JButton hinzuButton = new JButton("Hinzufügen");
+        c.gridx = 0;
+        c.gridy = 5;
+        c.gridwidth = 3;
+        mitarbeiterHinzuPanel.add(hinzuButton, c);
+
+        hinzuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                verarbeiteMitarbeiterKlick();
+            }
+        });
+
+        getContentPane().removeAll();
+        add(mitarbeiterPanel, BorderLayout.NORTH);
+        add(mitarbeiterHinzuPanel, BorderLayout.CENTER);
+        revalidate();
+        repaint();
+    }
+
     void verarbeiteArtikelHinzuKlick() throws ArtikelExistiertBereitsException {
         try {
             if (artikeltextField.getText().isEmpty() ||
@@ -214,5 +292,80 @@ public class EinloggenMitarbeiter extends JDialog {
         } catch (PackungsgroesseException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    void verarbeiteBestandKlick() throws ArtikelNichtGefundenException, PackungsgroesseException {
+        try {
+            if (artikeltextField.getText().isEmpty() ||
+                    Integer.parseInt(bestandtextField.getText()) == 0) {
+                JOptionPane.showMessageDialog(this, "Bitte füllen Sie alle Felder aus.", "Fehler", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String artikelname = artikeltextField.getText();
+            int bestand = Integer.parseInt(bestandtextField.getText());
+            Artikel artikel = SV.holeArtikel(artikelname);
+            SV.ereignisBestandErhoeht(artikel, bestand);
+
+            JOptionPane.showMessageDialog(this, "Artikelbestand erfolgreich erhoeht!", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
+
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Bitte geben Sie gültige Zahlenwerte ein.", "Fehler", JOptionPane.ERROR_MESSAGE);
+        } catch (ArtikelNichtGefundenException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
+        } catch (PackungsgroesseException e){
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void verarbeiteMitarbeiterKlick (){
+        if (mitarbeiterName.getText().isEmpty() ||
+                passwort.getPassword().length == 0 ||
+                passwort1.getPassword().length == 0 ){
+            JOptionPane.showMessageDialog(this, "Bitte füllen Sie alle Felder aus.", "Fehler", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String name = mitarbeiterName.getText();
+        String pass = String.valueOf(passwort.getPassword());
+        String pass1 = String.valueOf(passwort1.getPassword());
+
+        try {
+            SV.checkPasswort(pass, pass1);
+            SV.mitarbeiterAnlegen(name, pass);
+            JOptionPane.showMessageDialog(EinloggenMitarbeiter.this, "Mitarbeiter erfolgreich hinzugefügt!", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
+            if (mitarbeiterHinzuPanel != null) {
+                mitarbeiterHinzuPanel.setVisible(false);
+            }
+            buttonsLayoutMitarbeiter();
+        } catch (RegistrierenFehlgeschlagenException ex) {
+            JOptionPane.showMessageDialog(EinloggenMitarbeiter.this, ex.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    private void tabelle() {
+        artikelModel = new ArtikelTabelModel(SV.gibAlleArtikel());
+        artikelTabel = new JTable(artikelModel);
+
+        JPanel panel = new JPanel(new BorderLayout());
+
+        JScrollPane scrollPane = new JScrollPane(artikelTabel);
+
+
+        artikelListeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.setVisible(true);
+                revalidate();
+                repaint();
+            }
+        });
+
+        getContentPane().removeAll();
+        add(mitarbeiterPanel, BorderLayout.NORTH);
+        panel.add(scrollPane, BorderLayout.CENTER);
+        add(panel, BorderLayout.CENTER);
+        revalidate();
+        repaint();
     }
 }

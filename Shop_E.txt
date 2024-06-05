@@ -16,3 +16,9 @@ Ereignis - Artikel 'Wasser' um 6 erhoeht.
 2024-05-25
 Kunde: Peter
 Ereignis - Der Einkauf: [Name= Wasser, Nummer= 16, Preis= 1.89€, Bestand= 6]
+2024-06-05
+Mitarbeiter: Helga
+Ereignis - Artikel 'Tomate' um 5 erhoeht.
+2024-06-05
+Mitarbeiter: Helga
+Ereignis - Artikel 'Tomate' um 1 erhoeht.
