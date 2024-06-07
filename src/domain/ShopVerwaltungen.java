@@ -196,11 +196,23 @@ public class ShopVerwaltungen {
 
     public List<Artikel> sucheArtikel(String titel) {
         List<Artikel> suchErg = new ArrayList<>();
-        Iterator it = aV.getArtikelListe().iterator();
-        while (it.hasNext()) {
-            Artikel artikel = (Artikel) it.next();
-            if (artikel.getName().equals(titel)) {
+        for (Artikel artikel : aV.getArtikelListe()) {
+            if (artikel.getName().contains(titel)) {
                 suchErg.add(artikel);
+            }
+        }
+        return suchErg;
+    }
+
+    public List<Ereignis> sucheEreignis(String titel) {
+        List<Ereignis> suchErg = new ArrayList<>();
+        for (Ereignis ereignis : eV.getEreignisListe()) {
+            if (ereignis.getStatus().contains(titel)) {
+                suchErg.add(ereignis);
+            } else if (ereignis.getPerson().contains(titel)) {
+                suchErg.add(ereignis);
+            } else if (ereignis.getDatum().contains(titel)) {
+                suchErg.add(ereignis);
             }
         }
         return suchErg;
@@ -210,7 +222,7 @@ public class ShopVerwaltungen {
         return sucheArtikel(titel);
     }
 
-//    public List<Ereignis> sucheNachEreignis(String ereignis){
-//        return
-//    }
-//}
+    public List<Ereignis> sucheNachEreignis(String ereignis){
+        return sucheEreignis(ereignis);
+    }
+}

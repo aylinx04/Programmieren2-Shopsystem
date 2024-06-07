@@ -387,22 +387,22 @@ public class EinloggenMitarbeiter extends JDialog {
 
         suchTextFeld.setPreferredSize(eingabeFeldGroesse);
 
-//        suchTextFeld.getDocument().addDocumentListener(new DocumentListener() {
-//            @Override
-//            public void insertUpdate(DocumentEvent e) {
-//                aktualisiereSuchergebnisse();
-//            }
-//
-//            @Override
-//            public void removeUpdate(DocumentEvent e) {
-//                aktualisiereSuchergebnisse();
-//            }
-//
-//            @Override
-//            public void changedUpdate(DocumentEvent e) {
-//                aktualisiereSuchergebnisse();
-//            }
-//        });
+        suchTextFeld.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                aktualisiereSuchergebnisse();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                aktualisiereSuchergebnisse();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                aktualisiereSuchergebnisse();
+            }
+        });
 
 
         artikelListeButton.addActionListener(new ActionListener() {
@@ -429,14 +429,14 @@ public class EinloggenMitarbeiter extends JDialog {
         repaint();
     }
 
-//    private void aktualisiereSuchergebnisse() {
-//        String suchBegriff = suchTextFeld.getText();
-//        java.util.List<Ereignis> suchErgebnis;
-//        if (suchBegriff.isEmpty()) {
-//            suchErgebnis = SV.gebeEreignisListe();
-//        } else {
-//            suchErgebnis = SV.sucheNachTitel(suchBegriff);
-//        }
-//        artikelModel.setArtikel(suchErgebnis);
-//    }
+    private void aktualisiereSuchergebnisse() {
+        String suchBegriff = suchTextFeld.getText();
+        java.util.List<Ereignis> suchErgebnis;
+        if (suchBegriff.isEmpty()) {
+            suchErgebnis = SV.gebeEreignisListe();
+        } else {
+            suchErgebnis = SV.sucheNachEreignis(suchBegriff);
+        }
+        ereignisModel.setEreignis(suchErgebnis);
+    }
 }
