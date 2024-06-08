@@ -358,7 +358,6 @@ public class CUI {
 
     private void warenkorbAnzeigen() throws IOException, NumberFormatException {
         Warenkorb WK = SV.getWk();
-
         Map<String, Artikel> warenkorb = WK.getWarenkorb();
 
         System.out.println("Dein Warenkorb: ");

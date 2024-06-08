@@ -29,10 +29,8 @@ public class GUI extends JFrame {
     private JTextField textfieldStrasse = new JTextField();
     private JTextField textfieldPlz = new JTextField();
     private JTextField textfieldWohnort = new JTextField();
-
     private ArtikelTabelModel artikelModel;
     private JTable artikelTabel;
-
     private JPanel registrierenPanel;
 
 
@@ -145,8 +143,6 @@ public class GUI extends JFrame {
 
         panel.add(sortierPanel, BorderLayout.NORTH);
         add(panel, BorderLayout.CENTER);
-
-        registrierenButton.addActionListener(e -> panel.setVisible(false));
     }
 
     private void aktualisiereSuchergebnisse() {

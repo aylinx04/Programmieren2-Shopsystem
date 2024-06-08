@@ -51,7 +51,7 @@ public class EinloggenMitarbeiter extends JDialog {
         this.SV = SV;
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         buttonsLayoutMitarbeiter();
-        tabelle();
+        artikelTabelle();
         setSize(640, 480);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -108,7 +108,7 @@ public class EinloggenMitarbeiter extends JDialog {
 
             switch (source.getText()) {
                 case "Artikelliste":
-                    tabelle();
+                    artikelTabelle();
                     break;
                 case "Hinzufügen":
                     artikelHinzuLayout();
@@ -120,7 +120,7 @@ public class EinloggenMitarbeiter extends JDialog {
                     mitarbeiterHinzuLayout();
                     break;
                 case "Ereignisse":
-                    tabelleEreignisse();
+                    ereignisTabelle();
                     break;
                 default:
                     break;
@@ -211,7 +211,7 @@ public class EinloggenMitarbeiter extends JDialog {
 
         JButton speichernButton = new JButton("Speichern");
         c.gridx = 0;
-        c.gridy = 5;
+        c.gridy = 3;
         c.gridwidth = 3;
         bestandPanel.add(speichernButton, c);
 
@@ -248,7 +248,7 @@ public class EinloggenMitarbeiter extends JDialog {
 
         JButton hinzuButton = new JButton("Hinzufügen");
         c.gridx = 0;
-        c.gridy = 5;
+        c.gridy = 4;
         c.gridwidth = 3;
         mitarbeiterHinzuPanel.add(hinzuButton, c);
 
@@ -276,7 +276,7 @@ public class EinloggenMitarbeiter extends JDialog {
                 return;
             }
 
-            String artikel = artikeltextField.getText();
+            String artikelname = artikeltextField.getText();
             double preis = Double.parseDouble(preistextField.getText());
             int bestand = Integer.parseInt(bestandtextField.getText());
 
@@ -287,11 +287,11 @@ public class EinloggenMitarbeiter extends JDialog {
                     return;
                 }
                 SV.checkPackungsgroesse(packungsgroesse, bestand);
-                SV.artikelAnlegen(artikel, preis, bestand, packungsgroesse);
-                JOptionPane.showMessageDialog(this, "Artikel erfolgreich angelegt!", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
+                SV.artikelAnlegen(artikelname, preis, bestand, packungsgroesse);
+                JOptionPane.showMessageDialog(this, "Artikel '" + artikelname + "' erfolgreich angelegt!", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                SV.artikelAnlegen(artikel, preis, bestand);
-                JOptionPane.showMessageDialog(this, "Artikel erfolgreich angelegt!", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
+                SV.artikelAnlegen(artikelname, preis, bestand);
+                JOptionPane.showMessageDialog(this, "Artikel '" + artikelname + "' erfolgreich angelegt!", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Bitte geben Sie gültige Zahlenwerte ein.", "Fehler", JOptionPane.ERROR_MESSAGE);
@@ -309,18 +309,16 @@ public class EinloggenMitarbeiter extends JDialog {
             }
 
             String artikelname = artikeltextField.getText();
-            int bestand = Integer.parseInt(bestandtextField.getText());
+            int anzahl = Integer.parseInt(bestandtextField.getText());
             Artikel artikel = SV.holeArtikel(artikelname);
-            SV.ereignisBestandErhoeht(artikel, bestand);
+            SV.ereignisBestandErhoeht(artikel, anzahl);
 
-            JOptionPane.showMessageDialog(this, "Artikelbestand erfolgreich erhoeht!", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
-
+            JOptionPane.showMessageDialog(this, "Artikel '" + artikelname + "' erfolgreich um " + anzahl + " erhoeht!",
+                    "Erfolg", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Bitte geben Sie gültige Zahlenwerte ein.", "Fehler", JOptionPane.ERROR_MESSAGE);
-        } catch (ArtikelNichtGefundenException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
-        } catch (PackungsgroesseException e){
+        } catch (ArtikelNichtGefundenException | PackungsgroesseException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -349,32 +347,23 @@ public class EinloggenMitarbeiter extends JDialog {
             JOptionPane.showMessageDialog(EinloggenMitarbeiter.this, ex.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
         }
     }
-    private void tabelle() {
+
+    private void artikelTabelle() {
         artikelModel = new ArtikelTabelModel(SV.gibAlleArtikel());
         artikelTabel = new JTable(artikelModel);
 
-        JPanel panel = new JPanel(new BorderLayout());
-
+        JPanel artikelPanel = new JPanel(new BorderLayout());
         JScrollPane scrollPane = new JScrollPane(artikelTabel);
-
-
-        artikelListeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panel.setVisible(true);
-                revalidate();
-                repaint();
-            }
-        });
 
         getContentPane().removeAll();
         add(mitarbeiterPanel, BorderLayout.NORTH);
-        panel.add(scrollPane, BorderLayout.CENTER);
-        add(panel, BorderLayout.CENTER);
+        artikelPanel.add(scrollPane, BorderLayout.CENTER);
+        add(artikelPanel, BorderLayout.CENTER);
         revalidate();
         repaint();
     }
-    private void tabelleEreignisse() {
+
+    private void ereignisTabelle() {
         ereignisModel = new EreignisTabelModel(SV.gebeEreignisListe());
         ereignisTabel = new JTable(ereignisModel);
         Dimension eingabeFeldGroesse = new Dimension(140,30);

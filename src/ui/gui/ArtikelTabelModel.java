@@ -14,11 +14,13 @@ public class ArtikelTabelModel extends AbstractTableModel {
         artikel = new ArrayList<>();
         artikel.addAll(aktuelleArtikel);
     }
+
     public void setArtikel(List<Artikel> aktuelleArtikel){
         artikel.clear();
         artikel.addAll(aktuelleArtikel);
         fireTableDataChanged();
     }
+
     @Override
     public int getRowCount(){
         return artikel.size();
@@ -33,6 +35,7 @@ public class ArtikelTabelModel extends AbstractTableModel {
     public String getColumnName(int column){
         return spaltenNamen[column];
     }
+
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Artikel gewaehltesArtikel = artikel.get(rowIndex);

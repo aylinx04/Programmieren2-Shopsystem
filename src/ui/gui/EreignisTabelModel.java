@@ -14,11 +14,13 @@ public class EreignisTabelModel extends AbstractTableModel {
         ereignis = new ArrayList<>();
         ereignis.addAll(aktuellesEreignis);
     }
+
     public void setEreignis(List<Ereignis> aktuellesEreignis){
         ereignis.clear();
         ereignis.addAll(aktuellesEreignis);
         fireTableDataChanged();
     }
+
     @Override
     public int getRowCount(){
         return ereignis.size();
@@ -33,6 +35,7 @@ public class EreignisTabelModel extends AbstractTableModel {
     public String getColumnName(int column){
         return spaltenNamen[column];
     }
+
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Ereignis gewaehltesEreignis = ereignis.get(rowIndex);
