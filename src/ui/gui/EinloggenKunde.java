@@ -163,6 +163,8 @@ public class EinloggenKunde extends JDialog{
     }
 
     private void kaufenLayout(){
+        getContentPane().removeAll();
+
         kaufPanel.setLayout(new GridBagLayout());
         Dimension eingabeFeldGroesse = new Dimension(140,30);
         GridBagConstraints c = new GridBagConstraints();
@@ -185,7 +187,7 @@ public class EinloggenKunde extends JDialog{
         JPanel warenkorbPanel = new JPanel(new BorderLayout());
         JScrollPane scrollPane = new JScrollPane(warenkorbTabel);
 
-        getContentPane().removeAll();
+
         add(kaufPanel, BorderLayout.CENTER);
         add(kundenPanel, BorderLayout.NORTH);
         warenkorbPanel.add(scrollPane, BorderLayout.SOUTH);
