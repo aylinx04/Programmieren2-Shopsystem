@@ -91,3 +91,33 @@ Ereignis - Der Einkauf: [Name= Rukula, Nummer= 6, Preis= 8.0€, Bestand= 5]
 2024-06-12
 Kunde: Peter
 Ereignis - Der Einkauf: [Name= Rukula, Nummer= 6, Preis= 8.0€, Bestand= 1]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Reis, Nummer= 3, Preis= 2.0€, Bestand= 2]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Reis, Nummer= 3, Preis= 2.0€, Bestand= 2]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: []
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: []
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: []
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: []
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: []
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: []
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: []
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: []

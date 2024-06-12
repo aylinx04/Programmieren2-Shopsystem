@@ -188,10 +188,10 @@ public class EinloggenKunde extends JDialog{
         JScrollPane scrollPane = new JScrollPane(warenkorbTabel);
 
 
-        add(kaufPanel, BorderLayout.CENTER);
+        add(kaufPanel, BorderLayout.SOUTH);
         add(kundenPanel, BorderLayout.NORTH);
-        warenkorbPanel.add(scrollPane, BorderLayout.SOUTH);
-        add(warenkorbPanel, BorderLayout.SOUTH);
+        warenkorbPanel.add(scrollPane, BorderLayout.CENTER);
+        add(warenkorbPanel, BorderLayout.CENTER);
         revalidate();
         repaint();
     }
