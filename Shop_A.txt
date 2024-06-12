@@ -5,7 +5,7 @@ Tomate
 Gurke
 2
 3.59
-1
+17
 Reis
 3
 2.0
@@ -13,7 +13,7 @@ Reis
 Salat
 4
 0.99
-4
+14
 Fanta
 5
 4.0
@@ -41,11 +41,11 @@ Pfirsich
 Apfel
 11
 1.2
-0
+23
 Banane
 12
 5.99
-3
+13
 Zucker
 13
 6.0

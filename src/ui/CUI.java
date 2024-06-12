@@ -129,7 +129,7 @@ public class CUI {
             SV.checkPasswort(passwort, passwort2);
             SV.mitarbeiterAnlegen(name, passwort);
             System.out.println("Erfolgreich registriert als Mitarbeiter!");
-        } catch (RegistrierenFehlgeschlagenException e) {
+        } catch (RegistrierenFehlgeschlagenException | MitarbeiterExistiertBereitsException e) {
             System.err.println(e.getMessage());
         }
     }

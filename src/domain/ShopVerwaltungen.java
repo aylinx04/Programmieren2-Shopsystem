@@ -172,7 +172,10 @@ public class ShopVerwaltungen {
         eV.ereignisHinzufuegen(ereignis);
     }
 
-    public void mitarbeiterAnlegen(String name, String passwort) {
+    public void mitarbeiterAnlegen(String name, String passwort) throws MitarbeiterExistiertBereitsException{
+        if (mV.sucheMitarbeiter(name) != null) {
+            throw new MitarbeiterExistiertBereitsException(name);
+        }
         int mitarbeiterNummer = mV.getMitarbeiterListe().size() + 1; // Aktuelle Anzahl der Mitarbeiter + 1
         mV.getMitarbeiterListe().add(new Mitarbeiter(name, mitarbeiterNummer, passwort));
     }

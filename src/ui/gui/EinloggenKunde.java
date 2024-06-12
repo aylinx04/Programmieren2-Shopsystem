@@ -35,6 +35,7 @@ public class EinloggenKunde extends JDialog{
     private JPanel kaufPanel = new JPanel();
     private ArtikelTabelModel artikelModel;
     private JTable artikelTabel;
+    JTextArea rechnung = new JTextArea();
 
     public EinloggenKunde(JFrame parent, String title, boolean modal, ShopVerwaltungen SV) {
         super(parent, title, modal);
@@ -109,17 +110,19 @@ public class EinloggenKunde extends JDialog{
     }
 
     private void artikelTabelle() {
+        getContentPane().removeAll();
+
         artikelModel = new ArtikelTabelModel(SV.gibAlleArtikel());
         artikelTabel = new JTable(artikelModel);
 
         JPanel artikelPanel = new JPanel(new BorderLayout());
         JScrollPane scrollPane = new JScrollPane(artikelTabel);
 
-        getContentPane().removeAll();
         add(kundenPanel, BorderLayout.NORTH);
         add(hinzuPanel, BorderLayout.WEST);
         artikelPanel.add(scrollPane, BorderLayout.CENTER);
         add(artikelPanel, BorderLayout.CENTER);
+
         revalidate();
         repaint();
     }
@@ -143,6 +146,8 @@ public class EinloggenKunde extends JDialog{
     }
 
     private void zeigeWarenkorb() {
+        getContentPane().removeAll();
+
         Warenkorb warenkorb = SV.getWk();
         Map<String, Artikel> warenkorbMap = warenkorb.getWarenkorb();
         ArrayList<Artikel> warenkorbListe = new ArrayList<>(warenkorbMap.values());
@@ -153,29 +158,30 @@ public class EinloggenKunde extends JDialog{
         JPanel warenkorbPanel = new JPanel(new BorderLayout());
         JScrollPane scrollPane = new JScrollPane(warenkorbTabel);
 
-        getContentPane().removeAll();
         add(kundenPanel, BorderLayout.NORTH);
         add(entfernenPanel, BorderLayout.WEST);
         warenkorbPanel.add(scrollPane, BorderLayout.CENTER);
         add(warenkorbPanel, BorderLayout.CENTER);
+
         revalidate();
         repaint();
     }
 
-    private void kaufenLayout(){
+    private void kaufenLayout() {
         getContentPane().removeAll();
 
         kaufPanel.setLayout(new GridBagLayout());
-        Dimension eingabeFeldGroesse = new Dimension(140,30);
+        Dimension eingabeFeldGroesse = new Dimension(140, 30);
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.CENTER;
+        c.fill = GridBagConstraints.HORIZONTAL;
 
         addComponent(kaufPanel, new JLabel("Ihr Einkauf:"), 0, 0, eingabeFeldGroesse, c);
 
-        JTextArea rechnung = new JTextArea(SV.erzeugeRechnung().toString());
-            c.gridx =0;
-            c.gridy =1;
-        kaufPanel.add(rechnung,c);
+        rechnung.setText(null);
+        rechnung.setText(SV.erzeugeRechnung().toString());
+        c.gridy = 1;
+        kaufPanel.add(rechnung, c);
 
         Warenkorb warenkorb = SV.getWk();
         Map<String, Artikel> warenkorbMap = warenkorb.getWarenkorb();
@@ -186,12 +192,13 @@ public class EinloggenKunde extends JDialog{
 
         JPanel warenkorbPanel = new JPanel(new BorderLayout());
         JScrollPane scrollPane = new JScrollPane(warenkorbTabel);
-
-
-        add(kaufPanel, BorderLayout.SOUTH);
-        add(kundenPanel, BorderLayout.NORTH);
+        scrollPane.setPreferredSize(new Dimension(500, 200));
         warenkorbPanel.add(scrollPane, BorderLayout.CENTER);
-        add(warenkorbPanel, BorderLayout.CENTER);
+
+        add(kundenPanel, BorderLayout.NORTH);
+        add(kaufPanel, BorderLayout.CENTER);
+        add(warenkorbPanel, BorderLayout.SOUTH);
+
         revalidate();
         repaint();
     }
@@ -232,6 +239,7 @@ public class EinloggenKunde extends JDialog{
             int anzahl = Integer.parseInt(textfieldAnzahl.getText());
             textfieldArtikelname.setText(null);
             textfieldAnzahl.setText(null);
+
             Artikel a = SV.holeArtikel(artikelname);
             SV.artikelBestandVerringern(a, anzahl);
             Artikel wkArtikel;
@@ -252,12 +260,17 @@ public class EinloggenKunde extends JDialog{
     }
 
     public void verarbeiteKaufenKlick(ActionEvent e){
-            int antwort = JOptionPane.showConfirmDialog(EinloggenKunde.this, "Möchten Sie wirklich kaufen?", "Kauf", JOptionPane.YES_NO_OPTION);
-                if(antwort ==JOptionPane.YES_OPTION) {
-                kaufenLayout();
-                    Warenkorb warenkorb = SV.getWk();
-                    warenkorb.warenkorbLeeren();
-                }
+        Warenkorb warenkorb = SV.getWk();
+        Map<String, Artikel> warenkorbMap = warenkorb.getWarenkorb();
+        if (warenkorbMap.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Ihr Warenkorb ist leer!", "Fehler", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int antwort = JOptionPane.showConfirmDialog(EinloggenKunde.this, "Möchten Sie wirklich kaufen?", "Kauf", JOptionPane.YES_NO_OPTION);
+        if(antwort ==JOptionPane.YES_OPTION) {
+            kaufenLayout();
+            warenkorb.warenkorbLeeren();
+        }
     }
 
     private void verarbeiteEntfernenKlick(ActionEvent e){
@@ -274,6 +287,7 @@ public class EinloggenKunde extends JDialog{
             int anzahl = Integer.parseInt(textfieldAnzahl2.getText());
             textfieldArtikelname2.setText(null);
             textfieldAnzahl2.setText(null);
+
             SV.istArtikelImWarenkorb(artikelname);
             SV.checkAnzahlDesArtikels(artikelname, anzahl);
             SV.artikelZurueck(artikelname, anzahl);

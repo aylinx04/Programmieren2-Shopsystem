@@ -1,10 +1,7 @@
 package src.ui.gui;
 
 import src.domain.ShopVerwaltungen;
-import src.valueobjects.exceptions.ArtikelExistiertBereitsException;
-import src.valueobjects.exceptions.ArtikelNichtGefundenException;
-import src.valueobjects.exceptions.PackungsgroesseException;
-import src.valueobjects.exceptions.RegistrierenFehlgeschlagenException;
+import src.valueobjects.exceptions.*;
 import src.valueobjects.Artikel;
 import src.valueobjects.Ereignis;
 
@@ -129,6 +126,8 @@ public class EinloggenMitarbeiter extends JDialog {
     }
 
     private void artikelHinzuLayout() {
+        getContentPane().removeAll();
+
         JPanel artikelHinzuPanel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         Dimension eingabeFeldGroesse = new Dimension(140, 30);
@@ -191,14 +190,16 @@ public class EinloggenMitarbeiter extends JDialog {
             }
         });
 
-        getContentPane().removeAll();
         add(mitarbeiterPanel, BorderLayout.NORTH);
         add(artikelHinzuPanel, BorderLayout.CENTER);
+
         revalidate();
         repaint();
     }
 
     private void bestandLayout() {
+        getContentPane().removeAll();
+
         JPanel bestandPanel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         Dimension eingabeFeldGroesse = new Dimension(140, 30);
@@ -226,14 +227,16 @@ public class EinloggenMitarbeiter extends JDialog {
             }
         });
 
-        getContentPane().removeAll();
         add(mitarbeiterPanel, BorderLayout.NORTH);
         add(bestandPanel, BorderLayout.CENTER);
+
         revalidate();
         repaint();
     }
 
     private void mitarbeiterHinzuLayout() {
+        getContentPane().removeAll();
+
         JPanel mitarbeiterHinzuPanel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         Dimension eingabeFeldGroesse = new Dimension(140, 30);
@@ -259,9 +262,9 @@ public class EinloggenMitarbeiter extends JDialog {
             }
         });
 
-        getContentPane().removeAll();
         add(mitarbeiterPanel, BorderLayout.NORTH);
         add(mitarbeiterHinzuPanel, BorderLayout.CENTER);
+
         revalidate();
         repaint();
     }
@@ -286,11 +289,11 @@ public class EinloggenMitarbeiter extends JDialog {
 
             if (massengutJa.isSelected()) {
                 int packungsgroesse = Integer.parseInt(packungsgroesseTextField.getText());
-                packungsgroesseTextField.setText(null);
                 if (Integer.parseInt(packungsgroesseTextField.getText()) == 0) {
                     JOptionPane.showMessageDialog(this, "Bitte füllen Sie alle Felder aus.", "Fehler", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                packungsgroesseTextField.setText(null);
                 SV.checkPackungsgroesse(packungsgroesse, bestand);
                 SV.artikelAnlegen(artikelname, preis, bestand, packungsgroesse);
                 JOptionPane.showMessageDialog(this, "Artikel '" + artikelname + "' erfolgreich angelegt!", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
@@ -342,6 +345,7 @@ public class EinloggenMitarbeiter extends JDialog {
         String name = mitarbeiterName.getText();
         String pass = String.valueOf(passwort.getPassword());
         String pass1 = String.valueOf(passwort1.getPassword());
+
         mitarbeiterName.setText(null);
         passwort.setText(null);
         passwort1.setText(null);
@@ -354,27 +358,31 @@ public class EinloggenMitarbeiter extends JDialog {
                 mitarbeiterHinzuPanel.setVisible(false);
             }
             buttonsLayoutMitarbeiter();
-        } catch (RegistrierenFehlgeschlagenException ex) {
+        } catch (RegistrierenFehlgeschlagenException | MitarbeiterExistiertBereitsException ex) {
             JOptionPane.showMessageDialog(EinloggenMitarbeiter.this, ex.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void artikelTabelle() {
+        getContentPane().removeAll();
+
         artikelModel = new ArtikelTabelModel(SV.gibAlleArtikel());
         artikelTabel = new JTable(artikelModel);
 
         JPanel artikelPanel = new JPanel(new BorderLayout());
         JScrollPane scrollPane = new JScrollPane(artikelTabel);
 
-        getContentPane().removeAll();
         add(mitarbeiterPanel, BorderLayout.NORTH);
         artikelPanel.add(scrollPane, BorderLayout.CENTER);
         add(artikelPanel, BorderLayout.CENTER);
+
         revalidate();
         repaint();
     }
 
     private void ereignisTabelle() {
+        getContentPane().removeAll();
+
         ereignisModel = new EreignisTabelModel(SV.gebeEreignisListe());
         ereignisTabel = new JTable(ereignisModel);
         Dimension eingabeFeldGroesse = new Dimension(140,30);
@@ -420,11 +428,11 @@ public class EinloggenMitarbeiter extends JDialog {
         ereignisPanel.add(labelSuche);
         ereignisPanel.add(suchTextFeld);
 
-        getContentPane().removeAll();
         add(mitarbeiterPanel, BorderLayout.NORTH);
         panel.add(ereignisPanel, BorderLayout.NORTH);
         panel.add(scrollPane, BorderLayout.CENTER);
         add(panel, BorderLayout.CENTER);
+
         revalidate();
         repaint();
     }

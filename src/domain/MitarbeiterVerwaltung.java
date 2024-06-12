@@ -2,6 +2,7 @@ package src.domain;
 
 import src.persistence.FilePersistenceManager;
 import src.persistence.PersistenceManager;
+import src.valueobjects.Artikel;
 import src.valueobjects.Mitarbeiter;
 
 import java.io.IOException;
@@ -22,5 +23,14 @@ public class MitarbeiterVerwaltung {
 
     public List<Mitarbeiter> getMitarbeiterListe() {
         return mitarbeiterListe;
+    }
+
+    public Mitarbeiter sucheMitarbeiter(String name) {
+        for (Mitarbeiter mitarbeiter : mitarbeiterListe) {
+            if (mitarbeiter.getName().equals(name)) {
+                return mitarbeiter;
+            }
+        }
+        return null;
     }
 }
