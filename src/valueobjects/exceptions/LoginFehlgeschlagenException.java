@@ -1,4 +1,4 @@
-package src.domain.exceptions;
+package src.valueobjects.exceptions;
 
 public class LoginFehlgeschlagenException extends Exception {
 

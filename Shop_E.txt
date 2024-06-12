@@ -25,3 +25,63 @@ Ereignis - Artikel 'Tomate' um 1 erhoeht.
 2024-06-05
 Mitarbeiter: Helga
 Ereignis - Artikel 'Tomate' um 5 erhoeht.
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Gurke, Nummer= 2, Preis= 3.59€, Bestand= 5]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Gurke, Nummer= 2, Preis= 3.59€, Bestand= 1]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Gurke, Nummer= 2, Preis= 3.59€, Bestand= 1]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: []
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: []
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: []
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Apfel, Nummer= 11, Preis= 1.2€, Bestand= 5]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Zucker, Nummer= 13, Preis= 6.0€, Bestand= 1]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Salat, Nummer= 4, Preis= 0.99€, Bestand= 2]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Tomate, Nummer= 1, Preis= 4.99€, Bestand= 20]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Tomate, Nummer= 1, Preis= 4.99€, Bestand= 3]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Tomate, Nummer= 1, Preis= 4.99€, Bestand= 3]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Tomate, Nummer= 1, Preis= 4.99€, Bestand= 2]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Banane, Nummer= 12, Preis= 5.99€, Bestand= 1]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Öl, Nummer= 17, Preis= 2.0€, Bestand= 1]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Öl, Nummer= 17, Preis= 2.0€, Bestand= 1]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Öl, Nummer= 17, Preis= 2.0€, Bestand= 3]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Brot, Nummer= 15, Preis= 2.59€, Bestand= 5]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Tomate, Nummer= 1, Preis= 4.99€, Bestand= 1]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Tomate, Nummer= 1, Preis= 4.99€, Bestand= 1]

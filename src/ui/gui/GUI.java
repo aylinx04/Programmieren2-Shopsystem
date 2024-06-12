@@ -1,8 +1,8 @@
 package src.ui.gui;
 
 import src.domain.ShopVerwaltungen;
-import src.domain.exceptions.LoginFehlgeschlagenException;
-import src.domain.exceptions.RegistrierenFehlgeschlagenException;
+import src.valueobjects.exceptions.LoginFehlgeschlagenException;
+import src.valueobjects.exceptions.RegistrierenFehlgeschlagenException;
 import src.valueobjects.Artikel;
 
 import javax.swing.*;
@@ -235,6 +235,12 @@ public class GUI extends JFrame {
         String strasse = textfieldStrasse.getText();
         String plz = textfieldPlz.getText();
         String wohnort = textfieldWohnort.getText();
+        textfieldVorname.setText(null);
+        textfieldPasswort.setText(null);
+        textfieldPasswort2.setText(null);
+        textfieldStrasse.setText(null);
+        textfieldPlz.setText(null);
+        textfieldWohnort.setText(null);
         try {
             SV.checkPasswort(passwort, passwort2);
             SV.kundeAnlegen(name, passwort, strasse, plz, wohnort);
@@ -256,6 +262,9 @@ public class GUI extends JFrame {
 
         String name = textfieldName.getText();
         String passwort = String.valueOf(passwordfieldPasswort.getPassword());
+
+        textfieldName.setText(null);
+        passwordfieldPasswort.setText(null);
 
         einloggen(name, passwort);
     }

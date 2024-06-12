@@ -1,10 +1,10 @@
 package src.ui.gui;
 
 import src.domain.ShopVerwaltungen;
-import src.domain.exceptions.ArtikelExistiertBereitsException;
-import src.domain.exceptions.ArtikelNichtGefundenException;
-import src.domain.exceptions.PackungsgroesseException;
-import src.domain.exceptions.RegistrierenFehlgeschlagenException;
+import src.valueobjects.exceptions.ArtikelExistiertBereitsException;
+import src.valueobjects.exceptions.ArtikelNichtGefundenException;
+import src.valueobjects.exceptions.PackungsgroesseException;
+import src.valueobjects.exceptions.RegistrierenFehlgeschlagenException;
 import src.valueobjects.Artikel;
 import src.valueobjects.Ereignis;
 
@@ -280,8 +280,13 @@ public class EinloggenMitarbeiter extends JDialog {
             double preis = Double.parseDouble(preistextField.getText());
             int bestand = Integer.parseInt(bestandtextField.getText());
 
+            artikeltextField.setText(null);
+            preistextField.setText(null);
+            bestandtextField.setText(null);
+
             if (massengutJa.isSelected()) {
                 int packungsgroesse = Integer.parseInt(packungsgroesseTextField.getText());
+                packungsgroesseTextField.setText(null);
                 if (Integer.parseInt(packungsgroesseTextField.getText()) == 0) {
                     JOptionPane.showMessageDialog(this, "Bitte füllen Sie alle Felder aus.", "Fehler", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -313,6 +318,9 @@ public class EinloggenMitarbeiter extends JDialog {
             Artikel artikel = SV.holeArtikel(artikelname);
             SV.ereignisBestandErhoeht(artikel, anzahl);
 
+            artikeltextField.setText(null);
+            bestandtextField.setText(null);
+
             JOptionPane.showMessageDialog(this, "Artikel '" + artikelname + "' erfolgreich um " + anzahl + " erhoeht!",
                     "Erfolg", JOptionPane.INFORMATION_MESSAGE);
 
@@ -334,6 +342,9 @@ public class EinloggenMitarbeiter extends JDialog {
         String name = mitarbeiterName.getText();
         String pass = String.valueOf(passwort.getPassword());
         String pass1 = String.valueOf(passwort1.getPassword());
+        mitarbeiterName.setText(null);
+        passwort.setText(null);
+        passwort1.setText(null);
 
         try {
             SV.checkPasswort(pass, pass1);

@@ -1,7 +1,7 @@
 package src.ui;
 
 import src.domain.ShopVerwaltungen;
-import src.domain.exceptions.*;
+import src.valueobjects.exceptions.*;
 import src.valueobjects.*;
 
 import java.io.BufferedReader;

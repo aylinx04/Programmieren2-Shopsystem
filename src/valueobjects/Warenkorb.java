@@ -1,8 +1,5 @@
 package src.valueobjects;
 
-import src.domain.exceptions.ArtikelNichtGefundenException;
-import src.domain.exceptions.BestandNichtVorhandenException;
-
 import java.util.HashMap;
 import java.util.Map;
 

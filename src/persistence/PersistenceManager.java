@@ -1,6 +1,5 @@
 package src.persistence;
 
-import src.domain.exceptions.ArtikelNichtGefundenException;
 import src.valueobjects.Artikel;
 import src.valueobjects.Ereignis;
 import src.valueobjects.Kunde;
