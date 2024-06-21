@@ -11,7 +11,7 @@ public class ShopServer {
     public static void main(String[] args) throws IOException {
         IShopVerwaltung shop = new ShopVerwaltung("Shop");
 
-        ServerSocket ss = new ServerSocket(); //Portnummer einsetzen
+        ServerSocket ss = new ServerSocket(1399); //Portnummer einsetzen
         System.out.println("Server laeuft und wartet auf eingehende Verbindungen!");
 
         while(true) {
@@ -19,8 +19,8 @@ public class ShopServer {
 
             ClientRequestProcessor c = new ClientRequestProcessor(s, shop);
 
-//            Thread t = new Thread(c);
-//            t.start();
+            Thread t = new Thread(c);
+            t.start();
 
             System.err.println("Client verbunden!");
         }
