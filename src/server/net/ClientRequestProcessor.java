@@ -8,6 +8,7 @@ import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.List;
+import java.util.Map;
 
 public class ClientRequestProcessor implements Runnable {
     private BufferedReader socketIn;
@@ -44,25 +45,56 @@ public class ClientRequestProcessor implements Runnable {
         String[] parts = receivedData.split(separator);
 
         switch (Commands.valueOf(parts[0])) {
-//            case CMD_GET_WK -> handleGetWK();
-            case CMD_ERZEUGE_RECHNUNG -> handleErzeugeRechnung();
+            case CMD_GET_WK -> handleGetWK();
+//            case CMD_ERZEUGE_RECHNUNG -> handleErzeugeRechnung();
             case CMD_GIB_EREIGNISLISTE -> handleGibEreignisListe();
             case CMD_GIB_ALLE_ARTIKEL -> handleGibAlleArtikel();
             case CMD_CHECK_LOGIN -> handleCheckLogin(parts);
             case CMD_CHECK_PASSWORT -> handleCheckPasswort(parts);
+//            case CMD_CHECK_PACKUNGSGROESSE -> handleCheckPackungsgroesse(parts);
+//            case CMD_HOLE_ARTIKEL -> handleHoleArtikel(parts);
+//            case CMD_ARTIKEL_ZURUECK -> handleArtikelZurueck(parts);
+//            case CMD_ARTIKEL_BESTAND_VERRINGERN -> handleBestandVerringern(parts);
+//            case CMD_IST_ARTIKEL_IM_WARENKORB -> handleIstArtikelImWarenkorb(parts);
+//            case CMD_CHECK_ANZAHL_DES_ARTIKELS -> handleCheckAnzahlDesArtikels(parts);
+//            case CMD_KUNDE_ANLEGEN -> handleKundeAnlegen(parts);
+//            case CMD_ARTIKEL_ANLEGEN -> handleArtikelAnlegen(parts);
+//            case CMD_EREIGNIS_BESTAND_ERHOEHT -> handleEreignisBestandErhoeht(parts);
+//            case CMD_MITARBEITER_ANLEGEN -> handleMitarbeiterAnlegen(parts);
+            case CMD_SCHREIBE_ARTIKEL_DATEN -> handleschreibeArtikelDaten(parts);
+            case CMD_SCHREIBE_MITARBEITER_DATEN -> handleschreibeMitarbeiterDaten(parts);
+            case CMD_SCHREIBE_KUNDEN_DATEN -> handleschreibeKundenDaten(parts);
+            case CMD_SCHREIBE_EREIGNIS_DATEN -> handleschreibeEreigninsDaten(parts);
+//            case CMD_SUCHE_ARTIKEL -> handleSucheArtikel(parts);
+//            case CMD_SUCHE_EREIGNIS -> handleSucheEreignis(parts);
             default -> System.err.println("Ungueltige Anfrage empfangen!");
         }
     }
 
-//    private void handleGetWK(){
-//        shop.getWk();
-//    }
+    private void handleGetWK(){
+        Warenkorb w = shop.getWk();
+        Map<String, Artikel> warenkorbMap = w.getWarenkorb();
+
+        String cmd = Commands.CMD_GET_WK_RESP.name();
+
+        for (Artikel a : warenkorbMap.values()) {
+            cmd += separator + a.getName();
+            cmd += separator + a.getNummer();
+            cmd += separator + a.getPreis();
+            cmd += separator + a.getBestand();
+            if (a instanceof Massengutartikel m) {
+                cmd += separator + m.getPackungsgroesse();
+            }
+        }
+
+        socketOut.println(cmd);
+    }
 
     private void handleErzeugeRechnung() {
 
     }
 
-    private void handleGibEreignisListe(){
+    private void handleGibEreignisListe() {
         List<Ereignis> result = shop.gibEreignisListe();
 
         String cmd = Commands.CMD_GIB_EREIGNISLISTE_RESP.name();
@@ -76,7 +108,7 @@ public class ClientRequestProcessor implements Runnable {
         socketOut.println(cmd);
     }
 
-    private void handleGibAlleArtikel(){
+    private void handleGibAlleArtikel() {
         List<Artikel> result = shop.gibAlleArtikel();
 
         String cmd = Commands.CMD_GIB_ALLE_ARTIKEL_RESP.name();
@@ -122,6 +154,38 @@ public class ClientRequestProcessor implements Runnable {
         }
 
         socketOut.println(cmd);
+    }
+
+    private void handleschreibeArtikelDaten(String[] data) {
+        try {
+            shop.schreibeArtikelDaten(data[1]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleschreibeMitarbeiterDaten(String[] data) {
+        try {
+            shop.schreibeMitarbeiterDaten(data[1]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleschreibeKundenDaten(String[] data) {
+        try {
+            shop.schreibeKundenDaten(data[1]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleschreibeEreigninsDaten(String[] data) {
+        try {
+            shop.schreibeEreignisDaten(data[1]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

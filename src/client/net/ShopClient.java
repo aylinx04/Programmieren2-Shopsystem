@@ -25,7 +25,37 @@ public class ShopClient implements IShopVerwaltung {
 
     @Override
     public Warenkorb getWk() {
-        return null;
+        String cmd = Commands.CMD_GET_WK.name();
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if(Commands.valueOf(data[0]) != Commands.CMD_GET_WK_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+        return createWarenkorbFromData(data);
+    }
+
+    public Warenkorb createWarenkorbFromData(String[] data) {
+        Warenkorb warenkorb = new Warenkorb();
+
+        for (int i=1; i < data.length; i+=4) {
+            String name = data[i];
+            int nummer = Integer.parseInt(data[i+1]);
+            double preis = Double.parseDouble(data[i+2]);
+            int bestand = Integer.parseInt(data[i+3]);
+
+            if (data.length > i+4 && data[i+4].matches("\\d+")) {
+                int packungsgroesse = Integer.parseInt(data[i+4]);
+                Massengutartikel m = new Massengutartikel(name, nummer, preis, bestand, packungsgroesse);
+                warenkorb.artikelHinzufuegen(m);
+                i+=1;
+            } else {
+                Artikel a = new Artikel(name, nummer, preis, bestand);
+                warenkorb.artikelHinzufuegen(a);            }
+        }
+
+        return warenkorb;
     }
 
     @Override
@@ -40,7 +70,7 @@ public class ShopClient implements IShopVerwaltung {
 
         String[] data = readResponse();
 
-        if(Commands.valueOf(data[0]) != Commands.CMD_GIB_EREIGNISLISTE_RESP){
+        if(Commands.valueOf(data[0]) != Commands.CMD_GIB_EREIGNISLISTE_RESP) {
             throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
         }
         return createEreignislisteFromData(data);
@@ -53,7 +83,7 @@ public class ShopClient implements IShopVerwaltung {
 
         String[] data = readResponse();
 
-        if(Commands.valueOf(data[0]) != Commands.CMD_GIB_ALLE_ARTIKEL_RESP){
+        if(Commands.valueOf(data[0]) != Commands.CMD_GIB_ALLE_ARTIKEL_RESP) {
             throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
         }
         return createArtikellisteFromData(data);
@@ -160,23 +190,27 @@ public class ShopClient implements IShopVerwaltung {
     }
 
     @Override
-    public void schreibeArtikelDaten(String datei) throws IOException {
-
+    public void schreibeArtikelDaten(String datei) {
+        String cmd = Commands.CMD_SCHREIBE_ARTIKEL_DATEN.name();
+        socketOut.println(cmd);
     }
 
     @Override
-    public void schreibeMitarbeiterDaten(String datei) throws IOException {
-
+    public void schreibeMitarbeiterDaten(String datei) {
+        String cmd = Commands.CMD_SCHREIBE_MITARBEITER_DATEN.name();
+        socketOut.println(cmd);
     }
 
     @Override
-    public void schreibeKundenDaten(String datei) throws IOException {
-
+    public void schreibeKundenDaten(String datei) {
+        String cmd = Commands.CMD_SCHREIBE_KUNDEN_DATEN.name();
+        socketOut.println(cmd);
     }
 
     @Override
-    public void schreibeEreignisDaten(String datei) throws IOException {
-
+    public void schreibeEreignisDaten(String datei) {
+        String cmd = Commands.CMD_SCHREIBE_EREIGNIS_DATEN.name();
+        socketOut.println(cmd);
     }
 
     @Override
@@ -213,10 +247,10 @@ public class ShopClient implements IShopVerwaltung {
     private List<Ereignis> createEreignislisteFromData(String[] data) {
         List<Ereignis> ereignisListe = new ArrayList<>();
 
-        for (int i = 1; i < data.length; i += 3) {
+        for (int i=1; i < data.length; i+=3) {
             String datum = data[i];
-            String person = data[i + 1];
-            String status = data[i + 2];
+            String person = data[i+1];
+            String status = data[i+2];
 
             ereignisListe.add(new Ereignis(datum, person, status));
         }

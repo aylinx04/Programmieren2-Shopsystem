@@ -6,7 +6,7 @@ import java.util.Map;
 public class Warenkorb {
     Map<String, Artikel> warenkorb = new HashMap<>();
 
-    public Map<String, Artikel> getWarenkorb() {return warenkorb;}
+    public Map<String, Artikel> getWarenkorb() { return warenkorb; }
 
     public void artikelEntfernen(String artikelname, int anzahl) {
         Artikel vorhandenerArtikel = warenkorb.get(artikelname);
