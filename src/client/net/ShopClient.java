@@ -198,7 +198,7 @@ public class ShopClient implements IShopVerwaltung {
             double preis = Double.parseDouble(data[i+2]);
             int bestand = Integer.parseInt(data[i+3]);
 
-            if (data.length > i+4 && isInteger(data[i+4])) {
+            if (data.length > i+4 && data[i+4].matches("\\d+")) {
                 int packungsgroesse = Integer.parseInt(data[i+4]);
                 artikelListe.add(new Massengutartikel(name, nummer, preis, bestand, packungsgroesse));
                 i+=1;
@@ -208,15 +208,6 @@ public class ShopClient implements IShopVerwaltung {
         }
 
         return artikelListe;
-    }
-
-    private boolean isInteger(String str) {
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 
     private List<Ereignis> createEreignislisteFromData(String[] data) {

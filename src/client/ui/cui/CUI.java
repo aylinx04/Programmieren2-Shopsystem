@@ -277,8 +277,9 @@ public class CUI {
                         break;
                     case "5":
                         System.out.println("Ereignisse: ");
-                        Collections.sort(SV.gibEreignisListe(), Comparator.comparing(Ereignis::getDatum));
-                        SV.gibEreignisListe().forEach(System.out::println);
+                        SV.gibEreignisListe().stream()
+                                .sorted(Comparator.comparing(Ereignis::getDatum))
+                                .forEach(System.out::println);
                         break;
                     case "q":
                         System.out.println("Ausgeloggt");
