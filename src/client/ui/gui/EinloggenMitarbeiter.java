@@ -420,7 +420,7 @@ public class EinloggenMitarbeiter extends JDialog {
         if (suchBegriff.isEmpty()) {
             suchErgebnis = SV.gibEreignisListe();
         } else {
-            suchErgebnis = SV.sucheNachEreignis(suchBegriff);
+            suchErgebnis = SV.sucheEreignis(suchBegriff);
         }
         ereignisModel.setEreignis(suchErgebnis);
     }

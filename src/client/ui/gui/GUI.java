@@ -147,7 +147,7 @@ public class GUI extends JFrame {
         if (suchBegriff.isEmpty()) {
             suchErgebnis = SV.gibAlleArtikel();
         } else {
-            suchErgebnis = SV.sucheNachTitel(suchBegriff);
+            suchErgebnis = SV.sucheArtikel(suchBegriff);
         }
         artikelModel.setArtikel(suchErgebnis);
     }

@@ -1,9 +1,8 @@
 package src.server.net;
 
-import src.common.Artikel;
-import src.common.Commands;
-import src.common.Ereignis;
-import src.common.IShopVerwaltung;
+import src.common.*;
+import src.common.exceptions.LoginFehlgeschlagenException;
+import src.common.exceptions.RegistrierenFehlgeschlagenException;
 
 import java.io.*;
 import java.net.Socket;
@@ -46,9 +45,11 @@ public class ClientRequestProcessor implements Runnable {
 
         switch (Commands.valueOf(parts[0])) {
 //            case CMD_GET_WK -> handleGetWK();
-//            case CMD_ERZEUGE_RECHNUNG -> handleErzeugeRechnung();
+            case CMD_ERZEUGE_RECHNUNG -> handleErzeugeRechnung();
             case CMD_GIB_EREIGNISLISTE -> handleGibEreignisListe();
             case CMD_GIB_ALLE_ARTIKEL -> handleGibAlleArtikel();
+            case CMD_CHECK_LOGIN -> handleCheckLogin(parts);
+            case CMD_CHECK_PASSWORT -> handleCheckPasswort(parts);
             default -> System.err.println("Ungueltige Anfrage empfangen!");
         }
     }
@@ -56,6 +57,11 @@ public class ClientRequestProcessor implements Runnable {
 //    private void handleGetWK(){
 //        shop.getWk();
 //    }
+
+    private void handleErzeugeRechnung() {
+
+    }
+
     private void handleGibEreignisListe(){
         List<Ereignis> result = shop.gibEreignisListe();
 
@@ -69,6 +75,7 @@ public class ClientRequestProcessor implements Runnable {
 
         socketOut.println(cmd);
     }
+
     private void handleGibAlleArtikel(){
         List<Artikel> result = shop.gibAlleArtikel();
 
@@ -79,8 +86,42 @@ public class ClientRequestProcessor implements Runnable {
             cmd += separator + a.getNummer();
             cmd += separator + a.getPreis();
             cmd += separator + a.getBestand();
+            if (a instanceof Massengutartikel m) {
+                cmd += separator + m.getPackungsgroesse();
+            }
         }
 
         socketOut.println(cmd);
     }
+
+    private void handleCheckLogin(String[] data) {
+        String name = data[1];
+        String passwort = data[2];
+
+        String cmd = Commands.CMD_CHECK_LOGIN_RESP.name();
+        try {
+            int result = shop.checkLogin(name, passwort);
+            cmd += separator + result;
+        } catch (LoginFehlgeschlagenException e) {
+            cmd += separator + "0";
+        }
+
+        socketOut.println(cmd);
+    }
+
+    private void handleCheckPasswort(String[] data) {
+        String passwort = data[1];
+        String passwort2 = data[2];
+
+        String cmd = Commands.CMD_CHECK_PASSWORT_RESP.name();
+        try {
+            shop.checkPasswort(passwort, passwort2);
+            cmd += separator + "true";
+        } catch (RegistrierenFehlgeschlagenException e) {
+            cmd += separator + "false";
+        }
+
+        socketOut.println(cmd);
+    }
+
 }

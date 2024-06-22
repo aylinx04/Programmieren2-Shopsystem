@@ -11,7 +11,7 @@ public class ShopServer {
     public static void main(String[] args) throws IOException {
         IShopVerwaltung shop = new ShopVerwaltung("Shop");
 
-        ServerSocket ss = new ServerSocket(1399); //Portnummer einsetzen
+        ServerSocket ss = new ServerSocket(1399);
         System.out.println("Server laeuft und wartet auf eingehende Verbindungen!");
 
         while(true) {

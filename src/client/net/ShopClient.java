@@ -16,14 +16,8 @@ public class ShopClient implements IShopVerwaltung {
     final String separator = ";";
 
     public ShopClient() throws IOException {
-        // Verbindung zum Server aufbauen
         socket = new Socket("127.0.0.1", 1399);
-        // Siehe Doku:
-        // With this option set to a positive timeout value, a read() call on the InputStream associated with
-        // this Socket will block for only this amount of time.
-        socket.setSoTimeout(1000); // Jegliche Antworten vom Server werden innerhalb einer Sekunde erwartet
-
-        // Streams vom Socket holen
+        socket.setSoTimeout(1000);
         InputStream inputStream = socket.getInputStream();
         socketIn = new BufferedReader(new InputStreamReader(inputStream));
         socketOut = new PrintStream(socket.getOutputStream());
@@ -41,7 +35,15 @@ public class ShopClient implements IShopVerwaltung {
 
     @Override
     public List<Ereignis> gibEreignisListe() {
-        return null;
+        String cmd = Commands.CMD_GIB_EREIGNISLISTE.name();
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if(Commands.valueOf(data[0]) != Commands.CMD_GIB_EREIGNISLISTE_RESP){
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+        return createEreignislisteFromData(data);
     }
 
     @Override
@@ -59,17 +61,52 @@ public class ShopClient implements IShopVerwaltung {
 
     @Override
     public int checkLogin(String name, String passwort) throws LoginFehlgeschlagenException {
-        return 0;
+        String cmd = Commands.CMD_CHECK_LOGIN.name() + separator + name + separator + passwort;
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+        if (Commands.valueOf(data[0]) != Commands.CMD_CHECK_LOGIN_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+
+        int result = Integer.parseInt(data[1]);
+        if (result == 0) {
+            throw new LoginFehlgeschlagenException();
+        }
+
+        return result;
     }
 
     @Override
     public void checkPasswort(String passwort, String passwort2) throws RegistrierenFehlgeschlagenException {
+        String cmd = Commands.CMD_CHECK_PASSWORT.name() + separator + passwort + separator + passwort2;
+        socketOut.println(cmd);
 
+        String[] data = readResponse();
+        if (Commands.valueOf(data[0]) != Commands.CMD_CHECK_PASSWORT_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+
+        boolean passwortGleich = Boolean.parseBoolean(data[1]);
+        if (!passwortGleich) {
+            throw new RegistrierenFehlgeschlagenException();
+        }
     }
 
     @Override
     public void checkPackungsgroesse(int packungsgroesse, int bestand) throws PackungsgroesseException {
+        String cmd = Commands.CMD_CHECK_PACKUNGSGROESSE.name() + separator + packungsgroesse + separator + bestand;
+        socketOut.println(cmd);
 
+        String[] data = readResponse();
+        if (Commands.valueOf(data[0]) != Commands.CMD_CHECK_PACKUNGSGROESSE_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+
+        boolean packungsgroesseKorrekt = Boolean.parseBoolean(data[1]);
+        if (!packungsgroesseKorrekt) {
+            throw new PackungsgroesseException();
+        }
     }
 
     @Override
@@ -152,34 +189,53 @@ public class ShopClient implements IShopVerwaltung {
         return null;
     }
 
-    @Override
-    public List<Artikel> sucheNachTitel(String titel) {
-        return null;
-    }
-
-    @Override
-    public List<Ereignis> sucheNachEreignis(String ereignis) {
-        return null;
-    }
-
-    private List<Artikel> createArtikellisteFromData(String[] data){
+    private List<Artikel> createArtikellisteFromData(String[] data) {
         List<Artikel> artikelListe = new ArrayList<>();
 
-        for(int i=1; i< data.length; i+=4){
+        for(int i=1; i < data.length; i+=4){
             String name = data[i];
             int nummer = Integer.parseInt(data[i+1]);
             double preis = Double.parseDouble(data[i+2]);
             int bestand = Integer.parseInt(data[i+3]);
 
-            artikelListe.add(new Artikel(name, nummer, preis, bestand));
+            if (data.length > i+4 && isInteger(data[i+4])) {
+                int packungsgroesse = Integer.parseInt(data[i+4]);
+                artikelListe.add(new Massengutartikel(name, nummer, preis, bestand, packungsgroesse));
+                i+=1;
+            } else {
+                artikelListe.add(new Artikel(name, nummer, preis, bestand));
+            }
         }
+
         return artikelListe;
+    }
+
+    private boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private List<Ereignis> createEreignislisteFromData(String[] data) {
+        List<Ereignis> ereignisListe = new ArrayList<>();
+
+        for (int i = 1; i < data.length; i += 3) {
+            String datum = data[i];
+            String person = data[i + 1];
+            String status = data[i + 2];
+
+            ereignisListe.add(new Ereignis(datum, person, status));
+        }
+
+        return ereignisListe;
     }
 
     private String[] readResponse() {
         String[] parts = null;
         try {
-            // Auf Antwort warten. Es wird maximal 1000ms gewartet
             String receivedData = socketIn.readLine();
             parts = receivedData.split(separator);
 
@@ -189,7 +245,6 @@ public class ShopClient implements IShopVerwaltung {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return parts;
     }
 }

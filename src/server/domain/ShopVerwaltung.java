@@ -219,12 +219,4 @@ public class ShopVerwaltung implements IShopVerwaltung {
         }
         return suchErg;
     }
-
-    public List<Artikel> sucheNachTitel(String titel) {
-        return sucheArtikel(titel);
-    }
-
-    public List<Ereignis> sucheNachEreignis(String ereignis){
-        return sucheEreignis(ereignis);
-    }
 }

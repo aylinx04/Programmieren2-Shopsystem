@@ -1,5 +1,6 @@
 package src.client.ui.cui;
 
+import src.client.net.ShopClient;
 import src.server.domain.ShopVerwaltung;
 import src.common.exceptions.*;
 import src.common.*;
@@ -11,17 +12,17 @@ import java.util.*;
 
 public class CUI {
 
-    private ShopVerwaltung SV;
+    private IShopVerwaltung SV;
     private BufferedReader in;
 
-    public CUI(String datei) throws IOException {
-        SV = new ShopVerwaltung(datei);
+    public CUI() throws IOException {
+        SV = new ShopClient();
         in = new BufferedReader(new InputStreamReader(System.in));
     }
 
     public static void main(String[] args) {
         try {
-            CUI cui = new CUI("Shop");
+            CUI cui = new CUI();
             cui.run();
         } catch (IOException e) {
             // TODO Auto-generated catch block

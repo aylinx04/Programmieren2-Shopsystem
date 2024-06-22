@@ -32,6 +32,4 @@ public interface IShopVerwaltung {
     void schreibeEreignisDaten(String datei) throws IOException;
     List<Artikel> sucheArtikel(String titel);
     List<Ereignis> sucheEreignis(String titel);
-    List<Artikel> sucheNachTitel(String titel);
-    List<Ereignis> sucheNachEreignis(String ereignis);
 }
