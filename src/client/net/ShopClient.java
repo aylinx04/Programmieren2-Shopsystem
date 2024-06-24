@@ -166,7 +166,14 @@ public class ShopClient implements IShopVerwaltung {
 
     @Override
     public void kundeAnlegen(String name, String passwort, String strasse, String plz, String wohnort) {
+        String cmd = Commands.CMD_KUNDE_ANLEGEN.name() + separator + name + separator + passwort +
+                separator + strasse + separator + plz + separator + wohnort;
+        socketOut.println(cmd);
 
+        String[] data = readResponse();
+        if (Commands.valueOf(data[0]) != Commands.CMD_KUNDE_ANLEGEN_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
     }
 
     @Override
@@ -191,26 +198,46 @@ public class ShopClient implements IShopVerwaltung {
 
     @Override
     public void schreibeArtikelDaten(String datei) {
-        String cmd = Commands.CMD_SCHREIBE_ARTIKEL_DATEN.name();
+        String cmd = Commands.CMD_SCHREIBE_ARTIKEL_DATEN.name() + separator + datei;
         socketOut.println(cmd);
+
+        String[] data = readResponse();
+        if (Commands.valueOf(data[0]) != Commands.CMD_SCHREIBE_ARTIKEL_DATEN_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
     }
 
     @Override
     public void schreibeMitarbeiterDaten(String datei) {
-        String cmd = Commands.CMD_SCHREIBE_MITARBEITER_DATEN.name();
+        String cmd = Commands.CMD_SCHREIBE_MITARBEITER_DATEN.name() + separator + datei;
         socketOut.println(cmd);
+
+        String[] data = readResponse();
+        if (Commands.valueOf(data[0]) != Commands.CMD_SCHREIBE_MITARBEITER_DATEN_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
     }
 
     @Override
     public void schreibeKundenDaten(String datei) {
-        String cmd = Commands.CMD_SCHREIBE_KUNDEN_DATEN.name();
+        String cmd = Commands.CMD_SCHREIBE_KUNDEN_DATEN.name() + separator + datei;
         socketOut.println(cmd);
+
+        String[] data = readResponse();
+        if (Commands.valueOf(data[0]) != Commands.CMD_SCHREIBE_KUNDEN_DATEN_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
     }
 
     @Override
     public void schreibeEreignisDaten(String datei) {
-        String cmd = Commands.CMD_SCHREIBE_EREIGNIS_DATEN.name();
+        String cmd = Commands.CMD_SCHREIBE_EREIGNIS_DATEN.name() + separator + datei;
         socketOut.println(cmd);
+
+        String[] data = readResponse();
+        if (Commands.valueOf(data[0]) != Commands.CMD_SCHREIBE_EREIGNIS_DATEN_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
     }
 
     @Override
