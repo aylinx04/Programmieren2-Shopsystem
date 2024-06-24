@@ -2,6 +2,7 @@ package src.server.net;
 
 import src.common.*;
 import src.common.exceptions.LoginFehlgeschlagenException;
+import src.common.exceptions.PackungsgroesseException;
 import src.common.exceptions.RegistrierenFehlgeschlagenException;
 
 import java.io.*;
@@ -51,7 +52,7 @@ public class ClientRequestProcessor implements Runnable {
             case CMD_GIB_ALLE_ARTIKEL -> handleGibAlleArtikel();
             case CMD_CHECK_LOGIN -> handleCheckLogin(parts);
             case CMD_CHECK_PASSWORT -> handleCheckPasswort(parts);
-//            case CMD_CHECK_PACKUNGSGROESSE -> handleCheckPackungsgroesse(parts);
+            case CMD_CHECK_PACKUNGSGROESSE -> handleCheckPackungsgroesse(parts);
 //            case CMD_HOLE_ARTIKEL -> handleHoleArtikel(parts);
 //            case CMD_ARTIKEL_ZURUECK -> handleArtikelZurueck(parts);
 //            case CMD_ARTIKEL_BESTAND_VERRINGERN -> handleBestandVerringern(parts);
@@ -150,6 +151,21 @@ public class ClientRequestProcessor implements Runnable {
             shop.checkPasswort(passwort, passwort2);
             cmd += separator + "true";
         } catch (RegistrierenFehlgeschlagenException e) {
+            cmd += separator + "false";
+        }
+
+        socketOut.println(cmd);
+    }
+
+    private void handleCheckPackungsgroesse(String[] data) {
+        int packungsgroesse = Integer.parseInt(data[1]);
+        int bestand = Integer.parseInt(data[2]);
+
+        String cmd = Commands.CMD_CHECK_PACKUNGSGROESSE_RESP.name();
+        try {
+            shop.checkPackungsgroesse(packungsgroesse, bestand);
+            cmd += separator + "true";
+        } catch (PackungsgroesseException e) {
             cmd += separator + "false";
         }
 
