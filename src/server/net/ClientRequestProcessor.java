@@ -1,6 +1,7 @@
 package src.server.net;
 
 import src.common.*;
+import src.common.exceptions.ArtikelNichtGefundenException;
 import src.common.exceptions.LoginFehlgeschlagenException;
 import src.common.exceptions.PackungsgroesseException;
 import src.common.exceptions.RegistrierenFehlgeschlagenException;
@@ -56,7 +57,7 @@ public class ClientRequestProcessor implements Runnable {
 //            case CMD_HOLE_ARTIKEL -> handleHoleArtikel(parts);
 //            case CMD_ARTIKEL_ZURUECK -> handleArtikelZurueck(parts);
 //            case CMD_ARTIKEL_BESTAND_VERRINGERN -> handleBestandVerringern(parts);
-//            case CMD_IST_ARTIKEL_IM_WARENKORB -> handleIstArtikelImWarenkorb(parts);
+            case CMD_IST_ARTIKEL_IM_WARENKORB -> handleIstArtikelImWarenkorb(parts);
 //            case CMD_CHECK_ANZAHL_DES_ARTIKELS -> handleCheckAnzahlDesArtikels(parts);
             case CMD_KUNDE_ANLEGEN -> handleKundeAnlegen(parts);
 //            case CMD_ARTIKEL_ANLEGEN -> handleArtikelAnlegen(parts);
@@ -166,6 +167,20 @@ public class ClientRequestProcessor implements Runnable {
             shop.checkPackungsgroesse(packungsgroesse, bestand);
             cmd += separator + "true";
         } catch (PackungsgroesseException e) {
+            cmd += separator + "false";
+        }
+
+        socketOut.println(cmd);
+    }
+
+    private void handleIstArtikelImWarenkorb(String[] data) {
+        String artikelname = data[1];
+
+        String cmd = Commands.CMD_CHECK_PACKUNGSGROESSE_RESP.name();
+        try {
+            shop.istArtikelImWarenkorb(artikelname);
+            cmd += separator + "true";
+        } catch (ArtikelNichtGefundenException e) {
             cmd += separator + "false";
         }
 

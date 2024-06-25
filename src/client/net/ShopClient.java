@@ -156,7 +156,18 @@ public class ShopClient implements IShopVerwaltung {
 
     @Override
     public void istArtikelImWarenkorb(String artikelname) throws ArtikelNichtGefundenException {
+        String cmd = Commands.CMD_IST_ARTIKEL_IM_WARENKORB.name() + separator + artikelname;
+        socketOut.println(cmd);
 
+        String[] data = readResponse();
+        if (Commands.valueOf(data[0]) != Commands.CMD_IST_ARTIKEL_IM_WARENKORB_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+
+        boolean artikelGefunden = Boolean.parseBoolean(data[1]);
+        if (!artikelGefunden) {
+            throw new ArtikelNichtGefundenException(artikelname);
+        }
     }
 
     @Override
