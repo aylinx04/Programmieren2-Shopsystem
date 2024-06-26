@@ -1,10 +1,7 @@
 package src.server.net;
 
 import src.common.*;
-import src.common.exceptions.ArtikelNichtGefundenException;
-import src.common.exceptions.LoginFehlgeschlagenException;
-import src.common.exceptions.PackungsgroesseException;
-import src.common.exceptions.RegistrierenFehlgeschlagenException;
+import src.common.exceptions.*;
 
 import java.io.*;
 import java.net.Socket;
@@ -56,7 +53,7 @@ public class ClientRequestProcessor implements Runnable {
             case CMD_CHECK_PACKUNGSGROESSE -> handleCheckPackungsgroesse(parts);
             case CMD_HOLE_ARTIKEL -> handleHoleArtikel(parts);
 //            case CMD_ARTIKEL_ZURUECK -> handleArtikelZurueck(parts);
-//            case CMD_ARTIKEL_BESTAND_VERRINGERN -> handleBestandVerringern(parts);
+            case CMD_ARTIKEL_BESTAND_VERRINGERN -> handleBestandVerringern(parts);
             case CMD_IST_ARTIKEL_IM_WARENKORB -> handleIstArtikelImWarenkorb(parts);
 //            case CMD_CHECK_ANZAHL_DES_ARTIKELS -> handleCheckAnzahlDesArtikels(parts);
             case CMD_KUNDE_ANLEGEN -> handleKundeAnlegen(parts);
@@ -173,6 +170,8 @@ public class ClientRequestProcessor implements Runnable {
         socketOut.println(cmd);
     }
 
+
+
     private void handleHoleArtikel(String[] data) {
         String name = data[1];
 
@@ -191,7 +190,24 @@ public class ClientRequestProcessor implements Runnable {
         }
 
         socketOut.println(cmd);
+    }
+
+    private void handleBestandVerringern(String[] data) {
+        String name = data[1];
+        int anzahl = Integer.parseInt(data[2]);
+
+        String cmd = Commands.CMD_ARTIKEL_BESTAND_VERRINGERN_RESP.name();
+        try {
+            shop.artikelBestandVerringern(name, anzahl);
+            cmd += separator + name;
+        } catch (BestandNichtVorhandenException e) {
+            cmd += separator + "Fehler 1";
+        } catch (PackungsgroesseException e){
+            cmd += separator + "Fehler 2";
         }
+
+        socketOut.println(cmd);
+    }
 
         private void handleIstArtikelImWarenkorb(String[] data) {
         String artikelname = data[1];

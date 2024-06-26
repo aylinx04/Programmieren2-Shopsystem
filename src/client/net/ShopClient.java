@@ -176,8 +176,22 @@ public class ShopClient implements IShopVerwaltung {
     }
 
     @Override
-    public void artikelBestandVerringern(Artikel a, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException {
+    public void artikelBestandVerringern(String name, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException {
+        String cmd = Commands.CMD_ARTIKEL_BESTAND_VERRINGERN.name() + separator + name + separator + anzahl;
 
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+        if (Commands.valueOf(data[0]) != Commands.CMD_ARTIKEL_BESTAND_VERRINGERN_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+
+        if (data[1].equals("Fehler 1")) {
+            throw new BestandNichtVorhandenException();
+        }
+        if(data[1].equals("Fehler 2")){
+            throw new PackungsgroesseException();
+        }
     }
 
     @Override

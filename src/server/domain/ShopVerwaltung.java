@@ -102,16 +102,21 @@ public class ShopVerwaltung implements IShopVerwaltung {
         }
     }
 
-    public void artikelBestandVerringern(Artikel a, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException {
-        if (a instanceof Massengutartikel m) {
-            if ((anzahl % m.getPackungsgroesse()) != 0) {
-                throw new PackungsgroesseException();
+    // anstatt "Artikel a" sondern die ID des artikels
+    public void artikelBestandVerringern(String name, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException {
+        for (Artikel a : aV.getArtikelListe()) {
+            if(a.getName().equals(name)){
+                if (a instanceof Massengutartikel m) {
+                    if ((anzahl % m.getPackungsgroesse()) != 0) {
+                        throw new PackungsgroesseException();
+                    }
+                }
+                if (a.getBestand() >= anzahl) {
+                    a.bestandVerringern(anzahl);
+                } else {
+                    throw new BestandNichtVorhandenException();
+                }
             }
-        }
-        if (a.getBestand() >= anzahl) {
-            a.bestandVerringern(anzahl);
-        } else {
-            throw new BestandNichtVorhandenException();
         }
     }
 

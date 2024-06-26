@@ -138,7 +138,7 @@ public class CUI {
     private void hinzufuegenWarenkorb(String artikelname, int anzahl) {
         try {
             Artikel a = SV.holeArtikel(artikelname);
-            SV.artikelBestandVerringern(a, anzahl);
+            SV.artikelBestandVerringern(artikelname, anzahl);
             Artikel wkArtikel;
             if(a instanceof Massengutartikel m){
                 wkArtikel = new Massengutartikel(m.getName(), m.getNummer(), m.getPreis(), anzahl, m.getPackungsgroesse());

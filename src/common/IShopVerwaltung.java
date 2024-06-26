@@ -18,7 +18,7 @@ public interface IShopVerwaltung {
     void checkPackungsgroesse(int packungsgroesse, int bestand) throws PackungsgroesseException;
     Artikel holeArtikel(String name) throws ArtikelNichtGefundenException;
     void artikelZurueck(String name, int anzahl);
-    void artikelBestandVerringern(Artikel a, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException;
+    void artikelBestandVerringern(String name, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException;
     void istArtikelImWarenkorb(String artikelname) throws ArtikelNichtGefundenException;
     void checkAnzahlDesArtikels(String artikelname, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException;
     void kundeAnlegen(String name, String passwort, String strasse, String plz, String wohnort);

@@ -5,11 +5,11 @@ Tomate
 Gurke
 2
 3.59
-17
+15
 Reis
 3
 2.0
-8
+3
 Salat
 4
 0.99
@@ -29,7 +29,7 @@ Erdbeere
 Cola
 8
 6.99
-6
+5
 Birne
 9
 6.0

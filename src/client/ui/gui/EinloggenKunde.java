@@ -238,7 +238,7 @@ public class EinloggenKunde extends JDialog {
             textfieldAnzahl.setText(null);
 
             Artikel a = SV.holeArtikel(artikelname);
-            SV.artikelBestandVerringern(a, anzahl);
+            SV.artikelBestandVerringern(artikelname, anzahl);
             Artikel wkArtikel;
             if(a instanceof Massengutartikel m){
                 wkArtikel = new Massengutartikel(m.getName(), m.getNummer(), m.getPreis(), anzahl, m.getPackungsgroesse());
