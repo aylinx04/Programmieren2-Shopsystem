@@ -141,7 +141,33 @@ public class ShopClient implements IShopVerwaltung {
 
     @Override
     public Artikel holeArtikel(String name) throws ArtikelNichtGefundenException {
-        return null;
+        String cmd = Commands.CMD_HOLE_ARTIKEL.name() + separator + name;
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if (Commands.valueOf(data[0]) != Commands.CMD_HOLE_ARTIKEL_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+
+        if(data.length < 4) {
+            throw new ArtikelNichtGefundenException(name);
+        }
+
+        String artikelname = data[1];
+        int nummer = Integer.parseInt(data[2]);
+        double preis = Double.parseDouble(data[3]);
+        int bestand = Integer.parseInt(data[4]);
+
+        if (data.length > 5) {
+            int packungsgroesse = Integer.parseInt(data[5]);
+            Massengutartikel m = new Massengutartikel(artikelname, nummer, preis, bestand, packungsgroesse);
+            return m;
+        } else {
+            Artikel a = new Artikel(artikelname, nummer, preis, bestand);
+            return a;
+        }
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package src.client.ui.gui;
 
-import src.server.domain.ShopVerwaltung;
+import src.client.net.ShopClient;
+import src.common.IShopVerwaltung;
 import src.common.exceptions.LoginFehlgeschlagenException;
 import src.common.exceptions.RegistrierenFehlgeschlagenException;
 import src.common.Artikel;
@@ -15,7 +16,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class GUI extends JFrame {
-    private ShopVerwaltung SV;
+    private IShopVerwaltung SV;
     private JTextField textfieldName = new JTextField();
     private JPasswordField passwordfieldPasswort = new JPasswordField();
     private JButton einloggenButton = new JButton("Einloggen");
@@ -40,7 +41,7 @@ public class GUI extends JFrame {
     public GUI() {
         super("E-Shop");
         try{
-            SV = new ShopVerwaltung("Shop");
+            SV = new ShopClient();
         } catch (IOException e){
             e.printStackTrace();
         }

@@ -1,6 +1,6 @@
 package src.client.ui.gui;
 
-import src.server.domain.ShopVerwaltung;
+import src.common.IShopVerwaltung;
 import src.common.exceptions.ArtikelNichtGefundenException;
 import src.common.exceptions.BestandNichtVorhandenException;
 import src.common.exceptions.PackungsgroesseException;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class EinloggenKunde extends JDialog {
-    private ShopVerwaltung SV;
+    private IShopVerwaltung SV;
     private JButton artikelListeButton = new JButton("Artikelliste");
     private JButton warenkorbButton = new JButton("Warenkorb");
     private JButton ausloggenButton = new JButton("Ausloggen");
@@ -37,7 +37,7 @@ public class EinloggenKunde extends JDialog {
     private JTable artikelTabel;
     JTextArea rechnung = new JTextArea();
 
-    public EinloggenKunde(JFrame parent, String title, boolean modal, ShopVerwaltung SV) {
+    public EinloggenKunde(JFrame parent, String title, boolean modal, IShopVerwaltung SV) {
         super(parent, title, modal);
         this.SV = SV;
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

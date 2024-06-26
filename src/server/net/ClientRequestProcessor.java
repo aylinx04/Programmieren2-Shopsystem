@@ -54,7 +54,7 @@ public class ClientRequestProcessor implements Runnable {
             case CMD_CHECK_LOGIN -> handleCheckLogin(parts);
             case CMD_CHECK_PASSWORT -> handleCheckPasswort(parts);
             case CMD_CHECK_PACKUNGSGROESSE -> handleCheckPackungsgroesse(parts);
-//            case CMD_HOLE_ARTIKEL -> handleHoleArtikel(parts);
+            case CMD_HOLE_ARTIKEL -> handleHoleArtikel(parts);
 //            case CMD_ARTIKEL_ZURUECK -> handleArtikelZurueck(parts);
 //            case CMD_ARTIKEL_BESTAND_VERRINGERN -> handleBestandVerringern(parts);
             case CMD_IST_ARTIKEL_IM_WARENKORB -> handleIstArtikelImWarenkorb(parts);
@@ -173,7 +173,27 @@ public class ClientRequestProcessor implements Runnable {
         socketOut.println(cmd);
     }
 
-    private void handleIstArtikelImWarenkorb(String[] data) {
+    private void handleHoleArtikel(String[] data) {
+        String name = data[1];
+
+        String cmd = Commands.CMD_HOLE_ARTIKEL_RESP.name();
+        try {
+            Artikel a = shop.holeArtikel(name);
+            cmd += separator + a.getName();
+            cmd += separator + a.getNummer();
+            cmd += separator + a.getPreis();
+            cmd += separator + a.getBestand();
+            if (a instanceof Massengutartikel m) {
+                cmd += separator + m.getPackungsgroesse();
+            }
+        } catch (ArtikelNichtGefundenException e) {
+            cmd += separator + "false";
+        }
+
+        socketOut.println(cmd);
+        }
+
+        private void handleIstArtikelImWarenkorb(String[] data) {
         String artikelname = data[1];
 
         String cmd = Commands.CMD_CHECK_PACKUNGSGROESSE_RESP.name();

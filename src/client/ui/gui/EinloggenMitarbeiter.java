@@ -1,6 +1,6 @@
 package src.client.ui.gui;
 
-import src.server.domain.ShopVerwaltung;
+import src.common.IShopVerwaltung;
 import src.common.exceptions.*;
 import src.common.Artikel;
 import src.common.Ereignis;
@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class EinloggenMitarbeiter extends JDialog {
-    private ShopVerwaltung SV;
+    private IShopVerwaltung SV;
     private JTextField mitarbeiterName = new JTextField();
     private JPasswordField passwort = new JPasswordField();
     private JPasswordField passwort1 = new JPasswordField();
@@ -43,7 +43,7 @@ public class EinloggenMitarbeiter extends JDialog {
 
     private GridBagConstraints c = new GridBagConstraints();
 
-    public EinloggenMitarbeiter(JFrame parent, String title, boolean modal, ShopVerwaltung SV) {
+    public EinloggenMitarbeiter(JFrame parent, String title, boolean modal, IShopVerwaltung SV) {
         super(parent, title, modal);
         this.SV = SV;
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
