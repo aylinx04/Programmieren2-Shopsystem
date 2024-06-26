@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ShopClient implements IShopVerwaltung {
     private Socket socket;
@@ -38,6 +39,7 @@ public class ShopClient implements IShopVerwaltung {
 
     public Warenkorb createWarenkorbFromData(String[] data) {
         Warenkorb warenkorb = new Warenkorb();
+        Map<String, Artikel> warenkorbMap = warenkorb.getWarenkorb();
 
         for (int i=1; i < data.length; i+=4) {
             String name = data[i];
@@ -48,11 +50,12 @@ public class ShopClient implements IShopVerwaltung {
             if (data.length > i+4 && data[i+4].matches("\\d+")) {
                 int packungsgroesse = Integer.parseInt(data[i+4]);
                 Massengutartikel m = new Massengutartikel(name, nummer, preis, bestand, packungsgroesse);
-                warenkorb.artikelHinzufuegen(m);
+                warenkorbMap.put(name, m);
                 i+=1;
             } else {
                 Artikel a = new Artikel(name, nummer, preis, bestand);
-                warenkorb.artikelHinzufuegen(a);            }
+                warenkorbMap.put(name, a);
+            }
         }
 
         return warenkorb;
@@ -140,45 +143,34 @@ public class ShopClient implements IShopVerwaltung {
     }
 
     @Override
-    public Artikel holeArtikel(String name) throws ArtikelNichtGefundenException {
-        String cmd = Commands.CMD_HOLE_ARTIKEL.name() + separator + name;
+    public void artikelInDenWk(String name, int anzahl) throws ArtikelNichtGefundenException {
+        String cmd = Commands.CMD_ARTIKEL_IN_DEN_WK.name() + separator + name + separator + anzahl;
         socketOut.println(cmd);
 
         String[] data = readResponse();
-
-        if (Commands.valueOf(data[0]) != Commands.CMD_HOLE_ARTIKEL_RESP) {
+        if (Commands.valueOf(data[0]) != Commands.CMD_ARTIKEL_IN_DEN_WK_RESP) {
             throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
         }
 
-        if(data.length < 4) {
+        if(data.length == 2) {
             throw new ArtikelNichtGefundenException(name);
         }
-
-        String artikelname = data[1];
-        int nummer = Integer.parseInt(data[2]);
-        double preis = Double.parseDouble(data[3]);
-        int bestand = Integer.parseInt(data[4]);
-
-        if (data.length > 5) {
-            int packungsgroesse = Integer.parseInt(data[5]);
-            Massengutartikel m = new Massengutartikel(artikelname, nummer, preis, bestand, packungsgroesse);
-            return m;
-        } else {
-            Artikel a = new Artikel(artikelname, nummer, preis, bestand);
-            return a;
-        }
-
     }
 
     @Override
     public void artikelZurueck(String name, int anzahl) {
+        String cmd = Commands.CMD_ARTIKEL_ZURUECK.name() + separator + name + separator + anzahl;
+        socketOut.println(cmd);
 
+        String[] data = readResponse();
+        if (Commands.valueOf(data[0]) != Commands.CMD_ARTIKEL_ZURUECK_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
     }
 
     @Override
     public void artikelBestandVerringern(String name, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException {
         String cmd = Commands.CMD_ARTIKEL_BESTAND_VERRINGERN.name() + separator + name + separator + anzahl;
-
         socketOut.println(cmd);
 
         String[] data = readResponse();
@@ -189,7 +181,7 @@ public class ShopClient implements IShopVerwaltung {
         if (data[1].equals("Fehler 1")) {
             throw new BestandNichtVorhandenException();
         }
-        if(data[1].equals("Fehler 2")){
+        if (data[1].equals("Fehler 2")) {
             throw new PackungsgroesseException();
         }
     }
@@ -211,8 +203,21 @@ public class ShopClient implements IShopVerwaltung {
     }
 
     @Override
-    public void checkAnzahlDesArtikels(String artikelname, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException {
+    public void wkArtikelEntfernen(String artikelname, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException {
+        String cmd = Commands.CMD_WK_ARTIKEL_ENTFERNEN.name() + separator + artikelname + separator + anzahl;
+        socketOut.println(cmd);
 
+        String[] data = readResponse();
+        if (Commands.valueOf(data[0]) != Commands.CMD_WK_ARTIKEL_ENTFERNEN_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+
+        if (data[1].equals("Fehler 1")) {
+            throw new BestandNichtVorhandenException();
+        }
+        if (data[1].equals("Fehler 2")) {
+            throw new PackungsgroesseException();
+        }
     }
 
     @Override
@@ -238,8 +243,21 @@ public class ShopClient implements IShopVerwaltung {
     }
 
     @Override
-    public void ereignisBestandErhoeht(Artikel artikel, int anzahl) throws PackungsgroesseException {
+    public void bestandErhoehen(String name, int anzahl) throws ArtikelNichtGefundenException, PackungsgroesseException {
+        String cmd = Commands.CMD_BESTAND_ERHOEHEN.name() + separator + name + separator + anzahl;
+        socketOut.println(cmd);
 
+        String[] data = readResponse();
+        if (Commands.valueOf(data[0]) != Commands.CMD_BESTAND_ERHOEHEN_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+
+        if (data[1].equals("Fehler 1")) {
+            throw new ArtikelNichtGefundenException(name);
+        }
+        if (data[1].equals("Fehler 2")) {
+            throw new PackungsgroesseException();
+        }
     }
 
     @Override

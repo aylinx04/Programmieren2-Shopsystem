@@ -51,14 +51,14 @@ public class ClientRequestProcessor implements Runnable {
             case CMD_CHECK_LOGIN -> handleCheckLogin(parts);
             case CMD_CHECK_PASSWORT -> handleCheckPasswort(parts);
             case CMD_CHECK_PACKUNGSGROESSE -> handleCheckPackungsgroesse(parts);
-            case CMD_HOLE_ARTIKEL -> handleHoleArtikel(parts);
-//            case CMD_ARTIKEL_ZURUECK -> handleArtikelZurueck(parts);
+            case CMD_ARTIKEL_IN_DEN_WK -> handleArtikelInDenWK(parts);
+            case CMD_ARTIKEL_ZURUECK -> handleArtikelZurueck(parts);
             case CMD_ARTIKEL_BESTAND_VERRINGERN -> handleBestandVerringern(parts);
             case CMD_IST_ARTIKEL_IM_WARENKORB -> handleIstArtikelImWarenkorb(parts);
-//            case CMD_CHECK_ANZAHL_DES_ARTIKELS -> handleCheckAnzahlDesArtikels(parts);
+            case CMD_WK_ARTIKEL_ENTFERNEN -> handleWkArtikelEntfernen(parts);
             case CMD_KUNDE_ANLEGEN -> handleKundeAnlegen(parts);
 //            case CMD_ARTIKEL_ANLEGEN -> handleArtikelAnlegen(parts);
-//            case CMD_EREIGNIS_BESTAND_ERHOEHT -> handleEreignisBestandErhoeht(parts);
+            case CMD_BESTAND_ERHOEHEN -> handlebestandErhoehen(parts);
 //            case CMD_MITARBEITER_ANLEGEN -> handleMitarbeiterAnlegen(parts);
             case CMD_SCHREIBE_ARTIKEL_DATEN -> handleSchreibeArtikelDaten(parts);
             case CMD_SCHREIBE_MITARBEITER_DATEN -> handleSchreibeMitarbeiterDaten(parts);
@@ -170,24 +170,29 @@ public class ClientRequestProcessor implements Runnable {
         socketOut.println(cmd);
     }
 
-
-
-    private void handleHoleArtikel(String[] data) {
+    private void handleArtikelInDenWK(String[] data) {
         String name = data[1];
+        int anzahl = Integer.parseInt(data[2]);
 
-        String cmd = Commands.CMD_HOLE_ARTIKEL_RESP.name();
+        String cmd = Commands.CMD_ARTIKEL_IN_DEN_WK_RESP.name();
         try {
-            Artikel a = shop.holeArtikel(name);
-            cmd += separator + a.getName();
-            cmd += separator + a.getNummer();
-            cmd += separator + a.getPreis();
-            cmd += separator + a.getBestand();
-            if (a instanceof Massengutartikel m) {
-                cmd += separator + m.getPackungsgroesse();
-            }
+            shop.artikelInDenWk(name, anzahl);
+            cmd += separator + name + separator + anzahl;
         } catch (ArtikelNichtGefundenException e) {
             cmd += separator + "false";
         }
+
+        socketOut.println(cmd);
+    }
+
+    private void handleArtikelZurueck(String[] data) {
+        String name = data[1];
+        int anzahl = Integer.parseInt(data[2]);
+
+        shop.artikelZurueck(name, anzahl);
+
+        String cmd = Commands.CMD_ARTIKEL_ZURUECK_RESP.name();
+        cmd += separator + name + separator + anzahl;
 
         socketOut.println(cmd);
     }
@@ -199,33 +204,63 @@ public class ClientRequestProcessor implements Runnable {
         String cmd = Commands.CMD_ARTIKEL_BESTAND_VERRINGERN_RESP.name();
         try {
             shop.artikelBestandVerringern(name, anzahl);
-            cmd += separator + name;
+            cmd += separator + name + separator + anzahl;
         } catch (BestandNichtVorhandenException e) {
             cmd += separator + "Fehler 1";
-        } catch (PackungsgroesseException e){
+        } catch (PackungsgroesseException e) {
             cmd += separator + "Fehler 2";
         }
-
         socketOut.println(cmd);
     }
 
-        private void handleIstArtikelImWarenkorb(String[] data) {
+    private void handleIstArtikelImWarenkorb(String[] data) {
         String artikelname = data[1];
 
-        String cmd = Commands.CMD_CHECK_PACKUNGSGROESSE_RESP.name();
+        String cmd = Commands.CMD_IST_ARTIKEL_IM_WARENKORB_RESP.name();
         try {
             shop.istArtikelImWarenkorb(artikelname);
             cmd += separator + "true";
         } catch (ArtikelNichtGefundenException e) {
             cmd += separator + "false";
         }
+        socketOut.println(cmd);
+    }
 
+    private void handleWkArtikelEntfernen(String[] data) {
+        String name = data[1];
+        int anzahl = Integer.parseInt(data[2]);
+
+        String cmd = Commands.CMD_WK_ARTIKEL_ENTFERNEN_RESP.name();
+        try {
+            shop.wkArtikelEntfernen(name, anzahl);
+            cmd += separator + name + separator + anzahl;
+        } catch (BestandNichtVorhandenException e) {
+            cmd += separator + "Fehler 1";
+        } catch (PackungsgroesseException e) {
+            cmd += separator + "Fehler 2";
+        }
         socketOut.println(cmd);
     }
 
     private void handleKundeAnlegen(String[] data) {
         String cmd = Commands.CMD_KUNDE_ANLEGEN_RESP.name();
         shop.kundeAnlegen(data[1], data[2], data[3], data[4], data[5]);
+        socketOut.println(cmd);
+    }
+
+    private void handlebestandErhoehen(String[] data) {
+        String name = data[1];
+        int anzahl = Integer.parseInt(data[2]);
+
+        String cmd = Commands.CMD_BESTAND_ERHOEHEN_RESP.name();
+        try {
+            shop.bestandErhoehen(name, anzahl);
+            cmd += separator + name + separator + anzahl;
+        } catch (ArtikelNichtGefundenException e) {
+            cmd += separator + "Fehler 1";
+        } catch (PackungsgroesseException e) {
+            cmd += separator + "Fehler 2";
+        }
         socketOut.println(cmd);
     }
 

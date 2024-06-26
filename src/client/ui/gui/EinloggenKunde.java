@@ -5,7 +5,6 @@ import src.common.exceptions.ArtikelNichtGefundenException;
 import src.common.exceptions.BestandNichtVorhandenException;
 import src.common.exceptions.PackungsgroesseException;
 import src.common.Artikel;
-import src.common.Massengutartikel;
 import src.common.Warenkorb;
 
 import javax.swing.*;
@@ -237,16 +236,9 @@ public class EinloggenKunde extends JDialog {
             textfieldArtikelname.setText(null);
             textfieldAnzahl.setText(null);
 
-            Artikel a = SV.holeArtikel(artikelname);
+            SV.artikelInDenWk(artikelname, anzahl);
             SV.artikelBestandVerringern(artikelname, anzahl);
-            Artikel wkArtikel;
-            if(a instanceof Massengutartikel m){
-                wkArtikel = new Massengutartikel(m.getName(), m.getNummer(), m.getPreis(), anzahl, m.getPackungsgroesse());
-            } else {
-                wkArtikel = new Artikel(a.getName(), a.getNummer(), a.getPreis(), anzahl);
-            }
-            Warenkorb w = SV.getWk();
-            w.artikelHinzufuegen(wkArtikel);
+
             JOptionPane.showMessageDialog(this, "Artikel '" + artikelname + "' erfolgreich " + anzahl + "x zum Warenkorb hinzugefügt!",
                     "Erfolg", JOptionPane.INFORMATION_MESSAGE);
         } catch (NumberFormatException ex) {
@@ -286,7 +278,7 @@ public class EinloggenKunde extends JDialog {
             textfieldAnzahl2.setText(null);
 
             SV.istArtikelImWarenkorb(artikelname);
-            SV.checkAnzahlDesArtikels(artikelname, anzahl);
+            SV.wkArtikelEntfernen(artikelname, anzahl);
             SV.artikelZurueck(artikelname, anzahl);
             JOptionPane.showMessageDialog(this, "Artikel '" + artikelname + "' erfolgreich " + anzahl + "x aus dem Warenkorb entfernt!",
                     "Erfolg", JOptionPane.INFORMATION_MESSAGE);

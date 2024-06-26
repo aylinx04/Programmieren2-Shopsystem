@@ -85,13 +85,24 @@ public class ShopVerwaltung implements IShopVerwaltung {
         }
     }
 
-    public Artikel holeArtikel(String name) throws ArtikelNichtGefundenException {
+    public void artikelInDenWk(String name, int anzahl) throws ArtikelNichtGefundenException {
+        Artikel artikel = null;
         for (Artikel a : aV.getArtikelListe()) {
             if(a.getName().equals(name)){
-                return a;
+                artikel = a;
+                break;
             }
         }
-        throw new ArtikelNichtGefundenException(name);
+        if (artikel == null) {
+            throw new ArtikelNichtGefundenException(name);
+        }
+        Artikel wkArtikel;
+        if(artikel instanceof Massengutartikel m){
+            wkArtikel = new Massengutartikel(m.getName(), m.getNummer(), m.getPreis(), anzahl, m.getPackungsgroesse());
+        } else {
+            wkArtikel = new Artikel(artikel.getName(), artikel.getNummer(), artikel.getPreis(), anzahl);
+        }
+        wk.artikelHinzufuegen(wkArtikel);
     }
 
     public void artikelZurueck(String name, int anzahl) {
@@ -102,10 +113,9 @@ public class ShopVerwaltung implements IShopVerwaltung {
         }
     }
 
-    // anstatt "Artikel a" sondern die ID des artikels
     public void artikelBestandVerringern(String name, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException {
         for (Artikel a : aV.getArtikelListe()) {
-            if(a.getName().equals(name)){
+            if (a.getName().equals(name)) {
                 if (a instanceof Massengutartikel m) {
                     if ((anzahl % m.getPackungsgroesse()) != 0) {
                         throw new PackungsgroesseException();
@@ -126,7 +136,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
         }
     }
 
-    public void checkAnzahlDesArtikels(String artikelname, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException {
+    public void wkArtikelEntfernen(String artikelname, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException {
         Artikel artikel = wk.getWarenkorb().get(artikelname);
         if (artikel instanceof Massengutartikel m) {
             if ((anzahl % m.getPackungsgroesse()) != 0) {
@@ -166,7 +176,17 @@ public class ShopVerwaltung implements IShopVerwaltung {
         return a;
     }
 
-    public void ereignisBestandErhoeht(Artikel artikel, int anzahl) throws PackungsgroesseException {
+    public void bestandErhoehen(String name, int anzahl) throws ArtikelNichtGefundenException, PackungsgroesseException {
+        Artikel artikel = null;
+        for (Artikel a : aV.getArtikelListe()) {
+            if(a.getName().equals(name)){
+                artikel = a;
+                break;
+            }
+        }
+        if (artikel == null) {
+            throw new ArtikelNichtGefundenException(name);
+        }
         if (artikel instanceof Massengutartikel m) {
             if ((anzahl % m.getPackungsgroesse()) != 0) {
                 throw new PackungsgroesseException();

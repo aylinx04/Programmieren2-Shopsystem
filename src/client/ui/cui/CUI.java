@@ -1,7 +1,6 @@
 package src.client.ui.cui;
 
 import src.client.net.ShopClient;
-import src.server.domain.ShopVerwaltung;
 import src.common.exceptions.*;
 import src.common.*;
 
@@ -137,17 +136,9 @@ public class CUI {
 
     private void hinzufuegenWarenkorb(String artikelname, int anzahl) {
         try {
-            Artikel a = SV.holeArtikel(artikelname);
+            SV.artikelInDenWk(artikelname, anzahl);
             SV.artikelBestandVerringern(artikelname, anzahl);
-            Artikel wkArtikel;
-            if(a instanceof Massengutartikel m){
-                wkArtikel = new Massengutartikel(m.getName(), m.getNummer(), m.getPreis(), anzahl, m.getPackungsgroesse());
-            } else {
-                wkArtikel = new Artikel(a.getName(), a.getNummer(), a.getPreis(), anzahl);
-            }
-            Warenkorb w = SV.getWk();
-            w.artikelHinzufuegen(wkArtikel);
-            System.out.println("Artikel hinzugefügt: " + wkArtikel);
+            System.out.println("Der Artikel '" + artikelname + "' wurde erfolgreich " + anzahl + "x hinzugefügt.");
         } catch (ArtikelNichtGefundenException | BestandNichtVorhandenException | PackungsgroesseException e) {
             System.err.println(e.getMessage());
         }
@@ -156,7 +147,7 @@ public class CUI {
     private void entfernenWarenkorb(String artikelname, int anzahl) {
         try {
             SV.istArtikelImWarenkorb(artikelname);
-            SV.checkAnzahlDesArtikels(artikelname, anzahl);
+            SV.wkArtikelEntfernen(artikelname, anzahl);
             System.out.println("Der Artikel '" + artikelname + "' wurde erfolgreich " + anzahl + "x entfernt.");
         } catch (ArtikelNichtGefundenException | BestandNichtVorhandenException | PackungsgroesseException e){
             System.err.println(e.getMessage());
@@ -255,10 +246,9 @@ public class CUI {
                         System.out.print("Artikelname  > ");
                         artikelname = liesEingabe();
                         try {
-                            Artikel artikel = SV.holeArtikel(artikelname);
                             System.out.print("Anzahl  > ");
                                 anzahl = Integer.parseInt(liesEingabe());
-                                SV.ereignisBestandErhoeht(artikel, anzahl);
+                                SV.bestandErhoehen(artikelname, anzahl);
                                 System.out.println("Bestand von '" + artikelname + "' um " + anzahl + " erhöht.");
                         } catch (NumberFormatException e) {
                                 System.err.println("Eingabe muss eine Zahl sein!");

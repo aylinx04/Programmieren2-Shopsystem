@@ -298,8 +298,7 @@ public class EinloggenMitarbeiter extends JDialog {
 
             String artikelname = artikeltextField.getText();
             int anzahl = Integer.parseInt(bestandtextField.getText());
-            Artikel artikel = SV.holeArtikel(artikelname);
-            SV.ereignisBestandErhoeht(artikel, anzahl);
+            SV.bestandErhoehen(artikelname, anzahl);
 
             artikeltextField.setText(null);
             bestandtextField.setText(null);
