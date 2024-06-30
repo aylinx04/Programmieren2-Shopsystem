@@ -228,13 +228,13 @@ public class CUI {
                                 System.out.print("Bestand  > ");
                                 bestand = Integer.parseInt(liesEingabe());
                                 SV.checkPackungsgroesse(packungsgroesse, bestand);
-                                Artikel artikel = SV.artikelAnlegen(artikelname, preis, bestand, packungsgroesse);
-                                System.out.println("Neuer Artikel angelegt: " + artikel);
+                                SV.artikelAnlegen(artikelname, preis, bestand, packungsgroesse);
+                                System.out.println("Neuer Artikel angelegt: " + artikelname);
                             } else if (eingabe.equals("2")) {
                                 System.out.print("Bestand  > ");
                                 bestand = Integer.parseInt(liesEingabe());
-                                Artikel a = SV.artikelAnlegen(artikelname, preis, bestand);
-                                System.out.println("Neuer Artikel angelegt: " + a);
+                                SV.artikelAnlegen(artikelname, preis, bestand);
+                                System.out.println("Neuer Artikel angelegt: " + artikelname);
                             }
                         } catch (NumberFormatException e) {
                             System.err.println("Eingabe muss eine Zahl sein!");

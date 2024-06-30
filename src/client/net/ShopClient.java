@@ -233,13 +233,34 @@ public class ShopClient implements IShopVerwaltung {
     }
 
     @Override
-    public Artikel artikelAnlegen(String name, double preis, int bestand) throws ArtikelExistiertBereitsException {
-        return null;
+    public void artikelAnlegen(String name, double preis, int bestand) throws ArtikelExistiertBereitsException {
+        String cmd = Commands.CMD_ARTIKEL_ANLEGEN.name() + separator + name + separator + preis + separator + bestand;
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+        if (Commands.valueOf(data[0]) != Commands.CMD_ARTIKEL_ANLEGEN_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+
+        if (data.length > 1) {
+            throw new ArtikelExistiertBereitsException(name);
+        }
     }
 
     @Override
-    public Artikel artikelAnlegen(String name, double preis, int bestand, int packungsgroesse) throws ArtikelExistiertBereitsException {
-        return null;
+    public void artikelAnlegen(String name, double preis, int bestand, int packungsgroesse) throws ArtikelExistiertBereitsException {
+        String cmd = Commands.CMD_ARTIKEL_ANLEGEN.name() + separator + name + separator + preis + separator + bestand +
+                separator + packungsgroesse;
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+        if (Commands.valueOf(data[0]) != Commands.CMD_ARTIKEL_ANLEGEN_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+
+        if (data.length > 1) {
+            throw new ArtikelExistiertBereitsException(name);
+        }
     }
 
     @Override

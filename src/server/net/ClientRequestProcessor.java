@@ -57,7 +57,7 @@ public class ClientRequestProcessor implements Runnable {
             case CMD_IST_ARTIKEL_IM_WARENKORB -> handleIstArtikelImWarenkorb(parts);
             case CMD_WK_ARTIKEL_ENTFERNEN -> handleWkArtikelEntfernen(parts);
             case CMD_KUNDE_ANLEGEN -> handleKundeAnlegen(parts);
-//            case CMD_ARTIKEL_ANLEGEN -> handleArtikelAnlegen(parts);
+            case CMD_ARTIKEL_ANLEGEN -> handleArtikelAnlegen(parts);
             case CMD_BESTAND_ERHOEHEN -> handlebestandErhoehen(parts);
 //            case CMD_MITARBEITER_ANLEGEN -> handleMitarbeiterAnlegen(parts);
             case CMD_SCHREIBE_ARTIKEL_DATEN -> handleSchreibeArtikelDaten(parts);
@@ -245,6 +245,25 @@ public class ClientRequestProcessor implements Runnable {
     private void handleKundeAnlegen(String[] data) {
         String cmd = Commands.CMD_KUNDE_ANLEGEN_RESP.name();
         shop.kundeAnlegen(data[1], data[2], data[3], data[4], data[5]);
+        socketOut.println(cmd);
+    }
+
+    private void handleArtikelAnlegen(String[] data) {
+        String name = data[1];
+        double preis = Double.parseDouble(data[2]);
+        int bestand = Integer.parseInt(data[3]);
+
+        String cmd = Commands.CMD_ARTIKEL_ANLEGEN_RESP.name();
+        try {
+            if (data.length == 4) {
+                shop.artikelAnlegen(name, preis, bestand);
+            } else {
+                int packungsgroesse = Integer.parseInt(data[4]);
+                shop.artikelAnlegen(name, preis, bestand, packungsgroesse);
+            }
+        } catch (ArtikelExistiertBereitsException e) {
+            cmd += separator + "Fehler";
+        }
         socketOut.println(cmd);
     }
 

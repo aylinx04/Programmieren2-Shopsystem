@@ -2,7 +2,6 @@ package src.client.ui.gui;
 
 import src.common.IShopVerwaltung;
 import src.common.exceptions.*;
-import src.common.Artikel;
 import src.common.Ereignis;
 
 import javax.swing.*;
@@ -73,7 +72,7 @@ public class EinloggenMitarbeiter extends JDialog {
 
         add(mitarbeiterPanel, BorderLayout.NORTH);
 
-        ausloggenButton.addActionListener(e -> {
+        ausloggenButton.addActionListener(_ -> {
             int antwort = JOptionPane.showConfirmDialog(EinloggenMitarbeiter.this, "Möchten Sie sich wirklich abmelden?", "Abmelden", JOptionPane.YES_NO_OPTION);
             if (antwort == JOptionPane.YES_OPTION) {
                 dispose();
@@ -150,14 +149,14 @@ public class EinloggenMitarbeiter extends JDialog {
         packungsgroesseTextField.setVisible(false);
         labelPackungsgroesse.setVisible(false);
 
-        massengutJa.addActionListener(e -> {
+        massengutJa.addActionListener(_ -> {
             packungsgroesseTextField.setVisible(true);
             labelPackungsgroesse.setVisible(true);
             revalidate();
             repaint();
         });
 
-        massengutNein.addActionListener(e -> {
+        massengutNein.addActionListener(_ -> {
             packungsgroesseTextField.setVisible(false);
             labelPackungsgroesse.setVisible(false);
             revalidate();
@@ -170,7 +169,7 @@ public class EinloggenMitarbeiter extends JDialog {
         c.gridwidth = 3;
         artikelHinzuPanel.add(speichernButton, c);
 
-        speichernButton.addActionListener(e -> {
+        speichernButton.addActionListener(_ -> {
             try {
                 verarbeiteArtikelHinzuKlick();
             } catch (ArtikelExistiertBereitsException ex) {
@@ -204,7 +203,7 @@ public class EinloggenMitarbeiter extends JDialog {
         c.gridwidth = 3;
         bestandPanel.add(speichernButton, c);
 
-        speichernButton.addActionListener(e -> {
+        speichernButton.addActionListener(_ -> {
             try {
                 verarbeiteBestandKlick();
             } catch (ArtikelNichtGefundenException | PackungsgroesseException ex) {
@@ -240,7 +239,7 @@ public class EinloggenMitarbeiter extends JDialog {
         c.gridwidth = 3;
         mitarbeiterHinzuPanel.add(hinzuButton, c);
 
-        hinzuButton.addActionListener(e -> verarbeiteMitarbeiterKlick());
+        hinzuButton.addActionListener(_ -> verarbeiteMitarbeiterKlick());
 
         add(mitarbeiterPanel, BorderLayout.NORTH);
         add(mitarbeiterHinzuPanel, BorderLayout.CENTER);
@@ -392,7 +391,7 @@ public class EinloggenMitarbeiter extends JDialog {
         });
 
 
-        artikelListeButton.addActionListener(e -> {
+        artikelListeButton.addActionListener(_ -> {
             panel.setVisible(true);
             revalidate();
             repaint();

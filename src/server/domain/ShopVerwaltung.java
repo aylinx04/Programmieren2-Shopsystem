@@ -154,7 +154,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
         kV.getKundenListe().add(new Kunde(name, kV.getKundenListe().size()+1, passwort, strasse, plz, wohnort));
     }
 
-    public Artikel artikelAnlegen(String name, double preis, int bestand) throws ArtikelExistiertBereitsException {
+    public void artikelAnlegen(String name, double preis, int bestand) throws ArtikelExistiertBereitsException {
         if (aV.sucheArtikel(name) != null) {
             throw new ArtikelExistiertBereitsException(name);
         }
@@ -162,10 +162,9 @@ public class ShopVerwaltung implements IShopVerwaltung {
         aV.getArtikelListe().add(a);
         Ereignis ereignis = new Ereignis(date.toString(), "Mitarbeiter: " + eing.getName(), "Ereignis - Hinzugefügter Artikel: " + a);
         eV.ereignisHinzufuegen(ereignis);
-        return a;
     }
 
-    public Artikel artikelAnlegen(String name, double preis, int bestand, int packungsgroesse) throws ArtikelExistiertBereitsException {
+    public void artikelAnlegen(String name, double preis, int bestand, int packungsgroesse) throws ArtikelExistiertBereitsException {
         if (aV.sucheArtikel(name) != null) {
             throw new ArtikelExistiertBereitsException(name);
         }
@@ -173,7 +172,6 @@ public class ShopVerwaltung implements IShopVerwaltung {
         aV.getArtikelListe().add(a);
         Ereignis ereignis = new Ereignis(date.toString(), "Mitarbeiter: " + eing.getName(), "Ereignis - Hinzugefügter Artikel: " + a);
         eV.ereignisHinzufuegen(ereignis);
-        return a;
     }
 
     public void bestandErhoehen(String name, int anzahl) throws ArtikelNichtGefundenException, PackungsgroesseException {

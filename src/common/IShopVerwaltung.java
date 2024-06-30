@@ -21,8 +21,8 @@ public interface IShopVerwaltung {
     void istArtikelImWarenkorb(String artikelname) throws ArtikelNichtGefundenException;
     void wkArtikelEntfernen(String artikelname, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException;
     void kundeAnlegen(String name, String passwort, String strasse, String plz, String wohnort);
-    Artikel artikelAnlegen(String name, double preis, int bestand) throws ArtikelExistiertBereitsException;
-    Artikel artikelAnlegen(String name, double preis, int bestand, int packungsgroesse) throws ArtikelExistiertBereitsException;
+    void artikelAnlegen(String name, double preis, int bestand) throws ArtikelExistiertBereitsException;
+    void artikelAnlegen(String name, double preis, int bestand, int packungsgroesse) throws ArtikelExistiertBereitsException;
     void bestandErhoehen(String name, int anzahl) throws ArtikelNichtGefundenException, PackungsgroesseException;
     void mitarbeiterAnlegen(String name, String passwort) throws MitarbeiterExistiertBereitsException;
     void schreibeArtikelDaten(String datei) throws IOException;
