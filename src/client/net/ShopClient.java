@@ -283,12 +283,22 @@ public class ShopClient implements IShopVerwaltung {
 
     @Override
     public void mitarbeiterAnlegen(String name, String passwort) throws MitarbeiterExistiertBereitsException {
+        String cmd = Commands.CMD_MITARBEITER_ANLEGEN.name() + separator + name + separator + passwort;
+        socketOut.println(cmd);
 
+        String[] data = readResponse();
+        if (Commands.valueOf(data[0]) != Commands.CMD_MITARBEITER_ANLEGEN_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+
+        if (data.length > 1) {
+            throw new MitarbeiterExistiertBereitsException(name);
+        }
     }
 
     @Override
-    public void schreibeArtikelDaten(String datei) {
-        String cmd = Commands.CMD_SCHREIBE_ARTIKEL_DATEN.name() + separator + datei;
+    public void schreibeArtikelDaten() {
+        String cmd = Commands.CMD_SCHREIBE_ARTIKEL_DATEN.name();
         socketOut.println(cmd);
 
         String[] data = readResponse();
@@ -298,8 +308,8 @@ public class ShopClient implements IShopVerwaltung {
     }
 
     @Override
-    public void schreibeMitarbeiterDaten(String datei) {
-        String cmd = Commands.CMD_SCHREIBE_MITARBEITER_DATEN.name() + separator + datei;
+    public void schreibeMitarbeiterDaten() {
+        String cmd = Commands.CMD_SCHREIBE_MITARBEITER_DATEN.name();
         socketOut.println(cmd);
 
         String[] data = readResponse();
@@ -309,8 +319,8 @@ public class ShopClient implements IShopVerwaltung {
     }
 
     @Override
-    public void schreibeKundenDaten(String datei) {
-        String cmd = Commands.CMD_SCHREIBE_KUNDEN_DATEN.name() + separator + datei;
+    public void schreibeKundenDaten() {
+        String cmd = Commands.CMD_SCHREIBE_KUNDEN_DATEN.name();
         socketOut.println(cmd);
 
         String[] data = readResponse();
@@ -320,8 +330,8 @@ public class ShopClient implements IShopVerwaltung {
     }
 
     @Override
-    public void schreibeEreignisDaten(String datei) {
-        String cmd = Commands.CMD_SCHREIBE_EREIGNIS_DATEN.name() + separator + datei;
+    public void schreibeEreignisDaten() {
+        String cmd = Commands.CMD_SCHREIBE_EREIGNIS_DATEN.name();
         socketOut.println(cmd);
 
         String[] data = readResponse();

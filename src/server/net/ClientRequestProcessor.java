@@ -58,12 +58,12 @@ public class ClientRequestProcessor implements Runnable {
             case CMD_WK_ARTIKEL_ENTFERNEN -> handleWkArtikelEntfernen(parts);
             case CMD_KUNDE_ANLEGEN -> handleKundeAnlegen(parts);
             case CMD_ARTIKEL_ANLEGEN -> handleArtikelAnlegen(parts);
-            case CMD_BESTAND_ERHOEHEN -> handlebestandErhoehen(parts);
-//            case CMD_MITARBEITER_ANLEGEN -> handleMitarbeiterAnlegen(parts);
-            case CMD_SCHREIBE_ARTIKEL_DATEN -> handleSchreibeArtikelDaten(parts);
-            case CMD_SCHREIBE_MITARBEITER_DATEN -> handleSchreibeMitarbeiterDaten(parts);
-            case CMD_SCHREIBE_KUNDEN_DATEN -> handleSchreibeKundenDaten(parts);
-            case CMD_SCHREIBE_EREIGNIS_DATEN -> handleSchreibeEreignisDaten(parts);
+            case CMD_BESTAND_ERHOEHEN -> handleBestandErhoehen(parts);
+            case CMD_MITARBEITER_ANLEGEN -> handleMitarbeiterAnlegen(parts);
+            case CMD_SCHREIBE_ARTIKEL_DATEN -> handleSchreibeArtikelDaten();
+            case CMD_SCHREIBE_MITARBEITER_DATEN -> handleSchreibeMitarbeiterDaten();
+            case CMD_SCHREIBE_KUNDEN_DATEN -> handleSchreibeKundenDaten();
+            case CMD_SCHREIBE_EREIGNIS_DATEN -> handleSchreibeEreignisDaten();
 //            case CMD_SUCHE_ARTIKEL -> handleSucheArtikel(parts);
 //            case CMD_SUCHE_EREIGNIS -> handleSucheEreignis(parts);
             default -> System.err.println("Ungueltige Anfrage empfangen!");
@@ -267,7 +267,7 @@ public class ClientRequestProcessor implements Runnable {
         socketOut.println(cmd);
     }
 
-    private void handlebestandErhoehen(String[] data) {
+    private void handleBestandErhoehen(String[] data) {
         String name = data[1];
         int anzahl = Integer.parseInt(data[2]);
 
@@ -283,40 +283,53 @@ public class ClientRequestProcessor implements Runnable {
         socketOut.println(cmd);
     }
 
-    private void handleSchreibeArtikelDaten(String[] data) {
+    private void handleMitarbeiterAnlegen(String[] data) {
+        String name = data[1];
+        String passwort = data[2];
+
+        String cmd = Commands.CMD_MITARBEITER_ANLEGEN_RESP.name();
+        try {
+            shop.mitarbeiterAnlegen(name, passwort);
+        } catch (MitarbeiterExistiertBereitsException e) {
+            cmd += separator + "Fehler";
+        }
+        socketOut.println(cmd);
+    }
+
+    private void handleSchreibeArtikelDaten() {
         String cmd = Commands.CMD_SCHREIBE_ARTIKEL_DATEN_RESP.name();
         try {
-            shop.schreibeArtikelDaten(data[1]);
+            shop.schreibeArtikelDaten();
         } catch (IOException e) {
             e.printStackTrace();
         }
         socketOut.println(cmd);
     }
 
-    private void handleSchreibeMitarbeiterDaten(String[] data) {
+    private void handleSchreibeMitarbeiterDaten() {
         String cmd = Commands.CMD_SCHREIBE_MITARBEITER_DATEN_RESP.name();
         try {
-            shop.schreibeMitarbeiterDaten(data[1]);
+            shop.schreibeMitarbeiterDaten();
         } catch (IOException e) {
             e.printStackTrace();
         }
         socketOut.println(cmd);
     }
 
-    private void handleSchreibeKundenDaten(String[] data) {
+    private void handleSchreibeKundenDaten() {
         String cmd = Commands.CMD_SCHREIBE_KUNDEN_DATEN_RESP.name();
         try {
-            shop.schreibeKundenDaten(data[1]);
+            shop.schreibeKundenDaten();
         } catch (IOException e) {
             e.printStackTrace();
         }
         socketOut.println(cmd);
     }
 
-    private void handleSchreibeEreignisDaten(String[] data) {
+    private void handleSchreibeEreignisDaten() {
         String cmd = Commands.CMD_SCHREIBE_EREIGNIS_DATEN_RESP.name();
         try {
-            shop.schreibeEreignisDaten(data[1]);
+            shop.schreibeEreignisDaten();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -68,9 +68,9 @@ public class EinloggenKunde extends JDialog {
             if (antwort == JOptionPane.YES_OPTION) {
                 dispose();
                 try {
-                    SV.schreibeArtikelDaten("Shop_A.txt");
-                    SV.schreibeKundenDaten("Shop_K.txt");
-                    SV.schreibeEreignisDaten("Shop_E.txt");
+                    SV.schreibeArtikelDaten();
+                    SV.schreibeKundenDaten();
+                    SV.schreibeEreignisDaten();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }

@@ -175,9 +175,9 @@ public class CUI {
                         break;
                     case "q":
                         System.out.println("Ausgeloggt");
-                        SV.schreibeArtikelDaten("Shop_A.txt");
-                        SV.schreibeKundenDaten("Shop_K.txt");
-                        SV.schreibeEreignisDaten("Shop_E.txt");
+                        SV.schreibeArtikelDaten();
+                        SV.schreibeKundenDaten();
+                        SV.schreibeEreignisDaten();
                         break;
                     default:
                         System.err.println("Ungültige Eingabe!");
@@ -273,9 +273,9 @@ public class CUI {
                         break;
                     case "q":
                         System.out.println("Ausgeloggt");
-                        SV.schreibeArtikelDaten("Shop_A.txt");
-                        SV.schreibeMitarbeiterDaten("Shop_M.txt");
-                        SV.schreibeEreignisDaten("Shop_E.txt");
+                        SV.schreibeArtikelDaten();
+                        SV.schreibeMitarbeiterDaten();
+                        SV.schreibeEreignisDaten();
                         break;
                     default:
                         System.err.println("Ungültige Eingabe!");

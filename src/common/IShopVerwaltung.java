@@ -25,10 +25,10 @@ public interface IShopVerwaltung {
     void artikelAnlegen(String name, double preis, int bestand, int packungsgroesse) throws ArtikelExistiertBereitsException;
     void bestandErhoehen(String name, int anzahl) throws ArtikelNichtGefundenException, PackungsgroesseException;
     void mitarbeiterAnlegen(String name, String passwort) throws MitarbeiterExistiertBereitsException;
-    void schreibeArtikelDaten(String datei) throws IOException;
-    void schreibeMitarbeiterDaten(String datei) throws IOException;
-    void schreibeKundenDaten(String datei) throws IOException;
-    void schreibeEreignisDaten(String datei) throws IOException;
+    void schreibeArtikelDaten() throws IOException;
+    void schreibeMitarbeiterDaten() throws IOException;
+    void schreibeKundenDaten() throws IOException;
+    void schreibeEreignisDaten() throws IOException;
     List<Artikel> sucheArtikel(String titel);
     List<Ereignis> sucheEreignis(String titel);
 }

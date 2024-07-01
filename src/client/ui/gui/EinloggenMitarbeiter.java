@@ -77,9 +77,9 @@ public class EinloggenMitarbeiter extends JDialog {
             if (antwort == JOptionPane.YES_OPTION) {
                 dispose();
                 try {
-                    SV.schreibeArtikelDaten("Shop_A.txt");
-                    SV.schreibeMitarbeiterDaten("Shop_M.txt");
-                    SV.schreibeEreignisDaten("Shop_E.txt");
+                    SV.schreibeArtikelDaten();
+                    SV.schreibeMitarbeiterDaten();
+                    SV.schreibeEreignisDaten();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }

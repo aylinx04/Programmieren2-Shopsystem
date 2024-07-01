@@ -11,14 +11,15 @@ import java.util.Map;
 
 
 public class ShopVerwaltung implements IShopVerwaltung {
-    Kunde eingeloggt;
-    Mitarbeiter eing;
+    private String datei;
+    private Kunde eingeloggt;
+    private Mitarbeiter eing;
     private Warenkorb wk = new Warenkorb();
     private ArtikelVerwaltung aV;
     private MitarbeiterVerwaltung mV;
     private KundenVerwaltung kV;
     private EreignisVerwaltung eV;
-    LocalDate date = LocalDate.now();
+    private LocalDate date = LocalDate.now();
 
     public Warenkorb getWk() {
         return wk;
@@ -47,6 +48,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
     }
 
     public ShopVerwaltung(String datei) throws IOException {
+        this.datei = datei;
         aV = new ArtikelVerwaltung();
         aV.liesDaten(datei+"_A.txt");
         mV = new MitarbeiterVerwaltung();
@@ -86,13 +88,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
     }
 
     public void artikelInDenWk(String name, int anzahl) throws ArtikelNichtGefundenException {
-        Artikel artikel = null;
-        for (Artikel a : aV.getArtikelListe()) {
-            if(a.getName().equals(name)){
-                artikel = a;
-                break;
-            }
-        }
+        Artikel artikel = aV.sucheArtikel(name);
         if (artikel == null) {
             throw new ArtikelNichtGefundenException(name);
         }
@@ -175,13 +171,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
     }
 
     public void bestandErhoehen(String name, int anzahl) throws ArtikelNichtGefundenException, PackungsgroesseException {
-        Artikel artikel = null;
-        for (Artikel a : aV.getArtikelListe()) {
-            if(a.getName().equals(name)){
-                artikel = a;
-                break;
-            }
-        }
+        Artikel artikel = aV.sucheArtikel(name);
         if (artikel == null) {
             throw new ArtikelNichtGefundenException(name);
         }
@@ -203,20 +193,20 @@ public class ShopVerwaltung implements IShopVerwaltung {
         mV.getMitarbeiterListe().add(new Mitarbeiter(name, mitarbeiterNummer, passwort));
     }
 
-    public void schreibeArtikelDaten(String datei) throws IOException {
-        aV.schreibeDaten(datei);
+    public void schreibeArtikelDaten() throws IOException {
+        aV.schreibeDaten(datei+"_A.txt");
     }
 
-    public void schreibeMitarbeiterDaten(String datei) throws IOException {
-        mV.schreibeDaten(datei);
+    public void schreibeMitarbeiterDaten() throws IOException {
+        mV.schreibeDaten(datei+"_M.txt");
     }
 
-    public void schreibeKundenDaten(String datei) throws IOException {
-        kV.schreibeDaten(datei);
+    public void schreibeKundenDaten() throws IOException {
+        kV.schreibeDaten(datei+"_K.txt");
     }
 
-    public void schreibeEreignisDaten(String datei) throws IOException {
-        eV.schreibeDaten(datei);
+    public void schreibeEreignisDaten() throws IOException {
+        eV.schreibeDaten(datei+"_E.txt");
     }
 
     public List<Artikel> sucheArtikel(String titel) {
