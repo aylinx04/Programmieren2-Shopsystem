@@ -32,4 +32,5 @@ public interface IShopVerwaltung {
     void schreibeEreignisDaten() throws IOException;
     List<Artikel> sucheArtikel(String titel);
     List<Ereignis> sucheEreignis(String titel);
+    void warenkorbLeeren();
 }

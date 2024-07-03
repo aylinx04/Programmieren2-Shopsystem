@@ -398,6 +398,18 @@ public class ShopClient implements IShopVerwaltung {
         return createEreignislisteFromData(data);
     }
 
+    @Override
+    public void warenkorbLeeren(){
+        String cmd = Commands.CMD_WARENKORB_LEEREN.name();
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if(Commands.valueOf(data[0]) != Commands.CMD_WARENKORB_LEEREN_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+    }
+
     private List<Artikel> createArtikellisteFromData(String[] data) {
         List<Artikel> artikelListe = new ArrayList<>();
 

@@ -67,6 +67,7 @@ public class ClientRequestProcessor implements Runnable {
             case CMD_SCHREIBE_EREIGNIS_DATEN -> handleSchreibeEreignisDaten();
             case CMD_SUCHE_ARTIKEL -> handleSucheArtikel(parts);
             case CMD_SUCHE_EREIGNIS -> handleSucheEreignis(parts);
+            case CMD_WARENKORB_LEEREN -> handelWarenkorbLeeren();
             default -> System.err.println("Ungueltige Anfrage empfangen!");
         }
     }
@@ -114,8 +115,8 @@ public class ClientRequestProcessor implements Runnable {
         }
 
         String cmd = Commands.CMD_ERZEUGE_RECHNUNG_RESP.name();
-//        cmd += separator + rechnung;
-        cmd += separator + eR;
+        cmd += separator + rechnung;
+//        cmd += separator + eR;
 
         socketOut.println(cmd);
     }
@@ -397,4 +398,10 @@ public class ClientRequestProcessor implements Runnable {
         socketOut.println(cmd);
     }
 
+    private void handelWarenkorbLeeren(){
+        shop.warenkorbLeeren();
+        String cmd = Commands.CMD_WARENKORB_LEEREN_RESP.name();
+
+        socketOut.println(cmd);
+    }
 }

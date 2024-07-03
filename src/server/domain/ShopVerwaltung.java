@@ -236,4 +236,13 @@ public class ShopVerwaltung implements IShopVerwaltung {
         }
         return suchErg;
     }
+
+    public void warenkorbLeeren(){
+        Warenkorb warenkorb = getWk();
+        Map<String, Artikel> warenkorbMap = warenkorb.getWarenkorb();
+        for (Artikel a : warenkorbMap.values()){
+            artikelZurueck(a.getName(), a.getBestand());
+        }
+        warenkorb.warenkorbLeeren();
+    }
 }

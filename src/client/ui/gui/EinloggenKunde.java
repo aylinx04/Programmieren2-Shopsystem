@@ -71,6 +71,7 @@ public class EinloggenKunde extends JDialog {
                     SV.schreibeArtikelDaten();
                     SV.schreibeKundenDaten();
                     SV.schreibeEreignisDaten();
+                    verarbeiteLeerenKlick(e);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -175,7 +176,7 @@ public class EinloggenKunde extends JDialog {
         addComponent(kaufPanel, new JLabel("Ihr Einkauf:"), 0, 0, eingabeFeldGroesse, c);
 
         rechnung.setText(null);
-        rechnung.setText(SV.erzeugeRechnung().toString());
+        rechnung.setText(SV.erzeugeRechnung());
         c.gridy = 1;
         kaufPanel.add(rechnung, c);
 
@@ -257,8 +258,15 @@ public class EinloggenKunde extends JDialog {
         }
         int antwort = JOptionPane.showConfirmDialog(EinloggenKunde.this, "Möchten Sie wirklich kaufen?", "Kauf", JOptionPane.YES_NO_OPTION);
         if(antwort ==JOptionPane.YES_OPTION) {
+            // beim server kaufen
+            // vom server rechnungsobjekt holen
+            // warenkorb leeren
+            // kaufenLayout(rechnung)
+
+
+
             kaufenLayout();
-            warenkorb.warenkorbLeeren();
+            SV.warenkorbLeeren();
         }
     }
 
@@ -292,12 +300,7 @@ public class EinloggenKunde extends JDialog {
     private void verarbeiteLeerenKlick(ActionEvent e) {
         if(!e.getSource().equals(warenkorbLeerenButton))
             return;
-        Warenkorb warenkorb = SV.getWk();
-        Map<String, Artikel> warenkorbMap = warenkorb.getWarenkorb();
-        for (Artikel a : warenkorbMap.values()){
-            SV.artikelZurueck(a.getName(), a.getBestand());
-        }
-        warenkorb.warenkorbLeeren();
+        SV.warenkorbLeeren();
         JOptionPane.showMessageDialog(this, "Warenkorb wurde geleert!",
                 "Erfolg", JOptionPane.INFORMATION_MESSAGE);
     }
