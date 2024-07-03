@@ -44,8 +44,9 @@ public class ClientRequestProcessor implements Runnable {
         String[] parts = receivedData.split(separator);
 
         switch (Commands.valueOf(parts[0])) {
+            case CMD_GET_LOGGED_IN_CUSTOMER -> handleGetLoggedInCustomer();
             case CMD_GET_WK -> handleGetWK();
-//            case CMD_ERZEUGE_RECHNUNG -> handleErzeugeRechnung();
+            case CMD_ERZEUGE_RECHNUNG -> handleErzeugeRechnung();
             case CMD_GIB_EREIGNISLISTE -> handleGibEreignisListe();
             case CMD_GIB_ALLE_ARTIKEL -> handleGibAlleArtikel();
             case CMD_CHECK_LOGIN -> handleCheckLogin(parts);
@@ -64,10 +65,22 @@ public class ClientRequestProcessor implements Runnable {
             case CMD_SCHREIBE_MITARBEITER_DATEN -> handleSchreibeMitarbeiterDaten();
             case CMD_SCHREIBE_KUNDEN_DATEN -> handleSchreibeKundenDaten();
             case CMD_SCHREIBE_EREIGNIS_DATEN -> handleSchreibeEreignisDaten();
-//            case CMD_SUCHE_ARTIKEL -> handleSucheArtikel(parts);
+            case CMD_SUCHE_ARTIKEL -> handleSucheArtikel(parts);
 //            case CMD_SUCHE_EREIGNIS -> handleSucheEreignis(parts);
             default -> System.err.println("Ungueltige Anfrage empfangen!");
         }
+    }
+
+    private void handleGetLoggedInCustomer() {
+        Kunde k = shop.getLoggedInCustomer();
+        String cmd = Commands.CMD_GET_LOGGED_IN_CUSTOMER_RESP.name();
+        cmd += separator + k.getName();
+        cmd += separator + k.getNummer();
+        cmd += separator + k.getPasswort();
+        cmd += separator + k.getStrasse();
+        cmd += separator + k.getPlz();
+        cmd += separator + k.getWohnort();
+        socketOut.println(cmd);
     }
 
     private void handleGetWK(){
@@ -90,7 +103,19 @@ public class ClientRequestProcessor implements Runnable {
     }
 
     private void handleErzeugeRechnung() {
+        Rechnung rechnung = new Rechnung(shop.getLoggedInCustomer());
 
+        Warenkorb w = shop.getWk();
+        Map<String, Artikel> warenkorbMap = w.getWarenkorb();
+
+        for (Artikel a : warenkorbMap.values()) {
+            rechnung.gesamtpreisErhoehen(a.getPreis() * a.getBestand());
+        }
+
+        String cmd = Commands.CMD_ERZEUGE_RECHNUNG_RESP.name();
+        cmd += separator + rechnung;
+
+        socketOut.println(cmd);
     }
 
     private void handleGibEreignisListe() {
@@ -333,6 +358,25 @@ public class ClientRequestProcessor implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        socketOut.println(cmd);
+    }
+
+    private void handleSucheArtikel(String[] data) {
+        String titel = data[1];
+        List<Artikel> result = shop.sucheArtikel(titel);
+
+        String cmd = Commands.CMD_SUCHE_ARTIKEL_RESP.name();
+
+        for (Artikel a : result) {
+            cmd += separator + a.getName();
+            cmd += separator + a.getNummer();
+            cmd += separator + a.getPreis();
+            cmd += separator + a.getBestand();
+            if (a instanceof Massengutartikel m) {
+                cmd += separator + m.getPackungsgroesse();
+            }
+        }
+
         socketOut.println(cmd);
     }
 

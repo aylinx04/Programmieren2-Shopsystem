@@ -21,11 +21,15 @@ public class ShopVerwaltung implements IShopVerwaltung {
     private EreignisVerwaltung eV;
     private LocalDate date = LocalDate.now();
 
+    public Kunde getLoggedInCustomer() {
+        return eingeloggt;
+    }
+
     public Warenkorb getWk() {
         return wk;
     }
 
-    public Rechnung erzeugeRechnung() {
+    public String erzeugeRechnung() {
         Rechnung rechnung = new Rechnung(eingeloggt);
 
         Map<String, Artikel> inhalt = wk.getWarenkorb();
@@ -36,7 +40,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
         Ereignis ereignis = new Ereignis(date.toString(),"Kunde: " + eingeloggt.getName(), "Ereignis - Der Einkauf: " + inhalt.values());
         eV.ereignisHinzufuegen(ereignis);
 
-        return rechnung;
+        return rechnung.toString();
     }
 
     public List<Ereignis> gibEreignisListe(){

@@ -18,10 +18,33 @@ public class ShopClient implements IShopVerwaltung {
 
     public ShopClient() throws IOException {
         socket = new Socket("127.0.0.1", 1399);
-        socket.setSoTimeout(1000);
+//        socket.setSoTimeout(1000);
         InputStream inputStream = socket.getInputStream();
         socketIn = new BufferedReader(new InputStreamReader(inputStream));
         socketOut = new PrintStream(socket.getOutputStream());
+    }
+
+    @Override
+    public Kunde getLoggedInCustomer() {
+        String cmd = Commands.CMD_GET_LOGGED_IN_CUSTOMER.name();
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if(Commands.valueOf(data[0]) != Commands.CMD_GET_LOGGED_IN_CUSTOMER_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+
+        String name = data[1];
+        int nummer = Integer.parseInt(data[2]);
+        String passwort = data[3];
+        String strasse = data[4];
+        String plz = data[5];
+        String wohnort = data[6];
+
+        Kunde kunde = new Kunde(name, nummer, passwort, strasse, plz, wohnort);
+
+        return kunde;
     }
 
     @Override
@@ -62,8 +85,17 @@ public class ShopClient implements IShopVerwaltung {
     }
 
     @Override
-    public Rechnung erzeugeRechnung() {
-        return null;
+    public String erzeugeRechnung() {
+        String cmd = Commands.CMD_ERZEUGE_RECHNUNG.name();
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if(Commands.valueOf(data[0]) != Commands.CMD_ERZEUGE_RECHNUNG_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+
+        return data[1];
     }
 
     @Override
@@ -342,7 +374,15 @@ public class ShopClient implements IShopVerwaltung {
 
     @Override
     public List<Artikel> sucheArtikel(String titel) {
-        return null;
+        String cmd = Commands.CMD_SUCHE_ARTIKEL.name() + separator + titel;
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if(Commands.valueOf(data[0]) != Commands.CMD_SUCHE_ARTIKEL_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+        return createArtikellisteFromData(data);
     }
 
     @Override

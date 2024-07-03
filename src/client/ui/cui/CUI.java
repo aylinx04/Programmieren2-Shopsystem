@@ -408,7 +408,7 @@ public class CUI {
                         String eingabe = liesEingabe();
                         if (eingabe.equals("1")) {
                             System.out.println("Dein Einkauf: ");
-                            Rechnung rechnung = SV.erzeugeRechnung();
+                            String rechnung = SV.erzeugeRechnung();
                             System.out.println(rechnung);
                             for (Artikel a : warenkorb.values()){
                                 System.out.println(a);

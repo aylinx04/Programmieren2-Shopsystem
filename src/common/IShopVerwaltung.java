@@ -8,8 +8,9 @@ import java.util.List;
 
 
 public interface IShopVerwaltung {
+    Kunde getLoggedInCustomer();
     Warenkorb getWk();
-    Rechnung erzeugeRechnung();
+    String erzeugeRechnung();
     List<Ereignis> gibEreignisListe();
     List<Artikel> gibAlleArtikel();
     int checkLogin(String name, String passwort) throws LoginFehlgeschlagenException;
