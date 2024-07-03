@@ -66,7 +66,7 @@ public class ClientRequestProcessor implements Runnable {
             case CMD_SCHREIBE_KUNDEN_DATEN -> handleSchreibeKundenDaten();
             case CMD_SCHREIBE_EREIGNIS_DATEN -> handleSchreibeEreignisDaten();
             case CMD_SUCHE_ARTIKEL -> handleSucheArtikel(parts);
-//            case CMD_SUCHE_EREIGNIS -> handleSucheEreignis(parts);
+            case CMD_SUCHE_EREIGNIS -> handleSucheEreignis(parts);
             default -> System.err.println("Ungueltige Anfrage empfangen!");
         }
     }
@@ -103,6 +103,7 @@ public class ClientRequestProcessor implements Runnable {
     }
 
     private void handleErzeugeRechnung() {
+        String eR = shop.erzeugeRechnung();
         Rechnung rechnung = new Rechnung(shop.getLoggedInCustomer());
 
         Warenkorb w = shop.getWk();
@@ -113,7 +114,8 @@ public class ClientRequestProcessor implements Runnable {
         }
 
         String cmd = Commands.CMD_ERZEUGE_RECHNUNG_RESP.name();
-        cmd += separator + rechnung;
+//        cmd += separator + rechnung;
+        cmd += separator + eR;
 
         socketOut.println(cmd);
     }
@@ -375,6 +377,21 @@ public class ClientRequestProcessor implements Runnable {
             if (a instanceof Massengutartikel m) {
                 cmd += separator + m.getPackungsgroesse();
             }
+        }
+
+        socketOut.println(cmd);
+    }
+
+    private void handleSucheEreignis(String[] data){
+        String titel = data[1];
+        List<Ereignis> result = shop.sucheEreignis(titel);
+
+        String cmd = Commands.CMD_SUCHE_EREIGNIS_RESP.name();
+
+        for (Ereignis e : result) {
+            cmd += separator + e.getDatum();
+            cmd += separator + e.getPerson();
+            cmd += separator + e.getStatus();
         }
 
         socketOut.println(cmd);

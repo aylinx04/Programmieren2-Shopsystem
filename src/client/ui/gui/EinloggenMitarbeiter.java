@@ -72,7 +72,7 @@ public class EinloggenMitarbeiter extends JDialog {
 
         add(mitarbeiterPanel, BorderLayout.NORTH);
 
-        ausloggenButton.addActionListener(_ -> {
+        ausloggenButton.addActionListener(e -> {
             int antwort = JOptionPane.showConfirmDialog(EinloggenMitarbeiter.this, "Möchten Sie sich wirklich abmelden?", "Abmelden", JOptionPane.YES_NO_OPTION);
             if (antwort == JOptionPane.YES_OPTION) {
                 dispose();
@@ -149,14 +149,14 @@ public class EinloggenMitarbeiter extends JDialog {
         packungsgroesseTextField.setVisible(false);
         labelPackungsgroesse.setVisible(false);
 
-        massengutJa.addActionListener(_ -> {
+        massengutJa.addActionListener(e -> {
             packungsgroesseTextField.setVisible(true);
             labelPackungsgroesse.setVisible(true);
             revalidate();
             repaint();
         });
 
-        massengutNein.addActionListener(_ -> {
+        massengutNein.addActionListener(e -> {
             packungsgroesseTextField.setVisible(false);
             labelPackungsgroesse.setVisible(false);
             revalidate();
@@ -169,7 +169,7 @@ public class EinloggenMitarbeiter extends JDialog {
         c.gridwidth = 3;
         artikelHinzuPanel.add(speichernButton, c);
 
-        speichernButton.addActionListener(_ -> {
+        speichernButton.addActionListener(e -> {
             try {
                 verarbeiteArtikelHinzuKlick();
             } catch (ArtikelExistiertBereitsException ex) {
@@ -203,7 +203,7 @@ public class EinloggenMitarbeiter extends JDialog {
         c.gridwidth = 3;
         bestandPanel.add(speichernButton, c);
 
-        speichernButton.addActionListener(_ -> {
+        speichernButton.addActionListener(e -> {
             try {
                 verarbeiteBestandKlick();
             } catch (ArtikelNichtGefundenException | PackungsgroesseException ex) {
@@ -239,7 +239,7 @@ public class EinloggenMitarbeiter extends JDialog {
         c.gridwidth = 3;
         mitarbeiterHinzuPanel.add(hinzuButton, c);
 
-        hinzuButton.addActionListener(_ -> verarbeiteMitarbeiterKlick());
+        hinzuButton.addActionListener(e -> verarbeiteMitarbeiterKlick());
 
         add(mitarbeiterPanel, BorderLayout.NORTH);
         add(mitarbeiterHinzuPanel, BorderLayout.CENTER);
@@ -391,7 +391,7 @@ public class EinloggenMitarbeiter extends JDialog {
         });
 
 
-        artikelListeButton.addActionListener(_ -> {
+        artikelListeButton.addActionListener(e -> {
             panel.setVisible(true);
             revalidate();
             repaint();

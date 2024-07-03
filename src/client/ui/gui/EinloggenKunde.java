@@ -63,7 +63,7 @@ public class EinloggenKunde extends JDialog {
         artikelListeButton.addActionListener(new EinloggenKunde.ButtonActionListener());
         warenkorbButton.addActionListener(new EinloggenKunde.ButtonActionListener());
 
-        ausloggenButton.addActionListener(_ -> {
+        ausloggenButton.addActionListener(e -> {
             int antwort = JOptionPane.showConfirmDialog(EinloggenKunde.this, "Möchten Sie sich wirklich abmelden?", "Abmelden", JOptionPane.YES_NO_OPTION);
             if (antwort == JOptionPane.YES_OPTION) {
                 dispose();

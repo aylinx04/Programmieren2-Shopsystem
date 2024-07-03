@@ -387,7 +387,15 @@ public class ShopClient implements IShopVerwaltung {
 
     @Override
     public List<Ereignis> sucheEreignis(String titel) {
-        return null;
+        String cmd = Commands.CMD_SUCHE_EREIGNIS.name() + separator + titel;
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if(Commands.valueOf(data[0]) != Commands.CMD_SUCHE_EREIGNIS_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+        return createEreignislisteFromData(data);
     }
 
     private List<Artikel> createArtikellisteFromData(String[] data) {
