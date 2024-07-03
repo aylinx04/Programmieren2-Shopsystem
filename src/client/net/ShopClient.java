@@ -6,6 +6,7 @@ import src.common.exceptions.*;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -95,7 +96,15 @@ public class ShopClient implements IShopVerwaltung {
             throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
         }
 
-        return data[1];
+        LocalDate datum = LocalDate.parse(data[1]);
+        double preis = Double.parseDouble(data[2]);
+        String name = data[3];
+        String strasse = data[4];
+        String plz = data[5];
+        String wohnort = data[6];
+
+        return datum + "\n" + "Gesamtpreis: " + preis + "€" + "\n" + "Kunde: " +
+                name + "\n" + strasse + "\n" + plz + " " + wohnort + "\n";
     }
 
     @Override

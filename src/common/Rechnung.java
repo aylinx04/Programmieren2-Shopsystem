@@ -17,7 +17,12 @@ public class Rechnung {
     public void gesamtpreisErhoehen(double preis) { gesamtpreis += preis; }
 
     public String toString() {
-        return datum + "\nKunde: " + kunde + "\nGesamtpreis " + gesamtpreis + "€";
+        return datum + "\nKunde: " + kunde + "\nGesamtpreis: " + gesamtpreis + "€";
     }
 
+    public LocalDate getDatum() { return datum; }
+
+    public double getGesamtpreis() { return gesamtpreis; }
+
+    public Kunde getKunde() { return kunde; }
 }

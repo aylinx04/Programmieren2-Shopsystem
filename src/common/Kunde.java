@@ -32,6 +32,6 @@ public class Kunde {
     public String getWohnort() { return wohnort; }
 
     public String toString() {
-        return  name + "\n" + strasse + "\n" + plz + " " + wohnort;
+        return  name + ";" + strasse + ";" + plz + ";" + wohnort;
     }
 }
