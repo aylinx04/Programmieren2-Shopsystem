@@ -4,6 +4,8 @@ package src.common;
 import src.common.exceptions.*;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -33,4 +35,12 @@ public interface IShopVerwaltung {
     List<Artikel> sucheArtikel(String titel);
     List<Ereignis> sucheEreignis(String titel);
     void warenkorbLeeren();
+    void vonAbisZ();
+    void vonZbisA();
+    void artikelnummerAufsteigend();
+    void artikelnummerAbsteigend();
+    void preisAufsteigend();
+    void preisAbsteigend();
+    void bestandAufsteigend();
+    void bestandAbsteigend();
 }

@@ -25,7 +25,7 @@ public class ShopClient implements IShopVerwaltung {
         socketOut = new PrintStream(socket.getOutputStream());
     }
 
-    @Override
+   @Override
     public Kunde getLoggedInCustomer() {
         String cmd = Commands.CMD_GET_LOGGED_IN_CUSTOMER.name();
         socketOut.println(cmd);
@@ -415,6 +415,100 @@ public class ShopClient implements IShopVerwaltung {
         String[] data = readResponse();
 
         if(Commands.valueOf(data[0]) != Commands.CMD_WARENKORB_LEEREN_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+    }
+
+    @Override
+    public void vonAbisZ(){
+        String cmd = Commands.CMD_VON_A_BIS_Z.name();
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if(Commands.valueOf(data[0]) != Commands.CMD_VON_A_BIS_Z_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+    }
+    @Override
+    public void vonZbisA(){
+        String cmd = Commands.CMD_VON_Z_BIS_A.name();
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if(Commands.valueOf(data[0]) != Commands.CMD_VON_Z_BIS_A_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+    }
+
+    @Override
+    public void artikelnummerAufsteigend(){
+        String cmd = Commands.CMD_ARTIKELNUMMER_AUFSTEIGEND_RESP.name();
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if(Commands.valueOf(data[0]) != Commands.CMD_ARTIKELNUMMER_AUFSTEIGEND_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+    }
+    @Override
+    public void artikelnummerAbsteigend(){
+        String cmd = Commands.CMD_ARTIKELNUMMER_ABSTEIGEND_RESP.name();
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if(Commands.valueOf(data[0]) != Commands.CMD_ARTIKELNUMMER_ABSTEIGEND_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+    }
+
+    @Override
+    public void preisAufsteigend(){
+        String cmd = Commands.CMD_PREIS_AUFSTEIGEND_RESP.name();
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if(Commands.valueOf(data[0]) != Commands.CMD_PREIS_AUFSTEIGEND_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+    }
+
+    @Override
+    public void preisAbsteigend(){
+        String cmd = Commands.CMD_PREIS_ABSTEIGEND_RESP.name();
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if(Commands.valueOf(data[0]) != Commands.CMD_PREIS_ABSTEIGEND_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+    }
+
+    @Override
+    public void bestandAufsteigend(){
+        String cmd = Commands.CMD_BESTAND_AUFSTEIGEND_RESP.name();
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if(Commands.valueOf(data[0]) != Commands.CMD_BESTAND_AUFSTEIGEND_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+    }
+
+    @Override
+    public void bestandAbsteigend(){
+        String cmd = Commands.CMD_BESTAND_ABSTEIGEND_RESP.name();
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if(Commands.valueOf(data[0]) != Commands.CMD_BESTAND_ABSTEIGEND_RESP) {
             throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
         }
     }

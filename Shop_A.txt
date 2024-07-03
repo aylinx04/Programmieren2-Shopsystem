@@ -1,7 +1,7 @@
 Tomate
 1
 4.99
-4
+6
 Gurke
 2
 3.59
@@ -66,3 +66,7 @@ Wasser
 17
 2.0
 7
+Kokosnuss
+18
+2.0
+4

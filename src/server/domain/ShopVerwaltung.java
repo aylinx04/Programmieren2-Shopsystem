@@ -5,9 +5,7 @@ import src.common.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class ShopVerwaltung implements IShopVerwaltung {
@@ -244,5 +242,40 @@ public class ShopVerwaltung implements IShopVerwaltung {
             artikelZurueck(a.getName(), a.getBestand());
         }
         warenkorb.warenkorbLeeren();
+    }
+
+    public void vonAbisZ(){
+        Collections.sort(aV.getArtikelListe(), Comparator.comparing(Artikel::getName));
+    }
+
+    public void vonZbisA(){
+        Collections.sort(aV.getArtikelListe(), Comparator.comparing(Artikel::getName));
+        Collections.reverse(aV.getArtikelListe());
+    }
+    public void artikelnummerAufsteigend(){
+        Collections.sort(aV.getArtikelListe(), Comparator.comparing(Artikel::getNummer));
+    }
+
+    public void artikelnummerAbsteigend(){
+        Collections.sort(aV.getArtikelListe(), Comparator.comparing(Artikel::getNummer));
+        Collections.reverse(aV.getArtikelListe());
+    }
+
+    public void preisAufsteigend(){
+        Collections.sort(aV.getArtikelListe(), Comparator.comparing(Artikel::getPreis));
+    }
+
+    public void preisAbsteigend(){
+        Collections.sort(aV.getArtikelListe(), Comparator.comparing(Artikel::getPreis));
+        Collections.reverse(aV.getArtikelListe());
+    }
+
+    public void bestandAufsteigend(){
+        Collections.sort(aV.getArtikelListe(), Comparator.comparing(Artikel::getBestand));
+    }
+
+    public void bestandAbsteigend(){
+        Collections.sort(aV.getArtikelListe(), Comparator.comparing(Artikel::getBestand));
+        Collections.reverse(aV.getArtikelListe());
     }
 }

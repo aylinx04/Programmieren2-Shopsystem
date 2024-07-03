@@ -67,7 +67,15 @@ public class ClientRequestProcessor implements Runnable {
             case CMD_SCHREIBE_EREIGNIS_DATEN -> handleSchreibeEreignisDaten();
             case CMD_SUCHE_ARTIKEL -> handleSucheArtikel(parts);
             case CMD_SUCHE_EREIGNIS -> handleSucheEreignis(parts);
-            case CMD_WARENKORB_LEEREN -> handelWarenkorbLeeren();
+            case CMD_WARENKORB_LEEREN -> handleWarenkorbLeeren();
+            case CMD_VON_A_BIS_Z -> handleVonAbisZ();
+            case CMD_VON_Z_BIS_A -> handleVonZbisA();
+            case CMD_ARTIKELNUMMER_AUFSTEIGEND -> handleArtikelnummerAufsteigend();
+            case CMD_ARTIKELNUMMER_ABSTEIGEND -> handleArtikelnummerAbsteigend();
+            case CMD_PREIS_AUFSTEIGEND -> handlePreisAufsteigend();
+            case CMD_PREIS_ABSTEIGEND -> handlePreisAbsteigend();
+            case CMD_BESTAND_AUFSTEIGEND -> handleBestandAufsteigend();
+            case CMD_BESTAND_ABSTEIGEND -> handleBestandAbsteigend();
             default -> System.err.println("Ungueltige Anfrage empfangen!");
         }
     }
@@ -104,7 +112,6 @@ public class ClientRequestProcessor implements Runnable {
     }
 
     private void handleErzeugeRechnung() {
-//        String eR = shop.erzeugeRechnung();
         Rechnung rechnung = new Rechnung(shop.getLoggedInCustomer());
 
         Warenkorb w = shop.getWk();
@@ -403,9 +410,59 @@ public class ClientRequestProcessor implements Runnable {
         socketOut.println(cmd);
     }
 
-    private void handelWarenkorbLeeren(){
+    private void handleWarenkorbLeeren(){
         shop.warenkorbLeeren();
         String cmd = Commands.CMD_WARENKORB_LEEREN_RESP.name();
+
+        socketOut.println(cmd);
+    }
+
+    private void handleVonAbisZ(){
+        shop.vonAbisZ();
+        String cmd = Commands.CMD_VON_A_BIS_Z_RESP.name();
+
+        socketOut.println(cmd);
+    }
+
+    private void handleVonZbisA(){
+        shop.vonZbisA();
+        String cmd = Commands.CMD_VON_Z_BIS_A_RESP.name();
+
+        socketOut.println(cmd);
+    }
+    private void handleArtikelnummerAufsteigend(){
+        shop.artikelnummerAufsteigend();
+        String cmd = Commands.CMD_ARTIKELNUMMER_AUFSTEIGEND_RESP.name();
+
+        socketOut.println(cmd);
+    }
+    private void handleArtikelnummerAbsteigend(){
+        shop.artikelnummerAbsteigend();
+        String cmd = Commands.CMD_ARTIKELNUMMER_ABSTEIGEND_RESP.name();
+
+        socketOut.println(cmd);
+    }
+    private void handlePreisAufsteigend(){
+        shop.preisAufsteigend();
+        String cmd = Commands.CMD_PREIS_AUFSTEIGEND_RESP.name();
+
+        socketOut.println(cmd);
+    }
+    private void handlePreisAbsteigend(){
+        shop.preisAbsteigend();
+        String cmd = Commands.CMD_PREIS_ABSTEIGEND_RESP.name();
+
+        socketOut.println(cmd);
+    }
+    private void handleBestandAufsteigend(){
+        shop.bestandAufsteigend();
+        String cmd = Commands.CMD_BESTAND_AUFSTEIGEND_RESP.name();
+
+        socketOut.println(cmd);
+    }
+    private void handleBestandAbsteigend(){
+        shop.bestandAbsteigend();
+        String cmd = Commands.CMD_BESTAND_ABSTEIGEND_RESP.name();
 
         socketOut.println(cmd);
     }

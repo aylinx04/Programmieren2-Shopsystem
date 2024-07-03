@@ -101,32 +101,28 @@ public class GUI extends JFrame {
             JComboBox<String> comboBox = (JComboBox<String>) e.getSource();
             String selectedOption = (String) comboBox.getSelectedItem();
             if (selectedOption.equals("Von A-Z")) {
-                Collections.sort(SV.gibAlleArtikel(), Comparator.comparing(Artikel::getName));
+                SV.vonAbisZ();
 
             } else if (selectedOption.equals("Von Z-A")) {
-                Collections.sort(SV.gibAlleArtikel(), Comparator.comparing(Artikel::getName));
-                Collections.reverse(SV.gibAlleArtikel());
+                SV.vonZbisA();
 
             } else if (selectedOption.equals("Artikelnummer aufsteigend")) {
-                Collections.sort(SV.gibAlleArtikel(), Comparator.comparing(Artikel::getNummer));
+                SV.artikelnummerAufsteigend();
 
             } else if (selectedOption.equals("Artikelnummer absteigend")) {
-                Collections.sort(SV.gibAlleArtikel(), Comparator.comparing(Artikel::getNummer));
-                Collections.reverse(SV.gibAlleArtikel());
+                SV.artikelnummerAbsteigend();
 
             } else if (selectedOption.equals("Preis aufsteigend")) {
-                Collections.sort(SV.gibAlleArtikel(), Comparator.comparing(Artikel::getPreis));
+                SV.preisAufsteigend();
 
             } else if (selectedOption.equals("Preis absteigend")) {
-                Collections.sort(SV.gibAlleArtikel(), Comparator.comparing(Artikel::getPreis));
-                Collections.reverse(SV.gibAlleArtikel());
+                SV.preisAbsteigend();
 
             } else if (selectedOption.equals("Bestand aufsteigend")) {
-                Collections.sort(SV.gibAlleArtikel(), Comparator.comparing(Artikel::getBestand));
+                SV.bestandAufsteigend();
 
             } else if (selectedOption.equals("Bestand absteigend")) {
-                Collections.sort(SV.gibAlleArtikel(), Comparator.comparing(Artikel::getBestand));
-                Collections.reverse(SV.gibAlleArtikel());
+                SV.bestandAbsteigend();
             }
 
             artikelModel.setArtikel(SV.gibAlleArtikel());
