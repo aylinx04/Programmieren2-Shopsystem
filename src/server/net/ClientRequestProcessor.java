@@ -105,18 +105,17 @@ public class ClientRequestProcessor implements Runnable {
 
     private void handleErzeugeRechnung() {
         String eR = shop.erzeugeRechnung();
-        Rechnung rechnung = new Rechnung(shop.getLoggedInCustomer());
-
-        Warenkorb w = shop.getWk();
-        Map<String, Artikel> warenkorbMap = w.getWarenkorb();
-
-        for (Artikel a : warenkorbMap.values()) {
-            rechnung.gesamtpreisErhoehen(a.getPreis() * a.getBestand());
-        }
+//        Rechnung rechnung = new Rechnung(shop.getLoggedInCustomer());
+//
+//        Warenkorb w = shop.getWk();
+//        Map<String, Artikel> warenkorbMap = w.getWarenkorb();
+//
+//        for (Artikel a : warenkorbMap.values()) {
+//            rechnung.gesamtpreisErhoehen(a.getPreis() * a.getBestand());
+//        }
 
         String cmd = Commands.CMD_ERZEUGE_RECHNUNG_RESP.name();
-        cmd += separator + rechnung;
-//        cmd += separator + eR;
+        cmd += separator + eR;
 
         socketOut.println(cmd);
     }

@@ -68,10 +68,10 @@ public class EinloggenKunde extends JDialog {
             if (antwort == JOptionPane.YES_OPTION) {
                 dispose();
                 try {
+                    verarbeiteLeerenKlick(e);
                     SV.schreibeArtikelDaten();
                     SV.schreibeKundenDaten();
                     SV.schreibeEreignisDaten();
-                    verarbeiteLeerenKlick(e);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -298,7 +298,7 @@ public class EinloggenKunde extends JDialog {
     }
 
     private void verarbeiteLeerenKlick(ActionEvent e) {
-        if(!e.getSource().equals(warenkorbLeerenButton))
+        if(!e.getSource().equals(warenkorbLeerenButton) && !e.getSource().equals(ausloggenButton))
             return;
         SV.warenkorbLeeren();
         JOptionPane.showMessageDialog(this, "Warenkorb wurde geleert!",
