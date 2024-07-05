@@ -258,12 +258,6 @@ public class EinloggenKunde extends JDialog {
         }
         int antwort = JOptionPane.showConfirmDialog(EinloggenKunde.this, "Möchten Sie wirklich kaufen?", "Kauf", JOptionPane.YES_NO_OPTION);
         if(antwort ==JOptionPane.YES_OPTION) {
-            // beim server kaufen
-            // vom server rechnungsobjekt holen
-            // warenkorb leeren
-            // kaufenLayout(rechnung)
-
-
 
             kaufenLayout();
             SV.warenkorbLeeren();

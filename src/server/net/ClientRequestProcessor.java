@@ -427,43 +427,42 @@ public class ClientRequestProcessor implements Runnable {
     private void handleVonZbisA(){
         shop.vonZbisA();
         String cmd = Commands.CMD_VON_Z_BIS_A_RESP.name();
-
         socketOut.println(cmd);
     }
-    private void handleArtikelnummerAufsteigend(){
+
+    private void handleArtikelnummerAufsteigend() {
         shop.artikelnummerAufsteigend();
         String cmd = Commands.CMD_ARTIKELNUMMER_AUFSTEIGEND_RESP.name();
-
         socketOut.println(cmd);
     }
-    private void handleArtikelnummerAbsteigend(){
+
+    private void handleArtikelnummerAbsteigend() {
         shop.artikelnummerAbsteigend();
         String cmd = Commands.CMD_ARTIKELNUMMER_ABSTEIGEND_RESP.name();
-
         socketOut.println(cmd);
     }
-    private void handlePreisAufsteigend(){
+
+    private void handlePreisAufsteigend() {
         shop.preisAufsteigend();
         String cmd = Commands.CMD_PREIS_AUFSTEIGEND_RESP.name();
-
         socketOut.println(cmd);
     }
-    private void handlePreisAbsteigend(){
+
+    private void handlePreisAbsteigend() {
         shop.preisAbsteigend();
         String cmd = Commands.CMD_PREIS_ABSTEIGEND_RESP.name();
-
         socketOut.println(cmd);
     }
-    private void handleBestandAufsteigend(){
+
+    private void handleBestandAufsteigend() {
         shop.bestandAufsteigend();
         String cmd = Commands.CMD_BESTAND_AUFSTEIGEND_RESP.name();
-
         socketOut.println(cmd);
     }
-    private void handleBestandAbsteigend(){
+
+    private void handleBestandAbsteigend() {
         shop.bestandAbsteigend();
         String cmd = Commands.CMD_BESTAND_ABSTEIGEND_RESP.name();
-
         socketOut.println(cmd);
     }
 }

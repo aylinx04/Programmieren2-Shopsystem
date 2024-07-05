@@ -443,8 +443,8 @@ public class ShopClient implements IShopVerwaltung {
     }
 
     @Override
-    public void artikelnummerAufsteigend(){
-        String cmd = Commands.CMD_ARTIKELNUMMER_AUFSTEIGEND_RESP.name();
+    public void artikelnummerAufsteigend() {
+        String cmd = Commands.CMD_ARTIKELNUMMER_AUFSTEIGEND.name();
         socketOut.println(cmd);
 
         String[] data = readResponse();
@@ -453,9 +453,10 @@ public class ShopClient implements IShopVerwaltung {
             throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
         }
     }
+
     @Override
-    public void artikelnummerAbsteigend(){
-        String cmd = Commands.CMD_ARTIKELNUMMER_ABSTEIGEND_RESP.name();
+    public void artikelnummerAbsteigend() {
+        String cmd = Commands.CMD_ARTIKELNUMMER_ABSTEIGEND.name();
         socketOut.println(cmd);
 
         String[] data = readResponse();
@@ -466,8 +467,8 @@ public class ShopClient implements IShopVerwaltung {
     }
 
     @Override
-    public void preisAufsteigend(){
-        String cmd = Commands.CMD_PREIS_AUFSTEIGEND_RESP.name();
+    public void preisAufsteigend() {
+        String cmd = Commands.CMD_PREIS_AUFSTEIGEND.name();
         socketOut.println(cmd);
 
         String[] data = readResponse();
@@ -478,8 +479,8 @@ public class ShopClient implements IShopVerwaltung {
     }
 
     @Override
-    public void preisAbsteigend(){
-        String cmd = Commands.CMD_PREIS_ABSTEIGEND_RESP.name();
+    public void preisAbsteigend() {
+        String cmd = Commands.CMD_PREIS_ABSTEIGEND.name();
         socketOut.println(cmd);
 
         String[] data = readResponse();
@@ -490,8 +491,8 @@ public class ShopClient implements IShopVerwaltung {
     }
 
     @Override
-    public void bestandAufsteigend(){
-        String cmd = Commands.CMD_BESTAND_AUFSTEIGEND_RESP.name();
+    public void bestandAufsteigend() {
+        String cmd = Commands.CMD_BESTAND_AUFSTEIGEND.name();
         socketOut.println(cmd);
 
         String[] data = readResponse();
@@ -502,8 +503,8 @@ public class ShopClient implements IShopVerwaltung {
     }
 
     @Override
-    public void bestandAbsteigend(){
-        String cmd = Commands.CMD_BESTAND_ABSTEIGEND_RESP.name();
+    public void bestandAbsteigend() {
+        String cmd = Commands.CMD_BESTAND_ABSTEIGEND.name();
         socketOut.println(cmd);
 
         String[] data = readResponse();

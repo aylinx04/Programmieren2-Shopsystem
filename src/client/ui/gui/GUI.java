@@ -12,8 +12,6 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class GUI extends JFrame {
     private IShopVerwaltung SV;
@@ -123,6 +121,7 @@ public class GUI extends JFrame {
 
             } else if (selectedOption.equals("Bestand absteigend")) {
                 SV.bestandAbsteigend();
+
             }
 
             artikelModel.setArtikel(SV.gibAlleArtikel());

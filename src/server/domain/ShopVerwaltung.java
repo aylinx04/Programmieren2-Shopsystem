@@ -235,7 +235,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
         return suchErg;
     }
 
-    public void warenkorbLeeren(){
+    public void warenkorbLeeren() {
         Warenkorb warenkorb = getWk();
         Map<String, Artikel> warenkorbMap = warenkorb.getWarenkorb();
         for (Artikel a : warenkorbMap.values()){
@@ -244,37 +244,38 @@ public class ShopVerwaltung implements IShopVerwaltung {
         warenkorb.warenkorbLeeren();
     }
 
-    public void vonAbisZ(){
+    public void vonAbisZ() {
         Collections.sort(aV.getArtikelListe(), Comparator.comparing(Artikel::getName));
     }
 
-    public void vonZbisA(){
+    public void vonZbisA() {
         Collections.sort(aV.getArtikelListe(), Comparator.comparing(Artikel::getName));
         Collections.reverse(aV.getArtikelListe());
     }
-    public void artikelnummerAufsteigend(){
+
+    public void artikelnummerAufsteigend() {
         Collections.sort(aV.getArtikelListe(), Comparator.comparing(Artikel::getNummer));
     }
 
-    public void artikelnummerAbsteigend(){
+    public void artikelnummerAbsteigend() {
         Collections.sort(aV.getArtikelListe(), Comparator.comparing(Artikel::getNummer));
         Collections.reverse(aV.getArtikelListe());
     }
 
-    public void preisAufsteigend(){
+    public void preisAufsteigend() {
         Collections.sort(aV.getArtikelListe(), Comparator.comparing(Artikel::getPreis));
     }
 
-    public void preisAbsteigend(){
+    public void preisAbsteigend() {
         Collections.sort(aV.getArtikelListe(), Comparator.comparing(Artikel::getPreis));
         Collections.reverse(aV.getArtikelListe());
     }
 
-    public void bestandAufsteigend(){
+    public void bestandAufsteigend() {
         Collections.sort(aV.getArtikelListe(), Comparator.comparing(Artikel::getBestand));
     }
 
-    public void bestandAbsteigend(){
+    public void bestandAbsteigend() {
         Collections.sort(aV.getArtikelListe(), Comparator.comparing(Artikel::getBestand));
         Collections.reverse(aV.getArtikelListe());
     }
