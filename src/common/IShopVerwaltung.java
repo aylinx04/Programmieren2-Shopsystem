@@ -43,4 +43,6 @@ public interface IShopVerwaltung {
     void preisAbsteigend();
     void bestandAufsteigend();
     void bestandAbsteigend();
+    void datumAufsteigend();
+    void datumAbsteigend();
 }

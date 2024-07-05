@@ -34,7 +34,9 @@ public class EinloggenKunde extends JDialog {
     private JPanel kaufPanel = new JPanel();
     private ArtikelTabelModel artikelModel;
     private JTable artikelTabel;
-    JTextArea rechnung = new JTextArea();
+    private ArtikelTabelModel warenkorbModel;
+    private JTable warenkorbTabel;
+    private JTextArea rechnung = new JTextArea();
 
     public EinloggenKunde(JFrame parent, String title, boolean modal, IShopVerwaltung SV) {
         super(parent, title, modal);
@@ -149,8 +151,8 @@ public class EinloggenKunde extends JDialog {
         Map<String, Artikel> warenkorbMap = warenkorb.getWarenkorb();
         ArrayList<Artikel> warenkorbListe = new ArrayList<>(warenkorbMap.values());
 
-        ArtikelTabelModel warenkorbModel = new ArtikelTabelModel(warenkorbListe);
-        JTable warenkorbTabel = new JTable(warenkorbModel);
+        warenkorbModel = new ArtikelTabelModel(warenkorbListe);
+        warenkorbTabel = new JTable(warenkorbModel);
 
         JPanel warenkorbPanel = new JPanel(new BorderLayout());
         JScrollPane scrollPane = new JScrollPane(warenkorbTabel);
@@ -239,9 +241,11 @@ public class EinloggenKunde extends JDialog {
 
             SV.artikelInDenWk(artikelname, anzahl);
             SV.artikelBestandVerringern(artikelname, anzahl);
+            artikelModel.setArtikel(SV.gibAlleArtikel());
 
-            JOptionPane.showMessageDialog(this, "Artikel '" + artikelname + "' erfolgreich " + anzahl + "x zum Warenkorb hinzugefügt!",
-                    "Erfolg", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Artikel '" + artikelname + "' erfolgreich " +
+                            anzahl + "x zum Warenkorb hinzugefügt!", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
+
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Bitte geben Sie gültige Zahlenwerte ein.", "Fehler", JOptionPane.ERROR_MESSAGE);
         } catch (ArtikelNichtGefundenException | BestandNichtVorhandenException | PackungsgroesseException ex) {
@@ -282,8 +286,11 @@ public class EinloggenKunde extends JDialog {
             SV.istArtikelImWarenkorb(artikelname);
             SV.wkArtikelEntfernen(artikelname, anzahl);
             SV.artikelZurueck(artikelname, anzahl);
-            JOptionPane.showMessageDialog(this, "Artikel '" + artikelname + "' erfolgreich " + anzahl + "x aus dem Warenkorb entfernt!",
-                    "Erfolg", JOptionPane.INFORMATION_MESSAGE);
+            zeigeWarenkorb();
+
+            JOptionPane.showMessageDialog(this, "Artikel '" + artikelname + "' erfolgreich " +
+                            anzahl + "x aus dem Warenkorb entfernt!", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
+
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Bitte geben Sie gültige Zahlenwerte ein.", "Fehler", JOptionPane.ERROR_MESSAGE);
         } catch (ArtikelNichtGefundenException | BestandNichtVorhandenException | PackungsgroesseException ex){
@@ -295,6 +302,7 @@ public class EinloggenKunde extends JDialog {
         if(!e.getSource().equals(warenkorbLeerenButton) && !e.getSource().equals(ausloggenButton))
             return;
         SV.warenkorbLeeren();
+        zeigeWarenkorb();
         JOptionPane.showMessageDialog(this, "Warenkorb wurde geleert!",
                 "Erfolg", JOptionPane.INFORMATION_MESSAGE);
     }

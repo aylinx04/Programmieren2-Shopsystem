@@ -11,8 +11,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class EinloggenMitarbeiter extends JDialog {
     private IShopVerwaltung SV;
@@ -275,10 +273,14 @@ public class EinloggenMitarbeiter extends JDialog {
                 packungsgroesseTextField.setText(null);
                 SV.checkPackungsgroesse(packungsgroesse, bestand);
                 SV.artikelAnlegen(artikelname, preis, bestand, packungsgroesse);
-                JOptionPane.showMessageDialog(this, "Artikel '" + artikelname + "' erfolgreich angelegt!", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
+                artikelTabelle();
+                JOptionPane.showMessageDialog(this, "Artikel '" + artikelname +
+                        "' erfolgreich angelegt!", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 SV.artikelAnlegen(artikelname, preis, bestand);
-                JOptionPane.showMessageDialog(this, "Artikel '" + artikelname + "' erfolgreich angelegt!", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
+                artikelTabelle();
+                JOptionPane.showMessageDialog(this, "Artikel '" + artikelname +
+                        "' erfolgreich angelegt!", "Erfolg", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Bitte geben Sie gültige Zahlenwerte ein.", "Fehler", JOptionPane.ERROR_MESSAGE);
@@ -301,6 +303,8 @@ public class EinloggenMitarbeiter extends JDialog {
 
             artikeltextField.setText(null);
             bestandtextField.setText(null);
+
+            artikelTabelle();
 
             JOptionPane.showMessageDialog(this, "Artikel '" + artikelname + "' erfolgreich um " + anzahl + " erhoeht!",
                     "Erfolg", JOptionPane.INFORMATION_MESSAGE);
@@ -366,13 +370,10 @@ public class EinloggenMitarbeiter extends JDialog {
         Dimension eingabeFeldGroesse = new Dimension(140,30);
 
         JPanel panel = new JPanel(new BorderLayout());
-
         JScrollPane scrollPane = new JScrollPane(ereignisTabel);
 
         JLabel labelSuche = new JLabel("Suche:");
-
         suchTextFeld.setPreferredSize(eingabeFeldGroesse);
-
         suchTextFeld.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -390,6 +391,18 @@ public class EinloggenMitarbeiter extends JDialog {
             }
         });
 
+        String[] sortieren = {"Datum aufsteigend", "Datum absteigend"};
+        JComboBox<String> sortierAuswahl = new JComboBox<>(sortieren);
+        JLabel sortierenLabel = new JLabel("Sortieren nach: ");
+        sortierAuswahl.addActionListener(e -> {
+            String selectedOption = (String) sortierAuswahl.getSelectedItem();
+            if (selectedOption.equals("Datum aufsteigend")) {
+                SV.datumAufsteigend();
+            } else if (selectedOption.equals("Datum absteigend")) {
+                SV.datumAbsteigend();
+            }
+            ereignisModel.setEreignis(SV.gibEreignisListe());
+        });
 
         artikelListeButton.addActionListener(e -> {
             panel.setVisible(true);
@@ -397,11 +410,11 @@ public class EinloggenMitarbeiter extends JDialog {
             repaint();
         });
 
-        Collections.sort(SV.gibEreignisListe(), Comparator.comparing(Ereignis::getDatum));
-
         JPanel ereignisPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         ereignisPanel.add(labelSuche);
         ereignisPanel.add(suchTextFeld);
+        ereignisPanel.add(sortierenLabel);
+        ereignisPanel.add(sortierAuswahl);
 
         add(mitarbeiterPanel, BorderLayout.NORTH);
         panel.add(ereignisPanel, BorderLayout.NORTH);

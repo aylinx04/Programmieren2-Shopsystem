@@ -514,6 +514,30 @@ public class ShopClient implements IShopVerwaltung {
         }
     }
 
+    @Override
+    public void datumAufsteigend() {
+        String cmd = Commands.CMD_DATUM_AUFSTEIGEND.name();
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if(Commands.valueOf(data[0]) != Commands.CMD_DATUM_AUFSTEIGEND_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+    }
+
+    @Override
+    public void datumAbsteigend() {
+        String cmd = Commands.CMD_DATUM_ABSTEIGEND.name();
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if(Commands.valueOf(data[0]) != Commands.CMD_DATUM_ABSTEIGEND_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+    }
+
     private List<Artikel> createArtikellisteFromData(String[] data) {
         List<Artikel> artikelListe = new ArrayList<>();
 

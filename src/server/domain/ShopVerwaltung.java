@@ -279,4 +279,13 @@ public class ShopVerwaltung implements IShopVerwaltung {
         Collections.sort(aV.getArtikelListe(), Comparator.comparing(Artikel::getBestand));
         Collections.reverse(aV.getArtikelListe());
     }
+
+    public void datumAufsteigend() {
+        Collections.sort(eV.getEreignisListe(), Comparator.comparing(Ereignis::getDatum));
+    }
+
+    public void datumAbsteigend() {
+        Collections.sort(eV.getEreignisListe(), Comparator.comparing(Ereignis::getDatum));
+        Collections.reverse(eV.getEreignisListe());
+    }
 }

@@ -72,7 +72,7 @@ public class GUI extends JFrame {
         panel.add(scrollPane, BorderLayout.CENTER);
 
         JLabel labelSuche = new JLabel("Suche:");
-
+        suchTextFeld.setPreferredSize(eingabeFeldGroesse);
         suchTextFeld.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -89,8 +89,6 @@ public class GUI extends JFrame {
                 aktualisiereSuchergebnisse();
             }
         });
-
-        suchTextFeld.setPreferredSize(eingabeFeldGroesse);
 
         String[] sortieren = {"Von A-Z", "Von Z-A", "Artikelnummer aufsteigend", "Artikelnummer absteigend", "Preis aufsteigend", "Preis absteigend", "Bestand aufsteigend", "Bestand absteigend"};
         JComboBox<String> sortierAuswahl = new JComboBox<>(sortieren);
@@ -123,7 +121,6 @@ public class GUI extends JFrame {
                 SV.bestandAbsteigend();
 
             }
-
             artikelModel.setArtikel(SV.gibAlleArtikel());
         });
 

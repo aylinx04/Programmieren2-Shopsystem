@@ -76,6 +76,8 @@ public class ClientRequestProcessor implements Runnable {
             case CMD_PREIS_ABSTEIGEND -> handlePreisAbsteigend();
             case CMD_BESTAND_AUFSTEIGEND -> handleBestandAufsteigend();
             case CMD_BESTAND_ABSTEIGEND -> handleBestandAbsteigend();
+            case CMD_DATUM_AUFSTEIGEND -> handleDatumAufsteigend();
+            case CMD_DATUM_ABSTEIGEND -> handleDatumAbsteigend();
             default -> System.err.println("Ungueltige Anfrage empfangen!");
         }
     }
@@ -463,6 +465,18 @@ public class ClientRequestProcessor implements Runnable {
     private void handleBestandAbsteigend() {
         shop.bestandAbsteigend();
         String cmd = Commands.CMD_BESTAND_ABSTEIGEND_RESP.name();
+        socketOut.println(cmd);
+    }
+
+    private void handleDatumAufsteigend() {
+        shop.datumAufsteigend();
+        String cmd = Commands.CMD_DATUM_AUFSTEIGEND_RESP.name();
+        socketOut.println(cmd);
+    }
+
+    private void handleDatumAbsteigend() {
+        shop.datumAbsteigend();
+        String cmd = Commands.CMD_DATUM_ABSTEIGEND_RESP.name();
         socketOut.println(cmd);
     }
 }
