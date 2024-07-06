@@ -417,6 +417,18 @@ public class ShopClient implements IShopVerwaltung {
     }
 
     @Override
+    public void warenkorbLeerenNachKauf() {
+        String cmd = Commands.CMD_WARENKORB_LEEREN_NACH_KAUF.name();
+        socketOut.println(cmd);
+
+        String[] data = readResponse();
+
+        if(Commands.valueOf(data[0]) != Commands.CMD_WARENKORB_LEEREN_NACH_KAUF_RESP) {
+            throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
+        }
+    }
+
+    @Override
     public void vonAbisZ(){
         String cmd = Commands.CMD_VON_A_BIS_Z.name();
         socketOut.println(cmd);

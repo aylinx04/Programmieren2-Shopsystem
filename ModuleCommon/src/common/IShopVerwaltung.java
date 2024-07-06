@@ -34,6 +34,7 @@ public interface IShopVerwaltung {
     List<Artikel> sucheArtikel(String titel);
     List<Ereignis> sucheEreignis(String titel);
     void warenkorbLeeren();
+    void warenkorbLeerenNachKauf();
     void vonAbisZ();
     void vonZbisA();
     void artikelnummerAufsteigend();

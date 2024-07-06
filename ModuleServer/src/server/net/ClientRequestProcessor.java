@@ -68,6 +68,7 @@ public class ClientRequestProcessor implements Runnable {
             case CMD_SUCHE_ARTIKEL -> handleSucheArtikel(parts);
             case CMD_SUCHE_EREIGNIS -> handleSucheEreignis(parts);
             case CMD_WARENKORB_LEEREN -> handleWarenkorbLeeren();
+            case CMD_WARENKORB_LEEREN_NACH_KAUF -> handleWarenkorbLeerenNachKauf();
             case CMD_VON_A_BIS_Z -> handleVonAbisZ();
             case CMD_VON_Z_BIS_A -> handleVonZbisA();
             case CMD_ARTIKELNUMMER_AUFSTEIGEND -> handleArtikelnummerAufsteigend();
@@ -412,6 +413,13 @@ public class ClientRequestProcessor implements Runnable {
 
     private void handleWarenkorbLeeren(){
         shop.warenkorbLeeren();
+        String cmd = Commands.CMD_WARENKORB_LEEREN_RESP.name();
+
+        socketOut.println(cmd);
+    }
+
+    private void handleWarenkorbLeerenNachKauf(){
+        shop.warenkorbLeerenNachKauf();
         String cmd = Commands.CMD_WARENKORB_LEEREN_RESP.name();
 
         socketOut.println(cmd);

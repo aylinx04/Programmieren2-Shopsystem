@@ -417,7 +417,7 @@ public class CUI {
                             for (Artikel a : warenkorb.values()){
                                 System.out.println(a);
                             }
-                            SV.warenkorbLeeren();
+                            SV.warenkorbLeerenNachKauf();
                         } else if (eingabe.equals("2")) {
                             System.err.println("Vorgang wurde Abgebrochen!");
                         }

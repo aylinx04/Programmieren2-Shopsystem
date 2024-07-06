@@ -240,12 +240,15 @@ public class ShopVerwaltung implements IShopVerwaltung {
     }
 
     public void warenkorbLeeren() {
-        Warenkorb warenkorb = wk;
-        Map<String, Artikel> warenkorbMap = warenkorb.getWarenkorb();
+        Map<String, Artikel> warenkorbMap = wk.getWarenkorb();
         for (Artikel a : warenkorbMap.values()){
             artikelZurueck(a.getName(), a.getBestand());
         }
-        warenkorb.warenkorbLeeren();
+        wk.warenkorbLeeren();
+    }
+
+    public void warenkorbLeerenNachKauf() {
+        wk.warenkorbLeeren();
     }
 
     public void vonAbisZ() {

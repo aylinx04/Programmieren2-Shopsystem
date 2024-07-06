@@ -264,7 +264,7 @@ public class EinloggenKunde extends JDialog {
         if(antwort ==JOptionPane.YES_OPTION) {
 
             kaufenLayout();
-            SV.warenkorbLeeren();
+            SV.warenkorbLeerenNachKauf();
         }
     }
 
