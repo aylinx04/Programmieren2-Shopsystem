@@ -12,7 +12,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
     private String datei;
     private Kunde eingeloggt;
     private Mitarbeiter eing;
-    private Warenkorb wk = new Warenkorb();
+    private ThreadLocal<Warenkorb> wk = ThreadLocal.withInitial(Warenkorb::new);
     private ArtikelVerwaltung aV;
     private MitarbeiterVerwaltung mV;
     private KundenVerwaltung kV;
@@ -24,13 +24,13 @@ public class ShopVerwaltung implements IShopVerwaltung {
     }
 
     public Map<String, Artikel> getWk() {
-        return wk.getWarenkorb();
+        return wk.get().getWarenkorb();
     }
 
     public String erzeugeRechnung() {
         Rechnung rechnung = new Rechnung(eingeloggt);
 
-        Map<String, Artikel> inhalt = wk.getWarenkorb();
+        Map<String, Artikel> inhalt = wk.get().getWarenkorb();
 
         for (Artikel artikel : inhalt.values()) {
             rechnung.gesamtpreisErhoehen(artikel.getPreis() * artikel.getBestand());
@@ -101,7 +101,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
         } else {
             wkArtikel = new Artikel(artikel.getName(), artikel.getNummer(), artikel.getPreis(), anzahl);
         }
-        wk.artikelHinzufuegen(wkArtikel);
+        wk.get().artikelHinzufuegen(wkArtikel);
     }
 
     public void artikelZurueck(String name, int anzahl) {
@@ -130,20 +130,20 @@ public class ShopVerwaltung implements IShopVerwaltung {
     }
 
     public void istArtikelImWarenkorb(String artikelname) throws ArtikelNichtGefundenException {
-        if (!wk.getWarenkorb().containsKey(artikelname)) {
+        if (!wk.get().getWarenkorb().containsKey(artikelname)) {
             throw new ArtikelNichtGefundenException(artikelname);
         }
     }
 
     public void wkArtikelEntfernen(String artikelname, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException {
-        Artikel artikel = wk.getWarenkorb().get(artikelname);
+        Artikel artikel = wk.get().getWarenkorb().get(artikelname);
         if (artikel instanceof Massengutartikel m) {
             if ((anzahl % m.getPackungsgroesse()) != 0) {
                 throw new PackungsgroesseException();
             }
         }
         if (artikel.getBestand() >= anzahl) {
-            wk.artikelEntfernen(artikelname, anzahl);
+            wk.get().artikelEntfernen(artikelname, anzahl);
         } else {
             throw new BestandNichtVorhandenException();
         }
@@ -240,15 +240,15 @@ public class ShopVerwaltung implements IShopVerwaltung {
     }
 
     public void warenkorbLeeren() {
-        Map<String, Artikel> warenkorbMap = wk.getWarenkorb();
+        Map<String, Artikel> warenkorbMap = wk.get().getWarenkorb();
         for (Artikel a : warenkorbMap.values()){
             artikelZurueck(a.getName(), a.getBestand());
         }
-        wk.warenkorbLeeren();
+        wk.get().warenkorbLeeren();
     }
 
     public void warenkorbLeerenNachKauf() {
-        wk.warenkorbLeeren();
+        wk.get().warenkorbLeeren();
     }
 
     public void vonAbisZ() {
