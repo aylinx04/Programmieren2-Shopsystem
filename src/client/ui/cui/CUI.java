@@ -349,8 +349,7 @@ public class CUI {
     }
 
     private void warenkorbAnzeigen() throws IOException, NumberFormatException {
-        Warenkorb WK = SV.getWk();
-        Map<String, Artikel> warenkorb = WK.getWarenkorb();
+        Map<String, Artikel> warenkorb = SV.getWk();
 
         System.out.println("Dein Warenkorb: ");
         for (Artikel a : warenkorb.values()){
@@ -413,7 +412,7 @@ public class CUI {
                             for (Artikel a : warenkorb.values()){
                                 System.out.println(a);
                             }
-                            WK.warenkorbLeeren();
+                            SV.warenkorbLeeren();
                         } else if (eingabe.equals("2")) {
                             System.err.println("Vorgang wurde Abgebrochen!");
                         }
@@ -423,7 +422,7 @@ public class CUI {
                     for (Artikel a : warenkorb.values()){
                         SV.artikelZurueck(a.getName(), a.getBestand());
                     }
-                    WK.warenkorbLeeren();
+                    SV.warenkorbLeeren();
                     System.out.println("Warenkorb wurde geleert");
                     break;
                 case "q":

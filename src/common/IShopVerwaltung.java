@@ -4,14 +4,13 @@ package src.common;
 import src.common.exceptions.*;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 
 public interface IShopVerwaltung {
     Kunde getLoggedInCustomer();
-    Warenkorb getWk();
+    Map<String, Artikel> getWk();
     String erzeugeRechnung();
     List<Ereignis> gibEreignisListe();
     List<Artikel> gibAlleArtikel();

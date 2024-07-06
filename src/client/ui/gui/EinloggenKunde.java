@@ -147,8 +147,7 @@ public class EinloggenKunde extends JDialog {
     private void zeigeWarenkorb() {
         getContentPane().removeAll();
 
-        Warenkorb warenkorb = SV.getWk();
-        Map<String, Artikel> warenkorbMap = warenkorb.getWarenkorb();
+        Map<String, Artikel> warenkorbMap = SV.getWk();
         ArrayList<Artikel> warenkorbListe = new ArrayList<>(warenkorbMap.values());
 
         warenkorbModel = new ArtikelTabelModel(warenkorbListe);
@@ -182,8 +181,7 @@ public class EinloggenKunde extends JDialog {
         c.gridy = 1;
         kaufPanel.add(rechnung, c);
 
-        Warenkorb warenkorb = SV.getWk();
-        Map<String, Artikel> warenkorbMap = warenkorb.getWarenkorb();
+        Map<String, Artikel> warenkorbMap = SV.getWk();
         ArrayList<Artikel> warenkorbListe = new ArrayList<>(warenkorbMap.values());
 
         ArtikelTabelModel warenkorbModel = new ArtikelTabelModel(warenkorbListe);
@@ -254,8 +252,7 @@ public class EinloggenKunde extends JDialog {
     }
 
     public void verarbeiteKaufenKlick(ActionEvent e) {
-        Warenkorb warenkorb = SV.getWk();
-        Map<String, Artikel> warenkorbMap = warenkorb.getWarenkorb();
+        Map<String, Artikel> warenkorbMap = SV.getWk();
         if (warenkorbMap.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ihr Warenkorb ist leer!", "Fehler", JOptionPane.ERROR_MESSAGE);
             return;

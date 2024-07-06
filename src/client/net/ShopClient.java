@@ -19,7 +19,6 @@ public class ShopClient implements IShopVerwaltung {
 
     public ShopClient() throws IOException {
         socket = new Socket("127.0.0.1", 1399);
-//        socket.setSoTimeout(1000);
         InputStream inputStream = socket.getInputStream();
         socketIn = new BufferedReader(new InputStreamReader(inputStream));
         socketOut = new PrintStream(socket.getOutputStream());
@@ -49,7 +48,7 @@ public class ShopClient implements IShopVerwaltung {
     }
 
     @Override
-    public Warenkorb getWk() {
+    public Map<String, Artikel> getWk() {
         String cmd = Commands.CMD_GET_WK.name();
         socketOut.println(cmd);
 
@@ -61,7 +60,7 @@ public class ShopClient implements IShopVerwaltung {
         return createWarenkorbFromData(data);
     }
 
-    public Warenkorb createWarenkorbFromData(String[] data) {
+    public Map<String, Artikel> createWarenkorbFromData(String[] data) {
         Warenkorb warenkorb = new Warenkorb();
         Map<String, Artikel> warenkorbMap = warenkorb.getWarenkorb();
 
@@ -82,7 +81,7 @@ public class ShopClient implements IShopVerwaltung {
             }
         }
 
-        return warenkorb;
+        return warenkorbMap;
     }
 
     @Override

@@ -95,8 +95,7 @@ public class ClientRequestProcessor implements Runnable {
     }
 
     private void handleGetWK(){
-        Warenkorb w = shop.getWk();
-        Map<String, Artikel> warenkorbMap = w.getWarenkorb();
+        Map<String, Artikel> warenkorbMap = shop.getWk();
 
         String cmd = Commands.CMD_GET_WK_RESP.name();
 
@@ -116,8 +115,7 @@ public class ClientRequestProcessor implements Runnable {
     private void handleErzeugeRechnung() {
         Rechnung rechnung = new Rechnung(shop.getLoggedInCustomer());
 
-        Warenkorb w = shop.getWk();
-        Map<String, Artikel> warenkorbMap = w.getWarenkorb();
+        Map<String, Artikel> warenkorbMap = shop.getWk();
 
         for (Artikel a : warenkorbMap.values()) {
             rechnung.gesamtpreisErhoehen(a.getPreis() * a.getBestand());

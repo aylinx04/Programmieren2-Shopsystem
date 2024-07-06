@@ -23,8 +23,8 @@ public class ShopVerwaltung implements IShopVerwaltung {
         return eingeloggt;
     }
 
-    public Warenkorb getWk() {
-        return wk;
+    public Map<String, Artikel> getWk() {
+        return wk.getWarenkorb();
     }
 
     public String erzeugeRechnung() {
@@ -236,7 +236,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
     }
 
     public void warenkorbLeeren() {
-        Warenkorb warenkorb = getWk();
+        Warenkorb warenkorb = wk;
         Map<String, Artikel> warenkorbMap = warenkorb.getWarenkorb();
         for (Artikel a : warenkorbMap.values()){
             artikelZurueck(a.getName(), a.getBestand());
