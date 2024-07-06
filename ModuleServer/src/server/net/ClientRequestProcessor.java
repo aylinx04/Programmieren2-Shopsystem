@@ -420,7 +420,7 @@ public class ClientRequestProcessor implements Runnable {
 
     private void handleWarenkorbLeerenNachKauf(){
         shop.warenkorbLeerenNachKauf();
-        String cmd = Commands.CMD_WARENKORB_LEEREN_RESP.name();
+        String cmd = Commands.CMD_WARENKORB_LEEREN_NACH_KAUF_RESP.name();
 
         socketOut.println(cmd);
     }
