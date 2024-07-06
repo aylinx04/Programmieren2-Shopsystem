@@ -9,6 +9,7 @@ import src.common.Artikel;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -57,16 +58,18 @@ public class GUI extends JFrame {
 
         addWindowListener(new FensterSchliesser());
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        setSize(640, 480);
+        setSize(700, 480);
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
     private void tabelle() {
+        JPanel panel = new JPanel(new BorderLayout());
+        Dimension eingabeFeldGroesse = new Dimension(140,30);
+
         artikelModel = new ArtikelTabelModel(SV.gibAlleArtikel());
         artikelTabel = new JTable(artikelModel);
-        Dimension eingabeFeldGroesse = new Dimension(140,30);
-        JPanel panel = new JPanel(new BorderLayout());
+        setSpaltenBreite(artikelTabel);
 
         JScrollPane scrollPane = new JScrollPane(artikelTabel);
         panel.add(scrollPane, BorderLayout.CENTER);
@@ -266,4 +269,27 @@ public class GUI extends JFrame {
         }
     }
 
+    private void setSpaltenBreite(JTable table) {
+        TableColumn column;
+        for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
+            column = table.getColumnModel().getColumn(i);
+            switch (i) {
+                case 0:
+                    column.setPreferredWidth(150); // Name
+                    break;
+                case 1:
+                    column.setPreferredWidth(50); // Nummer
+                    break;
+                case 2:
+                    column.setPreferredWidth(50); // Preis
+                    break;
+                case 3:
+                    column.setPreferredWidth(150); // Bestand (Packungsgroesse)
+                    break;
+                default:
+                    column.setPreferredWidth(100);
+                    break;
+            }
+        }
+    }
 }

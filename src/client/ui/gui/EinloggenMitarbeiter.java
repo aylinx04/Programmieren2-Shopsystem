@@ -46,7 +46,7 @@ public class EinloggenMitarbeiter extends JDialog {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         buttonsLayoutMitarbeiter();
         artikelTabelle();
-        setSize(640, 480);
+        setSize(700, 480);
         setLocationRelativeTo(null);
         setVisible(true);
     }

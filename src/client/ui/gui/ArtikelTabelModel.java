@@ -1,6 +1,7 @@
 package src.client.ui.gui;
 
 import src.common.Artikel;
+import src.common.Massengutartikel;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.List;
 
 public class ArtikelTabelModel extends AbstractTableModel {
     private List<Artikel> artikel;
-    private String[] spaltenNamen = {"Name","Nummer","Preis","Bestand"};
+    private String[] spaltenNamen = {"Name","Nummer","Preis","Bestand (Packungsgroesse)"};
 
     public ArtikelTabelModel(List<Artikel> aktuelleArtikel){
         artikel = new ArrayList<>();
@@ -47,6 +48,10 @@ public class ArtikelTabelModel extends AbstractTableModel {
             case 2:
                 return gewaehltesArtikel.getPreis();
             case 3:
+                if(gewaehltesArtikel instanceof Massengutartikel m){
+                    return m.getBestand() + " (" +
+                            m.getPackungsgroesse() + ")";
+                }
                 return gewaehltesArtikel.getBestand();
             default:
                 return null;

@@ -5,9 +5,9 @@ import src.common.exceptions.ArtikelNichtGefundenException;
 import src.common.exceptions.BestandNichtVorhandenException;
 import src.common.exceptions.PackungsgroesseException;
 import src.common.Artikel;
-import src.common.Warenkorb;
 
 import javax.swing.*;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -47,7 +47,7 @@ public class EinloggenKunde extends JDialog {
         entfernenLayout();
         hinzufuegenLayout();
 
-        setSize(640, 480);
+        setSize(700, 480);
         setLocationRelativeTo(parent);
         setVisible(true);
     }
@@ -113,6 +113,7 @@ public class EinloggenKunde extends JDialog {
 
         artikelModel = new ArtikelTabelModel(SV.gibAlleArtikel());
         artikelTabel = new JTable(artikelModel);
+        setSpaltenBreite(artikelTabel);
 
         JPanel artikelPanel = new JPanel(new BorderLayout());
         JScrollPane scrollPane = new JScrollPane(artikelTabel);
@@ -152,6 +153,7 @@ public class EinloggenKunde extends JDialog {
 
         warenkorbModel = new ArtikelTabelModel(warenkorbListe);
         warenkorbTabel = new JTable(warenkorbModel);
+        setSpaltenBreite(warenkorbTabel);
 
         JPanel warenkorbPanel = new JPanel(new BorderLayout());
         JScrollPane scrollPane = new JScrollPane(warenkorbTabel);
@@ -184,8 +186,9 @@ public class EinloggenKunde extends JDialog {
         Map<String, Artikel> warenkorbMap = SV.getWk();
         ArrayList<Artikel> warenkorbListe = new ArrayList<>(warenkorbMap.values());
 
-        ArtikelTabelModel warenkorbModel = new ArtikelTabelModel(warenkorbListe);
-        JTable warenkorbTabel = new JTable(warenkorbModel);
+        warenkorbModel = new ArtikelTabelModel(warenkorbListe);
+        warenkorbTabel = new JTable(warenkorbModel);
+        setSpaltenBreite(warenkorbTabel);
 
         JPanel warenkorbPanel = new JPanel(new BorderLayout());
         JScrollPane scrollPane = new JScrollPane(warenkorbTabel);
@@ -302,5 +305,29 @@ public class EinloggenKunde extends JDialog {
         zeigeWarenkorb();
         JOptionPane.showMessageDialog(this, "Warenkorb wurde geleert!",
                 "Erfolg", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void setSpaltenBreite(JTable table) {
+        TableColumn column;
+        for (int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
+            column = table.getColumnModel().getColumn(i);
+            switch (i) {
+                case 0:
+                    column.setPreferredWidth(150); // Name
+                    break;
+                case 1:
+                    column.setPreferredWidth(50); // Nummer
+                    break;
+                case 2:
+                    column.setPreferredWidth(50); // Preis
+                    break;
+                case 3:
+                    column.setPreferredWidth(150); // Bestand (Packungsgroesse)
+                    break;
+                default:
+                    column.setPreferredWidth(100);
+                    break;
+            }
+        }
     }
 }
