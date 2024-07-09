@@ -1,42 +1,48 @@
 2024-05-22
-Kunde: Peter
-Ereignis - Der Einkauf: [Name= Birne, Nummer= 9, Preis= 6.0€, Bestand= 2, Name= Erdbeere, Nummer= 7, Preis= 4.99€, Bestand= 3]
+Mitarbeiter: Helga
+Ereignis - Artikel 'Kirsche' um 3 erhoeht.
 2024-05-22
 Mitarbeiter: Helga
 Ereignis - Hinzugefügter Artikel: Name= Brot, Nummer= 15, Preis= 2.59€, Bestand= 25
 2024-05-22
-Mitarbeiter: Helga
-Ereignis - Artikel 'Kirsche' um 3 erhoeht.
-2024-05-25
 Kunde: Peter
-Ereignis - Der Einkauf: [Name= Wasser, Nummer= 16, Preis= 1.89€, Bestand= 6]
+Ereignis - Der Einkauf: [Name= Birne, Nummer= 9, Preis= 6.0€, Bestand= 2, Name= Erdbeere, Nummer= 7, Preis= 4.99€, Bestand= 3]
+2024-05-25
+Mitarbeiter: Helga
+Ereignis - Hinzugefügter Artikel: Name= Wasser, Nummer= 16, Preis= 1.89€, Bestand= 18, Packungsgroesse= 6
 2024-05-25
 Mitarbeiter: Helga
 Ereignis - Artikel 'Wasser' um 6 erhoeht.
 2024-05-25
-Mitarbeiter: Helga
-Ereignis - Hinzugefügter Artikel: Name= Wasser, Nummer= 16, Preis= 1.89€, Bestand= 18, Packungsgroesse= 6
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Wasser, Nummer= 16, Preis= 1.89€, Bestand= 6]
 2024-06-05
 Mitarbeiter: Helga
-Ereignis - Hinzugefügter Artikel: Name= Öl, Nummer= 17, Preis= 2.0€, Bestand= 6
+Ereignis - Artikel 'Tomate' um 5 erhoeht.
 2024-06-05
 Mitarbeiter: Helga
 Ereignis - Artikel 'Tomate' um 1 erhoeht.
 2024-06-05
 Mitarbeiter: Helga
-Ereignis - Artikel 'Tomate' um 5 erhoeht.
+Ereignis - Hinzugefügter Artikel: Name= Öl, Nummer= 17, Preis= 2.0€, Bestand= 6
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Gurke, Nummer= 2, Preis= 3.59€, Bestand= 1]
+2024-06-12
+Kunde: Peter
+Ereignis - Der Einkauf: [Name= Gurke, Nummer= 2, Preis= 3.59€, Bestand= 1]
 2024-06-12
 Kunde: Peter
 Ereignis - Der Einkauf: [Name= Gurke, Nummer= 2, Preis= 3.59€, Bestand= 5]
-2024-06-12
-Kunde: Peter
-Ereignis - Der Einkauf: [Name= Gurke, Nummer= 2, Preis= 3.59€, Bestand= 1]
-2024-06-12
-Kunde: Peter
-Ereignis - Der Einkauf: [Name= Gurke, Nummer= 2, Preis= 3.59€, Bestand= 1]
-2024-07-03
-Mitarbeiter: Helga
-Ereignis - Hinzugefügter Artikel: Name= Kokosnuss, Nummer= 18, Preis= 2.0€, Bestand= 4
 2024-07-03
 Mitarbeiter: Helga
 Ereignis - Artikel 'Tomate' um 2 erhoeht.
+2024-07-03
+Mitarbeiter: Helga
+Ereignis - Hinzugefügter Artikel: Name= Kokosnuss, Nummer= 18, Preis= 2.0€, Bestand= 4
+2024-07-09
+Mitarbeiter: Helga
+Ereignis - Artikel 'Tomate' um 2 erhoeht.
+2024-07-09
+Mitarbeiter: Helga
+Ereignis - Hinzugefügter Artikel: Name= Sprite, Nummer= 19, Preis= 5.0€, Bestand= 10, Packungsgroesse= 5

@@ -247,9 +247,9 @@ public class ClientRequestProcessor implements Runnable {
             shop.artikelBestandVerringern(name, anzahl);
             cmd += separator + name + separator + anzahl;
         } catch (BestandNichtVorhandenException e) {
-            cmd += separator + "Fehler 1";
+            cmd += separator + "Fehler Bestand nicht vorhanden";
         } catch (PackungsgroesseException e) {
-            cmd += separator + "Fehler 2";
+            cmd += separator + "Fehler Packungsgroesse";
         }
         socketOut.println(cmd);
     }

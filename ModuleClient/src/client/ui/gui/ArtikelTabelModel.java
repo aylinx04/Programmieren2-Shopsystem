@@ -46,7 +46,7 @@ public class ArtikelTabelModel extends AbstractTableModel {
             case 1:
                 return gewaehltesArtikel.getNummer();
             case 2:
-                return gewaehltesArtikel.getPreis();
+                return gewaehltesArtikel.getPreis() + "€";
             case 3:
                 if(gewaehltesArtikel instanceof Massengutartikel m){
                     return m.getBestand() + " (" +

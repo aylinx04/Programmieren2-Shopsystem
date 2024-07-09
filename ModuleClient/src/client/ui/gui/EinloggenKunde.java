@@ -240,8 +240,8 @@ public class EinloggenKunde extends JDialog {
             textfieldArtikelname.setText(null);
             textfieldAnzahl.setText(null);
 
-            SV.artikelInDenWk(artikelname, anzahl);
             SV.artikelBestandVerringern(artikelname, anzahl);
+            SV.artikelInDenWk(artikelname, anzahl);
             artikelModel.setArtikel(SV.gibAlleArtikel());
 
             JOptionPane.showMessageDialog(this, "Artikel '" + artikelname + "' erfolgreich " +

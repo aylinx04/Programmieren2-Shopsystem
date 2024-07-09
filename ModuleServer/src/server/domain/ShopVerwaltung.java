@@ -23,11 +23,11 @@ public class ShopVerwaltung implements IShopVerwaltung {
         return eingeloggt;
     }
 
-    public Map<String, Artikel> getWk() {
+    synchronized public Map<String, Artikel> getWk() {
         return wk.get().getWarenkorb();
     }
 
-    public String erzeugeRechnung() {
+    synchronized public String erzeugeRechnung() {
         Rechnung rechnung = new Rechnung(eingeloggt);
 
         Map<String, Artikel> inhalt = wk.get().getWarenkorb();
@@ -90,7 +90,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
         }
     }
 
-    public void artikelInDenWk(String name, int anzahl) throws ArtikelNichtGefundenException {
+    synchronized public void artikelInDenWk(String name, int anzahl) throws ArtikelNichtGefundenException {
         Artikel artikel = aV.sucheArtikel(name);
         if (artikel == null) {
             throw new ArtikelNichtGefundenException(name);
@@ -135,7 +135,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
         }
     }
 
-    public void wkArtikelEntfernen(String artikelname, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException {
+    synchronized public void wkArtikelEntfernen(String artikelname, int anzahl) throws BestandNichtVorhandenException, PackungsgroesseException {
         Artikel artikel = wk.get().getWarenkorb().get(artikelname);
         if (artikel instanceof Massengutartikel m) {
             if ((anzahl % m.getPackungsgroesse()) != 0) {
@@ -239,7 +239,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
         return suchErg;
     }
 
-    public void warenkorbLeeren() {
+    synchronized public void warenkorbLeeren() {
         Map<String, Artikel> warenkorbMap = wk.get().getWarenkorb();
         for (Artikel a : warenkorbMap.values()){
             artikelZurueck(a.getName(), a.getBestand());
@@ -247,7 +247,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
         wk.get().warenkorbLeeren();
     }
 
-    public void warenkorbLeerenNachKauf() {
+    synchronized public void warenkorbLeerenNachKauf() {
         wk.get().warenkorbLeeren();
     }
 

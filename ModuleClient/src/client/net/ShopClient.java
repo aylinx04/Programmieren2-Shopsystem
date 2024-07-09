@@ -216,10 +216,10 @@ public class ShopClient implements IShopVerwaltung {
             throw new RuntimeException("Ungueltige Antwort auf Anfrage erhalten!");
         }
 
-        if (data[1].equals("Fehler 1")) {
+        if (data[1].equals("Fehler Bestand nicht vorhanden")) {
             throw new BestandNichtVorhandenException();
         }
-        if (data[1].equals("Fehler 2")) {
+        if (data[1].equals("Fehler Packungsgroesse")) {
             throw new PackungsgroesseException();
         }
     }

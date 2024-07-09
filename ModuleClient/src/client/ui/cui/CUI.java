@@ -141,8 +141,8 @@ public class CUI {
 
     private void hinzufuegenWarenkorb(String artikelname, int anzahl) {
         try {
-            SV.artikelInDenWk(artikelname, anzahl);
             SV.artikelBestandVerringern(artikelname, anzahl);
+            SV.artikelInDenWk(artikelname, anzahl);
             System.out.println("Der Artikel '" + artikelname + "' wurde erfolgreich " + anzahl + "x hinzugefügt.");
         } catch (ArtikelNichtGefundenException | BestandNichtVorhandenException | PackungsgroesseException e) {
             System.err.println(e.getMessage());
