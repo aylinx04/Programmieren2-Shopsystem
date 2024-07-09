@@ -46,3 +46,9 @@ Ereignis - Artikel 'Tomate' um 2 erhoeht.
 2024-07-09
 Mitarbeiter: Helga
 Ereignis - Hinzugefügter Artikel: Name= Sprite, Nummer= 19, Preis= 5.0€, Bestand= 10, Packungsgroesse= 5
+2024-07-09
+Mitarbeiter: Helga
+Ereignis - Hinzugefügter Artikel: Name= Tee, Nummer= 20, Preis= 3.0€, Bestand= 30, Packungsgroesse= 10
+2024-07-09
+Mitarbeiter: Sarah
+Ereignis - Artikel 'Tee' um 10 erhoeht.

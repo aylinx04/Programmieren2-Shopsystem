@@ -10,8 +10,8 @@ import java.util.*;
 
 public class ShopVerwaltung implements IShopVerwaltung {
     private String datei;
-    private Kunde eingeloggt;
-    private Mitarbeiter eing;
+    private ThreadLocal<Kunde> eingeloggt = ThreadLocal.withInitial(() -> null);
+    private ThreadLocal<Mitarbeiter> eing = ThreadLocal.withInitial(() -> null);;
     private ThreadLocal<Warenkorb> wk = ThreadLocal.withInitial(Warenkorb::new);
     private ArtikelVerwaltung aV;
     private MitarbeiterVerwaltung mV;
@@ -20,7 +20,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
     private LocalDate date = LocalDate.now();
 
     public Kunde getLoggedInCustomer() {
-        return eingeloggt;
+        return eingeloggt.get();
     }
 
     public Map<String, Artikel> getWk() {
@@ -28,14 +28,14 @@ public class ShopVerwaltung implements IShopVerwaltung {
     }
 
     synchronized public String erzeugeRechnung() {
-        Rechnung rechnung = new Rechnung(eingeloggt);
+        Rechnung rechnung = new Rechnung(eingeloggt.get());
 
         Map<String, Artikel> inhalt = wk.get().getWarenkorb();
 
         for (Artikel artikel : inhalt.values()) {
             rechnung.gesamtpreisErhoehen(artikel.getPreis() * artikel.getBestand());
         }
-        Ereignis ereignis = new Ereignis(date.toString(),"Kunde: " + eingeloggt.getName(),
+        Ereignis ereignis = new Ereignis(date.toString(),"Kunde: " + eingeloggt.get().getName(),
                 "Ereignis - Der Einkauf: " + inhalt.values());
         eV.ereignisHinzufuegen(ereignis);
 
@@ -65,13 +65,13 @@ public class ShopVerwaltung implements IShopVerwaltung {
     public int checkLogin(String name, String passwort) throws LoginFehlgeschlagenException {
         for (Kunde u : kV.getKundenListe()) {
             if (u.getName().equals(name) && u.getPasswort().equals(passwort)) {
-                eingeloggt = u;
+                eingeloggt.set(u);
                 return 1;
             }
         }
         for (Mitarbeiter m : mV.getMitarbeiterListe()) {
             if (m.getName().equals(name) && m.getPasswort().equals(passwort)) {
-                eing = m;
+                eing.set(m);
                 return 2;
             }
         }
@@ -159,7 +159,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
         }
         Artikel a = new Artikel(name, aV.getArtikelListe().size()+1, preis, bestand);
         aV.getArtikelListe().add(a);
-        Ereignis ereignis = new Ereignis(date.toString(), "Mitarbeiter: " + eing.getName(),
+        Ereignis ereignis = new Ereignis(date.toString(), "Mitarbeiter: " + eing.get().getName(),
                 "Ereignis - Hinzugefügter Artikel: " + a);
         eV.ereignisHinzufuegen(ereignis);
     }
@@ -170,7 +170,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
         }
         Artikel a = new Massengutartikel(name, aV.getArtikelListe().size()+1, preis, bestand, packungsgroesse);
         aV.getArtikelListe().add(a);
-        Ereignis ereignis = new Ereignis(date.toString(), "Mitarbeiter: " + eing.getName(),
+        Ereignis ereignis = new Ereignis(date.toString(), "Mitarbeiter: " + eing.get().getName(),
                 "Ereignis - Hinzugefügter Artikel: " + a);
         eV.ereignisHinzufuegen(ereignis);
     }
@@ -186,7 +186,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
             }
         }
         artikel.bestandErhoehen(anzahl);
-        Ereignis ereignis = new Ereignis(date.toString(), "Mitarbeiter: " + eing.getName(),
+        Ereignis ereignis = new Ereignis(date.toString(), "Mitarbeiter: " + eing.get().getName(),
                 "Ereignis - Artikel '" + artikel.getName() + "' um " + anzahl +  " erhoeht.");
         eV.ereignisHinzufuegen(ereignis);
     }
