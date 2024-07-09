@@ -23,7 +23,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
         return eingeloggt;
     }
 
-    synchronized public Map<String, Artikel> getWk() {
+    public Map<String, Artikel> getWk() {
         return wk.get().getWarenkorb();
     }
 
@@ -247,7 +247,7 @@ public class ShopVerwaltung implements IShopVerwaltung {
         wk.get().warenkorbLeeren();
     }
 
-    synchronized public void warenkorbLeerenNachKauf() {
+    public void warenkorbLeerenNachKauf() {
         wk.get().warenkorbLeeren();
     }
 

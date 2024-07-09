@@ -276,9 +276,9 @@ public class ClientRequestProcessor implements Runnable {
             shop.wkArtikelEntfernen(name, anzahl);
             cmd += separator + name + separator + anzahl;
         } catch (BestandNichtVorhandenException e) {
-            cmd += separator + "Fehler 1";
+            cmd += separator + "Fehler Bestand nicht vorhanden";
         } catch (PackungsgroesseException e) {
-            cmd += separator + "Fehler 2";
+            cmd += separator + "Fehler Packungsgroesse";
         }
         socketOut.println(cmd);
     }
@@ -317,9 +317,9 @@ public class ClientRequestProcessor implements Runnable {
             shop.bestandErhoehen(name, anzahl);
             cmd += separator + name + separator + anzahl;
         } catch (ArtikelNichtGefundenException e) {
-            cmd += separator + "Fehler 1";
+            cmd += separator + "Fehler Artikel nicht gefunden";
         } catch (PackungsgroesseException e) {
-            cmd += separator + "Fehler 2";
+            cmd += separator + "Fehler Packungsgroesse";
         }
         socketOut.println(cmd);
     }
