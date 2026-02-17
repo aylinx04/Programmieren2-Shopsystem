@@ -17,7 +17,7 @@ Brot
 Cola
 8
 6.99
-30
+29
 Erdbeere
 7
 4.99
@@ -78,3 +78,7 @@ Tee
 20
 3.0
 40 (Packungsgroesse: 10)
+Mentos
+21
+1.5
+2
